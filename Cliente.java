@@ -5,10 +5,24 @@ public class Cliente extends Pessoa {
     Scanner scanner = new Scanner(System.in);
 
     //ATRIBUTOS
+    private CarrinhoCompras carrinho;
 
     //CONSTRUTOR
     public Cliente(String nome, String email, String senha, int cpf){
         super(nome, email, senha, cpf);
+        this.carrinho = new CarrinhoCompras();
+    }
+
+    public void adicionarJogo(Jogo jogo){
+        carrinho.adicionaraoCarrinho(jogo);
+    }
+
+    public void removerJogo(int index) {
+        carrinho.removerJogo(index);
+    }
+
+    public void mostrarCarrinho(){
+        carrinho.mostrarCarrinho();
     }
 
     // Método para cadastrar Cliente
