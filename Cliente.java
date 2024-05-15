@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.List;
 
 public class Cliente extends Pessoa {
     Scanner scanner = new Scanner(System.in);
@@ -10,6 +11,7 @@ public class Cliente extends Pessoa {
         super(nome, email, senha, cpf);
     }
 
+    // Método para cadastrar Cliente
     public void cadastrarCliente(){
         Cliente cliente = new Cliente(getNome(), getEmail(), getSenha(), getCpf());
 
@@ -38,5 +40,14 @@ public class Cliente extends Pessoa {
             cpf = scanner.nextInt();
         }
         cliente.setCpf(cpf);
+    }
+
+    // Método para exibir jogos disponíveis para compra
+    public void exibirJogosDisponiveis(Vendedor vendedor) {
+        List<Jogo> jogosAnunciados = vendedor.getJogosAnunciados();
+        System.out.println("Jogos disponíveis para compra:");
+        for (int i = 0; i < jogosAnunciados.size(); i++) {
+            System.out.println((i+1) + ". " + jogosAnunciados.get(i).getNomejogo());
+        }
     }
 }

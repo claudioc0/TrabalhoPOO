@@ -58,4 +58,8 @@ public class Vendedor extends Pessoa{
         }
         vendedor.setCpf(cpf);
     }
+
+    public List<Jogo> getJogosAnunciados() {
+        return jogosAnunciados;
+    }
 }
