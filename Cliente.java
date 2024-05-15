@@ -17,8 +17,13 @@ public class Cliente extends Pessoa {
         String nome = scanner.nextLine();
         cliente.setNome(nome);
 
+        // Validação do email
         System.out.println("Informe seu email: ");
         String email = scanner.nextLine();
+        while (!cliente.validaEmail(email)) {
+            System.out.println("Email inválido. Por favor, insira novamente: ");
+            email = scanner.nextLine();
+        }
         cliente.setEmail(email);
 
         System.out.println("Informe sua senha: ");
@@ -28,7 +33,7 @@ public class Cliente extends Pessoa {
         // Validação do CPF
         System.out.println("Informe seu CPF: ");
         int cpf = scanner.nextInt();
-        while (!super.validaCPF(cpf)) {
+        while (!cliente.validaCPF(cpf)) {
             System.out.println("CPF inválido. Por favor, insira novamente: ");
             cpf = scanner.nextInt();
         }

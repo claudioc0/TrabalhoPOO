@@ -1,3 +1,6 @@
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Pessoa {
     //ATRIBUTOS
     private String nome;
@@ -55,7 +58,6 @@ public class Pessoa {
     // Método para validar o CPF
     protected boolean validaCPF(int cpf) {
         String cpfStr = String.valueOf(cpf);
-        // Verifica se o CPF tem 11 dígitos
         if (cpfStr.length() != 11) {
             return false;
         }
@@ -86,4 +88,11 @@ public class Pessoa {
         return Character.getNumericValue(cpfStr.charAt(10)) == segundoDigitoVerificador;
     }
 
+    // Método para validar o email
+    protected boolean validaEmail(String email) {
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
 }

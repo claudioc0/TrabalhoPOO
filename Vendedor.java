@@ -5,6 +5,7 @@ public class Vendedor extends Pessoa{
     Scanner scanner = new Scanner(System.in);
 
     //ATRIBUTOS
+    private int avaliacoes;
 
     //CONTRUTOR
     public Vendedor(String nome, String email, String senha, int cpf){
