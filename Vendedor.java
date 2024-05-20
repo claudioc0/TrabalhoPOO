@@ -11,7 +11,7 @@ public class Vendedor extends Pessoa{
     private List<Jogo> jogosAnunciados;
 
     // Construtor
-    public Vendedor(String nome, String email, String senha, int cpf) {
+    public Vendedor(String nome, String email, String senha, String cpf) {
         super(nome, email, senha, cpf);
         jogosAnunciados = new ArrayList<>();
     }
@@ -51,10 +51,10 @@ public class Vendedor extends Pessoa{
         vendedor.setSenha(senha);
 
         System.out.println("Informe seu CPF: ");
-        int cpf = scanner.nextInt();
+        String cpf = scanner.nextLine();
         while (!super.validaCPF(cpf)) {
             System.out.println("CPF inválido. Por favor, insira novamente: ");
-            cpf = scanner.nextInt();
+            cpf = scanner.nextLine();
         }
         vendedor.setCpf(cpf);
     }

@@ -6,11 +6,11 @@ public class Pessoa {
     private String nome;
     private String email;
     private String senha;
-    private int cpf;
+    private String cpf;
 
 
     //CONSTRUTOR
-    public Pessoa(String nome, String email, String senha, int cpf){
+    public Pessoa(String nome, String email, String senha, String cpf){
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -32,7 +32,7 @@ public class Pessoa {
     }
 
 
-    public int getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
@@ -50,46 +50,18 @@ public class Pessoa {
         this.senha = senha;
     }
 
-    public void setCpf(int cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
 
     // Método para validar o CPF
-    protected boolean validaCPF(int cpf) {
-        String cpfStr = String.valueOf(cpf);
-        if (cpfStr.length() != 11) {
-            return false;
-        }
-        // Calcula o dígito verificador do CPF
-        int soma = 0;
-        for (int i = 0; i < 9; i++) {
-            soma += Character.getNumericValue(cpfStr.charAt(i)) * (10 - i);
-        }
-        int primeiroDigitoVerificador = 11 - (soma % 11);
-        if (primeiroDigitoVerificador > 9) {
-            primeiroDigitoVerificador = 0;
-        }
-
-        // Verifica se o primeiro dígito verificador é igual ao décimo dígito do CPF
-        if (Character.getNumericValue(cpfStr.charAt(9)) != primeiroDigitoVerificador)
-            return false;
-
-        soma = 0;
-        for (int i = 0; i < 10; i++) {
-            soma += Character.getNumericValue(cpfStr.charAt(i)) * (11 - i);
-        }
-        int segundoDigitoVerificador = 11 - (soma % 11);
-        if (segundoDigitoVerificador > 9) {
-            segundoDigitoVerificador = 0;
-        }
-
-        // Verifica se o segundo dígito verificador é igual ao décimo primeiro dígito do CPF
-        return Character.getNumericValue(cpfStr.charAt(10)) == segundoDigitoVerificador;
+    public boolean validaCPF(String cpf) {
+        return cpf.matches("\\d{11}");
     }
 
     // Método para validar o email
-    protected boolean validaEmail(String email) {
+    public boolean validaEmail(String email) {
         String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(email);
