@@ -3,13 +3,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ClienteMainGUI extends JFrame {
+public class VendedorMainGUI extends JFrame {
     private JButton loginButton;
     private JButton cadastroButton;
     private JButton voltarButton;
 
-    public ClienteMainGUI() {
-        setTitle("Bem-vindo Cliente");
+    public VendedorMainGUI() {
+        setTitle("Bem-vindo Vendedor");
         setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -36,15 +36,16 @@ public class ClienteMainGUI extends JFrame {
         // Adiciona o painel central
         panel.add(centerPanel, BorderLayout.CENTER);
 
-        // Botão de Voltar
+        JPanel southPanel = new JPanel();
         voltarButton = new JButton("Voltar");
-        panel.add(voltarButton, BorderLayout.SOUTH);
+        southPanel.add(voltarButton);
+        panel.add(southPanel, BorderLayout.SOUTH);
 
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Abrir a tela de login
-                new ClienteLoginGUI().setVisible(true);
+                new VendedorLoginGUI().setVisible(true);
                 dispose(); // Fecha a tela atual
             }
         });
@@ -53,7 +54,7 @@ public class ClienteMainGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Abrir a tela de cadastro
-                new CadastroClienteGUI().setVisible(true);
+                new VendedorCadastroGUI().setVisible(true);
                 dispose(); // Fecha a tela atual
             }
         });
@@ -71,7 +72,7 @@ public class ClienteMainGUI extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new ClienteMainGUI().setVisible(true);
+                new VendedorMainGUI().setVisible(true);
             }
         });
     }

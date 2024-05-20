@@ -6,7 +6,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class CadastroClienteGUI extends JFrame {
+public class VendedorCadastroGUI extends JFrame {
     private JTextField nomeField;
     private JTextField emailField;
     private JPasswordField senhaField;
@@ -14,21 +14,18 @@ public class CadastroClienteGUI extends JFrame {
     private JButton cadastrarButton;
     private JButton voltarButton;
 
-    public CadastroClienteGUI() {
-        setTitle("Cadastro de Cliente");
+    public VendedorCadastroGUI() {
+        setTitle("Cadastro de Vendedor");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Configura o layout do painel principal
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setContentPane(panel);
 
-        // Painel central para os campos de entrada
         JPanel centerPanel = new JPanel(new GridLayout(4, 2, 10, 10));
 
-        // Adiciona campos
         centerPanel.add(new JLabel("Nome:"));
         nomeField = new JTextField();
         centerPanel.add(nomeField);
@@ -45,11 +42,11 @@ public class CadastroClienteGUI extends JFrame {
         cpfField = new JTextField();
         centerPanel.add(cpfField);
 
-        // Adiciona o painel central
         panel.add(centerPanel, BorderLayout.CENTER);
 
-        // Painel sul para os botões
         JPanel southPanel = new JPanel();
+        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.Y_AXIS)); // Altera o layout para BoxLayout vertical
+
         cadastrarButton = new JButton("Cadastrar");
         southPanel.add(cadastrarButton);
 
@@ -61,64 +58,60 @@ public class CadastroClienteGUI extends JFrame {
         cadastrarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cadastrarCliente();
+                cadastrarVendedor();
             }
         });
 
         voltarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Voltar para a tela anterior
-                // Por exemplo, para a tela de escolha entre cliente e vendedor
-                new ClienteMainGUI().setVisible(true);
-                dispose(); // Fecha a tela atual
+                voltar();
             }
         });
     }
 
-    private void cadastrarCliente() {
+    private void cadastrarVendedor() {
         String nome = nomeField.getText();
         String email = emailField.getText();
         String senha = new String(senhaField.getPassword());
         String cpf = cpfField.getText();
 
-        // Verifica se todos os campos foram preenchidos
         if (nome.isEmpty() || email.isEmpty() || senha.isEmpty() || cpf.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Todos os campos devem ser preenchidos.");
             return;
         }
 
-        Cliente cliente = new Cliente(nome, email, senha, cpf);
+        Vendedor vendedor = new Vendedor(nome, email, senha, cpf);
 
-        // Validação do email
-        if (!cliente.validaEmail(email)) {
+        if (!vendedor.validaEmail(email)) {
             JOptionPane.showMessageDialog(this, "Email inválido. Por favor, insira novamente.");
             return;
         }
 
-        // Validação do CPF
-        if (!cliente.validaCPF(cpf)) {
+        if (!vendedor.validaCPF(cpf)) {
             JOptionPane.showMessageDialog(this, "CPF inválido. O CPF deve conter exatamente 11 dígitos numéricos.");
             return;
         }
 
-        try {
-            // Salvar o cliente no arquivo de texto
-            BufferedWriter writer = new BufferedWriter(new FileWriter("clientes.txt", true));
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("vendedores.txt", true))) {
             writer.write("Nome: " + nome + ", Email: " + email + ", Senha: " + senha + ", CPF: " + cpf);
             writer.newLine();
-            writer.close();
-            JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");
+            JOptionPane.showMessageDialog(this, "Vendedor cadastrado com sucesso!");
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Erro ao salvar o cliente: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Erro ao salvar os dados do vendedor: " + e.getMessage());
         }
+    }
+
+    private void voltar() {
+        dispose(); // Fecha a tela de cadastro
+        new ClienteMainGUI().setVisible(true); // Abre a tela principal do cliente
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new CadastroClienteGUI().setVisible(true);
+                new VendedorCadastroGUI().setVisible(true);
             }
         });
     }
