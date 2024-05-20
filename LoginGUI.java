@@ -17,15 +17,15 @@ public class LoginGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Configurar o layout do painel principal com espaçamento
+        // Configura o layout do painel principal
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setContentPane(panel);
 
-        // Painel central para os campos de entrada
+        // Painel central
         JPanel centerPanel = new JPanel(new GridLayout(2, 2, 10, 10));
 
-        // Adicionar componentes ao painel central
+        // Adiciona campos ao painel central
         centerPanel.add(new JLabel("Email:"));
         emailField = new JTextField();
         centerPanel.add(emailField);
@@ -34,10 +34,9 @@ public class LoginGUI extends JFrame {
         senhaField = new JPasswordField();
         centerPanel.add(senhaField);
 
-        // Adicionar o painel central ao painel principal
+        // Adicionar o painel central
         panel.add(centerPanel, BorderLayout.CENTER);
 
-        // Painel sul para o botão de login
         JPanel southPanel = new JPanel();
         loginButton = new JButton("Login");
         southPanel.add(loginButton);
@@ -66,8 +65,7 @@ public class LoginGUI extends JFrame {
         try (BufferedReader reader = new BufferedReader(new FileReader("clientes.txt"))) {
             String linha;
             while ((linha = reader.readLine()) != null) {
-                // Supondo que cada linha do arquivo clientes.txt tenha o formato:
-                // Nome: {nome}, Email: {email}, Senha: {senha}, CPF: {cpf}
+                // Formato: Nome: {nome}, Email: {email}, Senha: {senha}, CPF: {cpf}
                 String[] dados = linha.split(", ");
                 String emailCadastrado = dados[1].split(": ")[1];
                 String senhaCadastrada = dados[2].split(": ")[1];
