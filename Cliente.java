@@ -4,15 +4,15 @@ import java.util.List;
 public class Cliente extends Pessoa {
     Scanner scanner = new Scanner(System.in);
 
-    //ATRIBUTOS
+    // ATRIBUTOS
 
-    //CONSTRUTOR
-    public Cliente(String nome, String email, String senha, String cpf){
+    // CONSTRUTOR
+    public Cliente(String nome, String email, String senha, String cpf) {
         super(nome, email, senha, cpf);
     }
 
     // Método para cadastrar Cliente
-    public void cadastrarCliente(){
+    public void cadastrarCliente() {
         Cliente cliente = new Cliente(getNome(), getEmail(), getSenha(), getCpf());
 
         System.out.println("Informe seu nome: ");
@@ -47,7 +47,41 @@ public class Cliente extends Pessoa {
         List<Jogo> jogosAnunciados = vendedor.getJogosAnunciados();
         System.out.println("Jogos disponíveis para compra:");
         for (int i = 0; i < jogosAnunciados.size(); i++) {
-            System.out.println((i+1) + ". " + jogosAnunciados.get(i).getNomejogo());
+            System.out.println((i + 1) + ". " + jogosAnunciados.get(i).getNomejogo());
         }
+    }
+
+    // Método para o cliente comprar um jogo
+    public void comprarJogo(Vendedor vendedor) {
+        exibirJogosDisponiveis(vendedor); // Mostra os jogos disponíveis
+
+        // Solicitação da escolha do jogo
+        System.out.println("Escolha o número do jogo que deseja comprar: ");
+        int escolha = scanner.nextInt();
+        scanner.nextLine(); // Limpa o buffer de entrada
+
+        // Verifica se a escolha é válida
+        if (escolha < 1 || escolha > vendedor.getJogosAnunciados().size()) {
+            System.out.println("Escolha inválida!");
+            return;
+        }
+
+        // Obtém o jogo escolhido
+        Jogo jogoEscolhido = vendedor.getJogosAnunciados().get(escolha - 1);
+
+        // Adiciona o jogo ao histórico de compras do cliente
+        adicionarJogoAoHistorico(jogoEscolhido);
+
+        // Remove o jogo dos jogos disponíveis do vendedor
+        //vendedor.removerJogoAnunciado(jogoEscolhido);
+
+        // Mostra mensagem de sucesso
+        System.out.println("Compra realizada com sucesso! O jogo '" + jogoEscolhido.getNomejogo() + "' foi adicionado ao seu histórico de compras.");
+    }
+
+    // Método para adicionar um jogo ao histórico de compras do cliente
+    private void adicionarJogoAoHistorico(Jogo jogo) {
+        // Aqui você pode implementar a lógica para adicionar o jogo ao histórico de compras do cliente
+        // Por exemplo, você pode ter uma lista de jogos comprados no próprio Cliente e adicionar o jogo a essa lista.
     }
 }

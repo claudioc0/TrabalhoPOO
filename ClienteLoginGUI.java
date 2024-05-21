@@ -99,7 +99,7 @@ public class ClienteLoginGUI extends JFrame {
         if (loginValido) {
             JOptionPane.showMessageDialog(this, "Login realizado com sucesso!");
             // Redirecionar para a tela principal do sistema, por exemplo:
-            // new TelaPrincipalGUI().setVisible(true);
+            new HomeClienteGUI().setVisible(true);
             dispose(); // Fecha a tela de login
         } else {
             JOptionPane.showMessageDialog(this, "Email ou senha inválidos.");

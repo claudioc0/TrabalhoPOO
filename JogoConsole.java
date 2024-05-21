@@ -1,9 +1,9 @@
 public class JogoConsole extends Jogo{
-    private String tipo;
+    private String console;
 
-    public JogoConsole(String nome, String descricao, String genero, String dataLancamento, double preco) {
+    public JogoConsole(String nome, String descricao, String genero, String dataLancamento, double preco, String console) {
         super(nome, descricao, genero, dataLancamento, preco);
-        this.tipo = tipo;
+        this.console = console;
     }
 
 }

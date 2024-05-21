@@ -52,8 +52,6 @@ public class VendedorLoginGUI extends JFrame {
         voltarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Voltar para a tela anterior
-                // Por exemplo, para a tela de escolha entre cliente e vendedor
                 new VendedorMainGUI().setVisible(true);
                 dispose(); // Fecha a tela atual
             }
@@ -90,8 +88,9 @@ public class VendedorLoginGUI extends JFrame {
         if (loginValido) {
             JOptionPane.showMessageDialog(this, "Login realizado com sucesso!");
             // Redirecionar para a tela principal do sistema
-            // new TelaPrincipalVendedorGUI().setVisible(true);
+            new HomeVendedorGUI().setVisible(true);
             dispose(); // Fecha a tela de login
+
         } else {
             JOptionPane.showMessageDialog(this, "Email ou senha inválidos.");
         }
