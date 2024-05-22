@@ -4,64 +4,111 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class HomeClienteGUI extends JFrame {
+    private JButton visualizarJogosButton;
+    private JButton visualizarPerfilButton;
+    private JButton historicoComprasButton;
+
     public HomeClienteGUI() {
-        setTitle("Home do Cliente");
+        setTitle("Home Cliente");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-        // Painel principal
+        // Configura o layout do painel principal
         JPanel panel = new JPanel(new BorderLayout(10, 10));
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        setContentPane(panel);
 
+        JLabel welcomeLabel = new JLabel("Bem-vindo, Cliente!", JLabel.CENTER);
+        panel.add(welcomeLabel, BorderLayout.NORTH);
 
-        // Label de boas-vindas
-        JLabel welcomeLabel = new JLabel("Bem-vindo, Cliente!");
-        welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(welcomeLabel);
+        // Painel central para os botões
+        JPanel centerPanel = new JPanel(new GridLayout(3, 1, 10, 10));
 
         // Botão para visualizar jogos anunciados
-        JButton viewGamesButton = new JButton("Visualizar Jogos Anunciados");
-        viewGamesButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        viewGamesButton.addActionListener(new ActionListener() {
+        visualizarJogosButton = new JButton("Visualizar Jogos Anunciados");
+        centerPanel.add(visualizarJogosButton);
+
+        // Botão para visualizar perfil
+        visualizarPerfilButton = new JButton("Visualizar Perfil");
+        centerPanel.add(visualizarPerfilButton);
+
+        // Botão para visualizar histórico de compras
+        historicoComprasButton = new JButton("Visualizar Histórico de Compras");
+        centerPanel.add(historicoComprasButton);
+
+        // Adiciona o painel central
+        panel.add(centerPanel, BorderLayout.CENTER);
+
+        // Adiciona ações aos botões
+        visualizarJogosButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                // Lógica para visualizar jogos anunciados
-                System.out.println("Ação: Visualizar Jogos Anunciados");
+                // Abrir a tela de visualização de jogos anunciados
+                new VisualizarJogosGUI().setVisible(true);
             }
         });
-        panel.add(viewGamesButton);
 
-        // Botão para acessar o perfil do cliente
-        JButton profileButton = new JButton("Meu Perfil");
-        profileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        profileButton.addActionListener(new ActionListener() {
+        visualizarPerfilButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                // Lógica para acessar o perfil do cliente
-                System.out.println("Ação: Acessar Perfil do Cliente");
+                // Abrir a tela de visualização do perfil
+                new VisualizarPerfilGUI().setVisible(true);
             }
         });
-        panel.add(profileButton);
 
-        // Botão para acessar o histórico de compras do cliente
-        JButton purchaseHistoryButton = new JButton("Histórico de Compras");
-        purchaseHistoryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        purchaseHistoryButton.addActionListener(new ActionListener() {
+        historicoComprasButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                // Lógica para acessar o histórico de compras do cliente
-                System.out.println("Ação: Acessar Histórico de Compras do Cliente");
+                // Abrir a tela de visualização do histórico de compras
+                new HistoricoComprasGUI().setVisible(true);
             }
         });
-        panel.add(purchaseHistoryButton);
-
-        add(panel);
-        setVisible(true);
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                new HomeClienteGUI();
+                new HomeClienteGUI().setVisible(true);
             }
         });
+    }
+}
+
+// Exemplos de classes de telas adicionais
+class VisualizarJogosGUI extends JFrame {
+    public VisualizarJogosGUI() {
+        setTitle("Jogos Anunciados");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        JLabel label = new JLabel("Lista de Jogos Anunciados", JLabel.CENTER);
+        add(label);
+    }
+}
+
+class VisualizarPerfilGUI extends JFrame {
+    public VisualizarPerfilGUI() {
+        setTitle("Perfil do Cliente");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        JLabel label = new JLabel("Informações do Perfil do Cliente", JLabel.CENTER);
+        add(label);
+    }
+}
+
+class HistoricoComprasGUI extends JFrame {
+    public HistoricoComprasGUI() {
+        setTitle("Histórico de Compras");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        JLabel label = new JLabel("Histórico de Compras do Cliente", JLabel.CENTER);
+        add(label);
     }
 }

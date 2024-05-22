@@ -68,12 +68,16 @@ public class VendedorLoginGUI extends JFrame {
         }
 
         boolean loginValido = false;
+        String nomeVendedor = null;
+        String cpfVendedor = null;
         try (BufferedReader reader = new BufferedReader(new FileReader("vendedores.txt"))) {
             String linha;
             while ((linha = reader.readLine()) != null) {
                 String[] dados = linha.split(", ");
                 String emailCadastrado = dados[1].split(": ")[1];
                 String senhaCadastrada = dados[2].split(": ")[1];
+                nomeVendedor = dados[0].split(": ")[1]; // Obtém o nome do vendedor
+                cpfVendedor = dados[3].split(": ")[1]; // Obtém o CPF do vendedor
 
                 if (email.equals(emailCadastrado) && senha.equals(senhaCadastrada)) {
                     loginValido = true;
@@ -88,13 +92,15 @@ public class VendedorLoginGUI extends JFrame {
         if (loginValido) {
             JOptionPane.showMessageDialog(this, "Login realizado com sucesso!");
             // Redirecionar para a tela principal do sistema
-            new HomeVendedorGUI().setVisible(true);
+            Vendedor vendedor = new Vendedor(nomeVendedor, email, senha, cpfVendedor);
+            new HomeVendedorGUI(vendedor).setVisible(true);
             dispose(); // Fecha a tela de login
 
         } else {
             JOptionPane.showMessageDialog(this, "Email ou senha inválidos.");
         }
     }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
