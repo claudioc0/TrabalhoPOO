@@ -95,16 +95,43 @@ public class ClienteLoginGUI extends JFrame {
             JOptionPane.showMessageDialog(this, "Erro ao ler o arquivo de clientes: " + e.getMessage());
             return;
         }
-
         if (loginValido) {
             JOptionPane.showMessageDialog(this, "Login realizado com sucesso!");
-            // Redirecionar para a tela principal do sistema, por exemplo:
+
+            // Carregar as informações do cliente logado
+            Cliente cliente = carregarInformacoesCliente(email);
+
+            // Definir o cliente logado
+            ClienteLogado.setClienteLogado(cliente);
+
+            // Redirecionar para a tela principal do sistema
             new HomeClienteGUI().setVisible(true);
             dispose(); // Fecha a tela de login
         } else {
             JOptionPane.showMessageDialog(this, "Email ou senha inválidos.");
         }
     }
+
+    private Cliente carregarInformacoesCliente(String email) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("clientes.txt"))) {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                // Formato: Nome: {nome}, Email: {email}, Senha: {senha}, CPF: {cpf}
+                String[] dados = linha.split(", ");
+                String emailCadastrado = dados[1].split(": ")[1];
+                if (email.equals(emailCadastrado)) {
+                    String nome = dados[0].split(": ")[1];
+                    String senha = dados[2].split(": ")[1];
+                    String cpf = dados[3].split(": ")[1];
+                    return new Cliente(nome, email, senha, cpf);
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Erro ao ler o arquivo de clientes: " + e.getMessage());
+        }
+        return null;
+    }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {

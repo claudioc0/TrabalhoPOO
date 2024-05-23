@@ -52,10 +52,20 @@ public class HomeClienteGUI extends JFrame {
         visualizarPerfilButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Abrir a tela de visualização do perfil
-                new VisualizarPerfilGUI().setVisible(true);
+                Cliente clienteLogado = ClienteLogado.getClienteLogado();
+                if (clienteLogado != null) {
+                    new PerfilClienteGUI(clienteLogado).setVisible(true);
+                } else {
+                    // Se nenhum cliente estiver logado, talvez você queira redirecionar para a tela de login
+                    JOptionPane.showMessageDialog(HomeClienteGUI.this, "Nenhum cliente logado.");
+                    // Redirecionar para a tela de login, por exemplo:
+                    new ClienteLoginGUI().setVisible(true);
+                    // Fechar a tela atual
+                    dispose();
+                }
             }
         });
+
 
         historicoComprasButton.addActionListener(new ActionListener() {
             @Override
@@ -89,17 +99,6 @@ class VisualizarJogosGUI extends JFrame {
     }
 }
 
-class VisualizarPerfilGUI extends JFrame {
-    public VisualizarPerfilGUI() {
-        setTitle("Perfil do Cliente");
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
-
-        JLabel label = new JLabel("Informações do Perfil do Cliente", JLabel.CENTER);
-        add(label);
-    }
-}
 
 class HistoricoComprasGUI extends JFrame {
     public HistoricoComprasGUI() {

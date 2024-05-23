@@ -31,8 +31,11 @@ public class Pessoa {
         return senha;
     }
 
-
     public String getCpf() {
+        return cpf;
+    }
+
+    public String getCPF() {
         return cpf;
     }
 
@@ -67,4 +70,5 @@ public class Pessoa {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
+
 }
