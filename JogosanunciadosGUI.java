@@ -25,14 +25,14 @@ public class JogosanunciadosGUI extends JFrame {
         scrollPane.setBorder(BorderFactory.createTitledBorder("Jogos Anunciados"));
         add(scrollPane, BorderLayout.CENTER);
 
-        adicionarJogo("Devil May Cry 5", "cover_arts_nova/dmc5 cover art xone.jpg", 99.99);
-        adicionarJogo("TEKKEN 8", "cover_arts_nova/tekken8coverart.jpg", 299.99);
-        adicionarJogo("Danganronpa Trigger Happy Havoc", "cover_arts_nova/danganronpa_psvita.jpeg", 34.99);
-        adicionarJogo("Yakuza 0", "cover_arts_nova/Yakuza0_ps4.jpeg", 83.99);
-        adicionarJogo("OMORI", "cover_arts_nova/OMORI_PC.png", 36.99);
-        adicionarJogo("Persona 3 Reload", "cover_arts_nova/PERSONA3_RELOAD_XSERIESX.jpeg", 349.99);
-        adicionarJogo("Devil May Cry 4", "cover_arts_nova/dmc4_x360.jpeg", 83.99);
-        adicionarJogo("Persona 5 Royal", "cover_arts_nova/P5ROYAL_ps4.jpeg", 83.99);
+        adicionarJogo("Devil May Cry 5", "coverarts1/dmc5 cover art xone.jpg", 99.99);
+        adicionarJogo("TEKKEN 8", "coverarts1/tekken8coverart.jpg", 299.99);
+        adicionarJogo("Danganronpa Trigger Happy Havoc", "coverarts1/danganronpa_psvita.jpeg", 34.99);
+        adicionarJogo("Yakuza 0", "coverarts1/Yakuza0_ps4.jpeg", 83.99);
+        adicionarJogo("OMORI", "coverarts1/OMORI_PC.png", 36.99);
+        adicionarJogo("Persona 3 Reload", "coverarts1/PERSONA3_RELOAD_XSERIESX.jpeg", 349.99);
+        adicionarJogo("Devil May Cry 4", "coverarts1/dmc4_x360.jpeg", 83.99);
+        adicionarJogo("Persona 5 Royal", "coverarts1/P5ROYAL_ps4.jpeg", 299.99);
 
 
         JButton voltarButton = new JButton("Voltar");
