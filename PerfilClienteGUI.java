@@ -26,8 +26,8 @@ public class PerfilClienteGUI extends JFrame {
 
         JButton voltarButton = new JButton("Voltar");
         voltarButton.addActionListener(e -> {
-            // Implemente a lógica para voltar à tela anterior
-            // Por exemplo, tela principal do cliente
+            new HomeClienteGUI().setVisible(true);
+            dispose();
         });
         panel.add(voltarButton, BorderLayout.SOUTH);
 

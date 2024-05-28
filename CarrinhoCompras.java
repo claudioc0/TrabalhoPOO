@@ -12,7 +12,7 @@ public class CarrinhoCompras {
 
     public void adicionaraoCarrinho(Jogo jogo) {
         jogos.add(jogo);
-        System.out.println("O Jogo "  + jogo.getNomejogo() +  " foi adicionado ao carrinho" );
+        System.out.println("O Jogo "  + jogo.getNomeJogo() +  " foi adicionado ao carrinho" );
     }
 
     public void listarJogos() {
@@ -21,7 +21,7 @@ public class CarrinhoCompras {
         } else {
             System.out.println("Jogos no carrinho: ");
             for (Jogo jogo : jogos) {
-                System.out.println("- " + jogo.getNomejogo() + " - R$" + jogo.getPrecojogo());
+                System.out.println("- " + jogo.getNomeJogo() + " - R$" + jogo.getPrecoJogo());
             }
         }
 

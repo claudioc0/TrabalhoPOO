@@ -26,7 +26,7 @@ public class Vendedor extends Pessoa{
     public void exibirJogosAnunciados() {
         System.out.println("Jogos anunciados:");
         for (Jogo jogo : jogosAnunciados) {
-            System.out.println(jogo.getNomejogo());
+            System.out.println(jogo.getNomeJogo());
         }
     }
 

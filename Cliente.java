@@ -47,7 +47,7 @@ public class Cliente extends Pessoa {
         List<Jogo> jogosAnunciados = vendedor.getJogosAnunciados();
         System.out.println("Jogos disponíveis para compra:");
         for (int i = 0; i < jogosAnunciados.size(); i++) {
-            System.out.println((i + 1) + ". " + jogosAnunciados.get(i).getNomejogo());
+            System.out.println((i + 1) + ". " + jogosAnunciados.get(i).getNomeJogo());
         }
     }
 
@@ -76,7 +76,7 @@ public class Cliente extends Pessoa {
         //vendedor.removerJogoAnunciado(jogoEscolhido);
 
         // Mostra mensagem de sucesso
-        System.out.println("Compra realizada com sucesso! O jogo '" + jogoEscolhido.getNomejogo() + "' foi adicionado ao seu histórico de compras.");
+        System.out.println("Compra realizada com sucesso! O jogo '" + jogoEscolhido.getNomeJogo() + "' foi adicionado ao seu histórico de compras.");
     }
 
     // Método para adicionar um jogo ao histórico de compras do cliente

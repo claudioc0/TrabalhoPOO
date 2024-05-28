@@ -104,7 +104,7 @@ public class VendedorCadastroGUI extends JFrame {
 
     private void voltar() {
         dispose(); // Fecha a tela de cadastro
-        new ClienteMainGUI().setVisible(true); // Abre a tela principal do cliente
+        new VendedorMainGUI().setVisible(true); // Abre a tela principal do cliente
     }
 
     public static void main(String[] args) {

@@ -2,8 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class HomeClienteGUI extends JFrame {
+    ArrayList<Jogo> jogosAnunciados = new ArrayList<>();
+
     private JButton visualizarJogosButton;
     private JButton visualizarPerfilButton;
     private JButton historicoComprasButton;
@@ -45,7 +48,7 @@ public class HomeClienteGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Abrir a tela de visualização de jogos anunciados
-                new VisualizarJogosGUI().setVisible(true);
+                new VisualizarJogosGUI(jogosAnunciados).setVisible(true);
             }
         });
 
@@ -83,19 +86,6 @@ public class HomeClienteGUI extends JFrame {
                 new HomeClienteGUI().setVisible(true);
             }
         });
-    }
-}
-
-// Exemplos de classes de telas adicionais
-class VisualizarJogosGUI extends JFrame {
-    public VisualizarJogosGUI() {
-        setTitle("Jogos Anunciados");
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
-
-        JLabel label = new JLabel("Lista de Jogos Anunciados", JLabel.CENTER);
-        add(label);
     }
 }
 
