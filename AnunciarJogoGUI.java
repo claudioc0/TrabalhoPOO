@@ -29,14 +29,11 @@ public class AnunciarJogoGUI extends JFrame {
     public AnunciarJogoGUI(Vendedor vendedor) {
         this.vendedor = vendedor;
         setTitle("Anunciar Jogo");
-        setSize(400, 500); // Increased height to accommodate the image field
+        setSize(400, 500);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Inicializa o arquivo para armazenar os jogos anunciados
         arquivoJogosAnunciados = new File("jogos_anunciados.txt");
-
-        // Carrega os jogos anunciados do arquivo, se existir
         jogosAnunciados = carregarJogosAnunciados();
 
         JPanel panel = new JPanel(new BorderLayout(10, 10));
@@ -77,10 +74,12 @@ public class AnunciarJogoGUI extends JFrame {
         consoleField = new JTextField();
         centerPanel.add(consoleField);
 
-        // Image Selection
         centerPanel.add(new JLabel("Imagem:"));
         JPanel imagemPanel = new JPanel(new BorderLayout());
         imagemLabel = new JLabel();
+        imagemLabel.setHorizontalAlignment(JLabel.CENTER);
+        imagemLabel.setVerticalAlignment(JLabel.CENTER);
+        imagemLabel.setPreferredSize(new Dimension(150, 150));
         imagemPanel.add(imagemLabel, BorderLayout.CENTER);
         escolherImagemButton = new JButton("Escolher Imagem");
         imagemPanel.add(escolherImagemButton, BorderLayout.SOUTH);
@@ -144,10 +143,13 @@ public class AnunciarJogoGUI extends JFrame {
     }
 
     private void exibirImagem() {
-        ImageIcon imagemIcon = new ImageIcon(imagemSelecionada.getPath());
-        // Redimensiona a imagem para caber no JLabel
-        Image imagemRedimensionada = imagemIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-        imagemLabel.setIcon(new ImageIcon(imagemRedimensionada));
+        if (imagemSelecionada != null) {
+            ImageIcon imagemIcon = new ImageIcon(imagemSelecionada.getPath());
+            Image imagemRedimensionada = imagemIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            imagemLabel.setIcon(new ImageIcon(imagemRedimensionada));
+            imagemLabel.revalidate();
+            imagemLabel.repaint();
+        }
     }
 
     private void anunciarJogo() {
@@ -157,7 +159,7 @@ public class AnunciarJogoGUI extends JFrame {
         String genero = generoField.getText();
         String dataLancamento = dataLancamentoField.getText();
         String precoText = precoField.getText();
-        String imagem = imagemSelecionada != null ? imagemSelecionada.getPath() : null; // Caminho da imagem selecionada
+        String imagem = imagemSelecionada != null ? imagemSelecionada.getPath() : null;
 
         if (nome.isEmpty() || descricao.isEmpty() || genero.isEmpty() || dataLancamento.isEmpty() || precoText.isEmpty() ||
                 (tipoJogo.equals("PC") && requisitosPcField.getText().isEmpty()) ||
@@ -177,19 +179,13 @@ public class AnunciarJogoGUI extends JFrame {
         Jogo jogo;
         if (tipoJogo.equals("PC")) {
             String requisitosPc = requisitosPcField.getText();
-            jogo = new JogoPC(nome, descricao, genero, dataLancamento, preco, imagem, requisitosPc);
+            jogo = new JogoPC(nome, descricao, genero, dataLancamento, preco, imagem, requisitosPc, vendedor.getNome());
         } else {
             String console = consoleField.getText();
-            jogo = new JogoConsole(nome, descricao, genero, dataLancamento, preco, imagem, console);
+            jogo = new JogoConsole(nome, descricao, genero, dataLancamento, preco, imagem, console, vendedor.getNome());
         }
 
-        // Adiciona o jogo à lista de jogos anunciados
-        if (jogosAnunciados == null) {
-            jogosAnunciados = new ArrayList<>();
-        }
         jogosAnunciados.add(jogo);
-
-        // Persiste os jogos anunciados no arquivo
         salvarJogosAnunciados(jogosAnunciados);
 
         JOptionPane.showMessageDialog(this, "Jogo anunciado com sucesso!");
@@ -204,40 +200,39 @@ public class AnunciarJogoGUI extends JFrame {
         precoField.setText("");
         requisitosPcField.setText("");
         consoleField.setText("");
-        // Limpa também a imagem exibida
         imagemLabel.setIcon(null);
-        // Reseta a variável de imagem selecionada
         imagemSelecionada = null;
     }
 
     private void salvarJogosAnunciados(List<Jogo> jogos) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(arquivoJogosAnunciados))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(arquivoJogosAnunciados))) {
             for (Jogo jogo : jogos) {
-                writer.println(jogo.toTexto()); // Supondo que você tenha um método toTexto() na classe Jogo
+                writer.write(jogo.toTexto());
+                writer.newLine();
             }
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Erro ao salvar os jogos anunciados: " + e.getMessage());
+            e.printStackTrace();
         }
     }
-
 
     private List<Jogo> carregarJogosAnunciados() {
         List<Jogo> jogos = new ArrayList<>();
-        if (arquivoJogosAnunciados.exists()) {
-            try (BufferedReader reader = new BufferedReader(new FileReader(arquivoJogosAnunciados))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    Jogo jogo = Jogo.fromTexto(line); // Supondo que você tenha um método estático fromTexto() na classe Jogo
-                    if (jogo != null) {
-                        jogos.add(jogo);
-                    }
-                }
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(this, "Erro ao carregar os jogos anunciados: " + e.getMessage());
-            }
+        if (!arquivoJogosAnunciados.exists()) {
+            return jogos;
         }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(arquivoJogosAnunciados))) {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                Jogo jogo = Jogo.fromTexto(linha);
+                if (jogo != null) {
+                    jogos.add(jogo);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return jogos;
     }
-
-
 }
