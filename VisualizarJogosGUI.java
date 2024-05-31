@@ -1,16 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class VisualizarJogosGUI extends JFrame {
-    private ArrayList<Jogo> jogosAnunciados; // Lista de jogos anunciados
-    private JPanel centerPanel; // Painel central para exibir os jogos
+    private List<Jogo> jogosAnunciados;
+    private JPanel centerPanel;
 
-    public VisualizarJogosGUI(ArrayList<Jogo> jogosAnunciados) {
+    public VisualizarJogosGUI(List<Jogo> jogosAnunciados) {
         this.jogosAnunciados = jogosAnunciados;
 
         carregarJogosAnunciadosDoArquivo();
@@ -42,7 +40,6 @@ public class VisualizarJogosGUI extends JFrame {
         exibirJogosAnunciados();
     }
 
-    // Método para carregar jogos anunciados do arquivo de texto
     private void carregarJogosAnunciadosDoArquivo() {
         File arquivo = new File("jogos_anunciados.txt");
         jogosAnunciados.clear();
@@ -60,7 +57,6 @@ public class VisualizarJogosGUI extends JFrame {
         }
     }
 
-    // Método para exibir os jogos anunciados no painel central
     private void exibirJogosAnunciados() {
         centerPanel.removeAll();
 
@@ -106,13 +102,11 @@ public class VisualizarJogosGUI extends JFrame {
         repaint();
     }
 
-    // Método para abrir a tela de detalhes do jogo
     private void abrirTelaDetalhesJogo(Jogo jogo) {
-        SwingUtilities.invokeLater(() -> new DetalhesJogoGUI(jogo).setVisible(true));
+        SwingUtilities.invokeLater(() -> new DetalhesJogoGUI(jogo, jogosAnunciados, this).setVisible(true));
     }
 
-    // Método para atualizar a lista de jogos anunciados
-    private void atualizarJogosAnunciados() {
+    public void atualizarJogosAnunciados() {
         carregarJogosAnunciadosDoArquivo();
         exibirJogosAnunciados();
     }

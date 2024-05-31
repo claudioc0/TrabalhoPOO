@@ -1,8 +1,18 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
+import java.util.List;
 
 public class DetalhesJogoGUI extends JFrame {
-    public DetalhesJogoGUI(Jogo jogo) {
+    private Jogo jogo;
+    private List<Jogo> jogosAnunciados;
+    private VisualizarJogosGUI visualizarJogosGUI;
+
+    public DetalhesJogoGUI(Jogo jogo, List<Jogo> jogosAnunciados, VisualizarJogosGUI visualizarJogosGUI) {
+        this.jogo = jogo;
+        this.jogosAnunciados = jogosAnunciados;
+        this.visualizarJogosGUI = visualizarJogosGUI;
+
         setTitle("Detalhes do Jogo");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -41,7 +51,28 @@ public class DetalhesJogoGUI extends JFrame {
         panel.add(centerPanel, BorderLayout.CENTER);
 
         JButton comprarButton = new JButton("Comprar");
-        comprarButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Compra efetuada com sucesso!"));
+        comprarButton.addActionListener(e -> comprarJogo());
         panel.add(comprarButton, BorderLayout.SOUTH);
+    }
+
+    private void comprarJogo() {
+        jogosAnunciados.remove(jogo);
+        atualizarArquivoJogosAnunciados();
+        visualizarJogosGUI.atualizarJogosAnunciados();
+        JOptionPane.showMessageDialog(this, "Compra efetuada com sucesso!");
+        dispose();
+    }
+
+    private void atualizarArquivoJogosAnunciados() {
+        File arquivoJogosAnunciados = new File("jogos_anunciados.txt");
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(arquivoJogosAnunciados))) {
+            for (Jogo jogo : jogosAnunciados) {
+                writer.write(jogo.toTexto());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

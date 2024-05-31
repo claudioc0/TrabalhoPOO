@@ -69,12 +69,18 @@ public class HomeClienteGUI extends JFrame {
             }
         });
 
-
         historicoComprasButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Abrir a tela de visualização do histórico de compras
-                new HistoricoComprasGUI().setVisible(true);
+                Cliente clienteLogado = ClienteLogado.getClienteLogado();
+                if (clienteLogado != null) {
+                    // new HistoricoComprasGUI(clienteLogado).setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(HomeClienteGUI.this, "Nenhum cliente logado.");
+                    // Redirecionar para a tela de login, por exemplo:
+                    new ClienteLoginGUI().setVisible(true);
+                    dispose();
+                }
             }
         });
     }
@@ -86,18 +92,5 @@ public class HomeClienteGUI extends JFrame {
                 new HomeClienteGUI().setVisible(true);
             }
         });
-    }
-}
-
-
-class HistoricoComprasGUI extends JFrame {
-    public HistoricoComprasGUI() {
-        setTitle("Histórico de Compras");
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
-
-        JLabel label = new JLabel("Histórico de Compras do Cliente", JLabel.CENTER);
-        add(label);
     }
 }
