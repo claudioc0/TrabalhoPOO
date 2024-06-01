@@ -50,7 +50,7 @@ public class HomeVendedorGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Abrir a tela de visualização do perfil
-                new VisualizarPerfilVendedorGUI().setVisible(true);
+                new PerfilVendedorGUI(vendedor).setVisible(true);
             }
         });
 
@@ -76,17 +76,6 @@ public class HomeVendedorGUI extends JFrame {
     }
 }
 
-class VisualizarPerfilVendedorGUI extends JFrame {
-    public VisualizarPerfilVendedorGUI() {
-        setTitle("Perfil do Vendedor");
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
-
-        JLabel label = new JLabel("Informações do Perfil do Vendedor", JLabel.CENTER);
-        add(label);
-    }
-}
 
 class VisualizarVendasGUI extends JFrame {
     public VisualizarVendasGUI() {

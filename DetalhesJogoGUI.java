@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.List;
 
@@ -51,22 +53,27 @@ public class DetalhesJogoGUI extends JFrame {
         panel.add(centerPanel, BorderLayout.CENTER);
 
         JButton comprarButton = new JButton("Comprar");
-        comprarButton.addActionListener(e -> comprarJogo());
+        comprarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Cliente clienteLogado = ClienteLogado.getClienteLogado();
+                if (clienteLogado != null) {
+                    clienteLogado.adicionarJogoAoHistorico(jogo);
+                    jogosAnunciados.remove(jogo);
+                    salvarJogosAnunciados();
+                    visualizarJogosGUI.atualizarJogosAnunciados();
+                    JOptionPane.showMessageDialog(DetalhesJogoGUI.this, "Compra efetuada com sucesso!");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(DetalhesJogoGUI.this, "Nenhum cliente logado.");
+                }
+            }
+        });
         panel.add(comprarButton, BorderLayout.SOUTH);
     }
 
-    private void comprarJogo() {
-        jogosAnunciados.remove(jogo);
-        atualizarArquivoJogosAnunciados();
-        visualizarJogosGUI.atualizarJogosAnunciados();
-        JOptionPane.showMessageDialog(this, "Compra efetuada com sucesso!");
-        dispose();
-    }
-
-    private void atualizarArquivoJogosAnunciados() {
-        File arquivoJogosAnunciados = new File("jogos_anunciados.txt");
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(arquivoJogosAnunciados))) {
+    private void salvarJogosAnunciados() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("jogos_anunciados.txt"))) {
             for (Jogo jogo : jogosAnunciados) {
                 writer.write(jogo.toTexto());
                 writer.newLine();

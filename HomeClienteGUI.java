@@ -74,7 +74,7 @@ public class HomeClienteGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Cliente clienteLogado = ClienteLogado.getClienteLogado();
                 if (clienteLogado != null) {
-                    // new HistoricoComprasGUI(clienteLogado).setVisible(true);
+                    new HistoricoComprasGUI().setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(HomeClienteGUI.this, "Nenhum cliente logado.");
                     // Redirecionar para a tela de login, por exemplo:
