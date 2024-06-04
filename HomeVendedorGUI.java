@@ -7,6 +7,7 @@ public class HomeVendedorGUI extends JFrame {
     private JButton anunciarJogosButton;
     private JButton visualizarPerfilButton;
     private JButton visualizarVendasButton;
+    private JButton visualizarAvaliacoesButton; // Botão para visualizar avaliações
     private Vendedor vendedor;
 
     public HomeVendedorGUI(Vendedor vendedor) {
@@ -25,7 +26,7 @@ public class HomeVendedorGUI extends JFrame {
         panel.add(welcomeLabel, BorderLayout.NORTH);
 
         // Painel central para os botões
-        JPanel centerPanel = new JPanel(new GridLayout(3, 1, 10, 10));
+        JPanel centerPanel = new JPanel(new GridLayout(4, 1, 10, 10)); // Adicionei uma linha para o botão de avaliações
 
         anunciarJogosButton = new JButton("Anunciar Jogos");
         centerPanel.add(anunciarJogosButton);
@@ -35,6 +36,9 @@ public class HomeVendedorGUI extends JFrame {
 
         visualizarVendasButton = new JButton("Visualizar Vendas");
         centerPanel.add(visualizarVendasButton);
+
+        visualizarAvaliacoesButton = new JButton("Visualizar Avaliações"); // Botão para visualizar avaliações
+        centerPanel.add(visualizarAvaliacoesButton); // Adicionando o botão de visualizar avaliações
 
         // Adiciona o painel central
         panel.add(centerPanel, BorderLayout.CENTER);
@@ -59,6 +63,14 @@ public class HomeVendedorGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Abrir a tela de visualização de vendas
                 new VisualizarVendasGUI(vendedor).setVisible(true);
+            }
+        });
+
+        visualizarAvaliacoesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Abrir a tela de visualização de avaliações
+                new VisualizarAvaliacoesGUI(vendedor).setVisible(true);
             }
         });
     }

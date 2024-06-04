@@ -1,11 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
+import java.util.*;
 import java.util.List;
 
 public class HistoricoComprasGUI extends JFrame {
     public HistoricoComprasGUI() {
         setTitle("Histórico de Compras");
-        setSize(400, 300);
+        setSize(600, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -40,6 +44,25 @@ public class HistoricoComprasGUI extends JFrame {
         setContentPane(panel);
     }
 
+    private boolean jogoJaAvaliado(String nomeVendedor, String nomeJogo) {
+        File file = new File(nomeVendedor + "_avaliacoes.txt");
+        if (!file.exists()) {
+            return false;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith(nomeJogo)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     private JPanel criarPainelJogo(Jogo jogo) {
         JPanel jogoPanel = new JPanel(new BorderLayout(10, 10));
         jogoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -68,6 +91,42 @@ public class HistoricoComprasGUI extends JFrame {
             imagemLabel.setIcon(new ImageIcon(imagemRedimensionada));
             detailsPanel.add(imagemLabel);
         }
+
+        JPanel avaliacaoPanel = new JPanel();
+        ButtonGroup grupoEstrelas = new ButtonGroup();
+        for (int i = 1; i <= 5; i++) {
+            JRadioButton radioButton = new JRadioButton(i + " estrela" + (i == 1 ? "" : "s"));
+            radioButton.setActionCommand(String.valueOf(i));
+            grupoEstrelas.add(radioButton);
+            avaliacaoPanel.add(radioButton);
+        }
+
+        JButton avaliarButton = new JButton("Avaliar Vendedor");
+        avaliarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String estrelasSelecionadas = grupoEstrelas.getSelection().getActionCommand();
+                int estrelas = Integer.parseInt(estrelasSelecionadas);
+                String nomeVendedor = jogo.getVendedorNome();
+                String nomeJogo = jogo.getNomeJogo();
+                if (jogoJaAvaliado(nomeVendedor, nomeJogo)) {
+                    JOptionPane.showMessageDialog(HistoricoComprasGUI.this, "Você já avaliou este jogo.");
+                    return;
+                }
+                try {
+                    FileWriter writer = new FileWriter(nomeVendedor + "_avaliacoes.txt", true);
+                    writer.write(nomeJogo + ": " + estrelas + " estrelas\n");
+                    writer.close();
+                    JOptionPane.showMessageDialog(HistoricoComprasGUI.this, "Avaliação do vendedor: " + estrelas + " estrelas. Avaliação salva.");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(HistoricoComprasGUI.this, "Erro ao salvar a avaliação.");
+                }
+            }
+        });
+
+        detailsPanel.add(avaliacaoPanel);
+        detailsPanel.add(avaliarButton);
 
         jogoPanel.add(detailsPanel, BorderLayout.CENTER);
 
