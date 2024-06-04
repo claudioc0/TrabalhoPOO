@@ -58,19 +58,48 @@ public class DetalhesJogoGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Cliente clienteLogado = ClienteLogado.getClienteLogado();
                 if (clienteLogado != null) {
-                    clienteLogado.adicionarJogoAoHistorico(jogo);
-                    jogosAnunciados.remove(jogo);
-                    salvarJogosAnunciados();
-                    registrarVenda(clienteLogado);
-                    visualizarJogosGUI.atualizarJogosAnunciados();
-                    JOptionPane.showMessageDialog(DetalhesJogoGUI.this, "Compra efetuada com sucesso!");
-                    dispose();
+                    selecionarMetodoPagamento(clienteLogado);
                 } else {
                     JOptionPane.showMessageDialog(DetalhesJogoGUI.this, "Nenhum cliente logado.");
                 }
             }
         });
         panel.add(comprarButton, BorderLayout.SOUTH);
+    }
+
+    private void selecionarMetodoPagamento(Cliente cliente) {
+        String[] opcoes = {"Cartão de Crédito", "Boleto", "Pix"};
+        String metodoSelecionado = (String) JOptionPane.showInputDialog(
+                this,
+                "Selecione o método de pagamento:",
+                "Método de Pagamento",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                opcoes,
+                opcoes[0]);
+
+        if (metodoSelecionado != null) {
+            if (metodoSelecionado.equals("Cartão de Crédito")) {
+                new CadastroCartaoGUI(jogo, cliente, jogosAnunciados, visualizarJogosGUI).setVisible(true);
+            } else if (metodoSelecionado.equals("Boleto")) {
+                new PagamentoBoletoGUI(jogo, cliente, jogosAnunciados, visualizarJogosGUI).setVisible(true);
+            } else if (metodoSelecionado.equals("PIX")) {
+                new PagamentoPixGUI(jogo, cliente, jogosAnunciados, visualizarJogosGUI).setVisible(true);
+            } else {
+                processarCompra(cliente, metodoSelecionado);
+            }
+        }
+    }
+
+
+    private void processarCompra(Cliente cliente, String metodoPagamento) {
+        cliente.adicionarJogoAoHistorico(jogo);
+        jogosAnunciados.remove(jogo);
+        salvarJogosAnunciados();
+        registrarVenda(cliente, metodoPagamento);
+        visualizarJogosGUI.atualizarJogosAnunciados();
+        JOptionPane.showMessageDialog(this, "Compra efetuada com sucesso usando " + metodoPagamento + "!");
+        dispose();
     }
 
     private void salvarJogosAnunciados() {
@@ -84,13 +113,14 @@ public class DetalhesJogoGUI extends JFrame {
         }
     }
 
-    private void registrarVenda(Cliente cliente) {
+    private void registrarVenda(Cliente cliente, String metodoPagamento) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("historico_vendas.txt", true))) { // Append mode
             String registro = "Cliente: " + cliente.getNome() +
                     ", Jogo: " + jogo.getNomeJogo() +
                     ", Data: " + java.time.LocalDate.now() +
                     ", Preço: R$" + jogo.getPrecoJogo() +
-                    ", Vendedor: " + jogo.getVendedorNome();
+                    ", Vendedor: " + jogo.getVendedorNome() +
+                    ", Método de Pagamento: " + metodoPagamento;
             writer.write(registro);
             writer.newLine();
         } catch (IOException e) {
