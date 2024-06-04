@@ -10,7 +10,12 @@ public class CarrinhoCompras {
 
     public void adicionaraoCarrinho(Jogo jogo) {
         jogos.add(jogo);
-        System.out.println("O Jogo "  + jogo.getNomeJogo() +  " foi adicionado ao carrinho" );
+        System.out.println("O Jogo " + jogo.getNomeJogo() + " foi adicionado ao carrinho");
+    }
+
+    public void removerDoCarrinho(Jogo jogo) {
+        jogos.remove(jogo);
+        System.out.println("O Jogo " + jogo.getNomeJogo() + " foi removido do carrinho");
     }
 
     public void listarJogos() {
@@ -24,11 +29,20 @@ public class CarrinhoCompras {
         }
     }
 
+    public List<Jogo> getJogosNoCarrinho() {
+        return jogos;
+    }
+
     public double calcularTotal() {
         double total = 0;
         for (Jogo jogo : jogos) {
             total += jogo.getPrecoJogo();
         }
         return total;
+    }
+
+    public void limparCarrinho() {
+        jogos.clear();
+        System.out.println("Carrinho limpo");
     }
 }

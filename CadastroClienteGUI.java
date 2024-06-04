@@ -2,9 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CadastroClienteGUI extends JFrame {
     private JTextField nomeField;
@@ -102,6 +102,12 @@ public class CadastroClienteGUI extends JFrame {
             return;
         }
 
+        // Verifica se o cliente já está cadastrado
+        if (clienteJaCadastrado(nome, email, cpf)) {
+            JOptionPane.showMessageDialog(this, "Cliente já cadastrado com o mesmo nome, email ou CPF.");
+            return;
+        }
+
         try {
             // Salvar o cliente no arquivo de texto
             BufferedWriter writer = new BufferedWriter(new FileWriter("clientes.txt", true));
@@ -112,6 +118,23 @@ public class CadastroClienteGUI extends JFrame {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Erro ao salvar o cliente: " + e.getMessage());
         }
+    }
+
+    private boolean clienteJaCadastrado(String nome, String email, String cpf) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("clientes.txt"));
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                if (linha.contains("Nome: " + nome) || linha.contains("Email: " + email) || linha.contains("CPF: " + cpf)) {
+                    reader.close();
+                    return true;
+                }
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public static void main(String[] args) {

@@ -1,15 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class VisualizarJogosGUI extends JFrame {
     private List<Jogo> jogosAnunciados;
     private JPanel centerPanel;
+    private CarrinhoCompras carrinhoCompras;
 
     public VisualizarJogosGUI(List<Jogo> jogosAnunciados) {
         this.jogosAnunciados = jogosAnunciados;
+        this.carrinhoCompras = new CarrinhoCompras(); // Inicializa o carrinho de compras
 
         carregarJogosAnunciadosDoArquivo();
 
@@ -30,11 +31,16 @@ public class VisualizarJogosGUI extends JFrame {
         JScrollPane scrollPane = new JScrollPane(centerPanel);
         panel.add(scrollPane, BorderLayout.CENTER);
 
+        JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
         JButton refreshButton = new JButton("Atualizar");
         refreshButton.addActionListener(e -> atualizarJogosAnunciados());
-
-        JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         southPanel.add(refreshButton);
+
+        JButton carrinhoButton = new JButton("Ver Carrinho");
+        carrinhoButton.addActionListener(e -> abrirCarrinhoCompras());
+        southPanel.add(carrinhoButton);
+
         panel.add(southPanel, BorderLayout.SOUTH);
 
         exibirJogosAnunciados();
@@ -103,7 +109,11 @@ public class VisualizarJogosGUI extends JFrame {
     }
 
     private void abrirTelaDetalhesJogo(Jogo jogo) {
-        SwingUtilities.invokeLater(() -> new DetalhesJogoGUI(jogo, jogosAnunciados, this).setVisible(true));
+        SwingUtilities.invokeLater(() -> new DetalhesJogoGUI(jogo, jogosAnunciados, this, carrinhoCompras).setVisible(true));
+    }
+
+    private void abrirCarrinhoCompras() {
+        SwingUtilities.invokeLater(() -> new CarrinhoComprasGUI(carrinhoCompras).setVisible(true));
     }
 
     public void atualizarJogosAnunciados() {

@@ -9,11 +9,13 @@ public class DetalhesJogoGUI extends JFrame {
     private Jogo jogo;
     private List<Jogo> jogosAnunciados;
     private VisualizarJogosGUI visualizarJogosGUI;
+    private CarrinhoCompras carrinhoCompras;
 
-    public DetalhesJogoGUI(Jogo jogo, List<Jogo> jogosAnunciados, VisualizarJogosGUI visualizarJogosGUI) {
+    public DetalhesJogoGUI(Jogo jogo, List<Jogo> jogosAnunciados, VisualizarJogosGUI visualizarJogosGUI, CarrinhoCompras carrinhoCompras) {
         this.jogo = jogo;
         this.jogosAnunciados = jogosAnunciados;
         this.visualizarJogosGUI = visualizarJogosGUI;
+        this.carrinhoCompras = carrinhoCompras;
 
         setTitle("Detalhes do Jogo");
         setSize(400, 300);
@@ -52,6 +54,7 @@ public class DetalhesJogoGUI extends JFrame {
 
         panel.add(centerPanel, BorderLayout.CENTER);
 
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 10));
         JButton comprarButton = new JButton("Comprar");
         comprarButton.addActionListener(new ActionListener() {
             @Override
@@ -64,7 +67,18 @@ public class DetalhesJogoGUI extends JFrame {
                 }
             }
         });
-        panel.add(comprarButton, BorderLayout.SOUTH);
+        buttonPanel.add(comprarButton);
+
+        JButton adicionarCarrinhoButton = new JButton("Adicionar ao Carrinho");
+        adicionarCarrinhoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                adicionarAoCarrinho();
+            }
+        });
+        buttonPanel.add(adicionarCarrinhoButton);
+
+        panel.add(buttonPanel, BorderLayout.SOUTH);
     }
 
     private void selecionarMetodoPagamento(Cliente cliente) {
@@ -91,6 +105,14 @@ public class DetalhesJogoGUI extends JFrame {
         }
     }
 
+    private void adicionarAoCarrinho() {
+        if (!carrinhoCompras.getJogosNoCarrinho().contains(jogo)) {
+            carrinhoCompras.adicionaraoCarrinho(jogo);
+            JOptionPane.showMessageDialog(this, "Jogo adicionado ao carrinho!");
+        } else {
+            JOptionPane.showMessageDialog(this, "O jogo já está no carrinho.");
+        }
+    }
 
     private void processarCompra(Cliente cliente, String metodoPagamento) {
         cliente.adicionarJogoAoHistorico(jogo);

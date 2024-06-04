@@ -2,9 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class VendedorCadastroGUI extends JFrame {
     private JTextField nomeField;
@@ -93,6 +91,12 @@ public class VendedorCadastroGUI extends JFrame {
             return;
         }
 
+        // Verifica se o vendedor já está cadastrado
+        if (vendedorJaCadastrado(nome, email, cpf)) {
+            JOptionPane.showMessageDialog(this, "Vendedor já cadastrado com o mesmo nome, email ou CPF.");
+            return;
+        }
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("vendedores.txt", true))) {
             writer.write("Nome: " + nome + ", Email: " + email + ", Senha: " + senha + ", CPF: " + cpf);
             writer.newLine();
@@ -100,6 +104,23 @@ public class VendedorCadastroGUI extends JFrame {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Erro ao salvar os dados do vendedor: " + e.getMessage());
         }
+    }
+
+    private boolean vendedorJaCadastrado(String nome, String email, String cpf) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("vendedores.txt"));
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                if (linha.contains("Nome: " + nome) || linha.contains("Email: " + email) || linha.contains("CPF: " + cpf)) {
+                    reader.close();
+                    return true;
+                }
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     private void voltar() {
