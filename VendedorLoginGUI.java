@@ -95,12 +95,10 @@ public class VendedorLoginGUI extends JFrame {
             Vendedor vendedor = new Vendedor(nomeVendedor, email, senha, cpfVendedor);
             new HomeVendedorGUI(vendedor).setVisible(true);
             dispose(); // Fecha a tela de login
-
         } else {
             JOptionPane.showMessageDialog(this, "Email ou senha inválidos.");
         }
     }
-
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {

@@ -61,6 +61,7 @@ public class DetalhesJogoGUI extends JFrame {
                     clienteLogado.adicionarJogoAoHistorico(jogo);
                     jogosAnunciados.remove(jogo);
                     salvarJogosAnunciados();
+                    registrarVenda(clienteLogado);
                     visualizarJogosGUI.atualizarJogosAnunciados();
                     JOptionPane.showMessageDialog(DetalhesJogoGUI.this, "Compra efetuada com sucesso!");
                     dispose();
@@ -78,6 +79,20 @@ public class DetalhesJogoGUI extends JFrame {
                 writer.write(jogo.toTexto());
                 writer.newLine();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void registrarVenda(Cliente cliente) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("historico_vendas.txt", true))) { // Append mode
+            String registro = "Cliente: " + cliente.getNome() +
+                    ", Jogo: " + jogo.getNomeJogo() +
+                    ", Data: " + java.time.LocalDate.now() +
+                    ", Preço: R$" + jogo.getPrecoJogo() +
+                    ", Vendedor: " + jogo.getVendedorNome();
+            writer.write(registro);
+            writer.newLine();
         } catch (IOException e) {
             e.printStackTrace();
         }

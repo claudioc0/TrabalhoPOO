@@ -21,7 +21,7 @@ public class HomeVendedorGUI extends JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setContentPane(panel);
 
-        JLabel welcomeLabel = new JLabel("Bem-vindo, Vendedor!", JLabel.CENTER);
+        JLabel welcomeLabel = new JLabel("Bem-vindo, " + vendedor.getNome() + "!", JLabel.CENTER);
         panel.add(welcomeLabel, BorderLayout.NORTH);
 
         // Painel central para os botões
@@ -58,7 +58,7 @@ public class HomeVendedorGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Abrir a tela de visualização de vendas
-                new VisualizarVendasGUI().setVisible(true);
+                new VisualizarVendasGUI(vendedor).setVisible(true);
             }
         });
     }
@@ -73,18 +73,5 @@ public class HomeVendedorGUI extends JFrame {
                 new HomeVendedorGUI(vendedor).setVisible(true);
             }
         });
-    }
-}
-
-
-class VisualizarVendasGUI extends JFrame {
-    public VisualizarVendasGUI() {
-        setTitle("Visualizar Vendas");
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
-
-        JLabel label = new JLabel("Histórico de Vendas", JLabel.CENTER);
-        add(label);
     }
 }
