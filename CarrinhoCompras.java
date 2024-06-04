@@ -6,8 +6,6 @@ public class CarrinhoCompras {
 
     public CarrinhoCompras() {
         this.jogos = new ArrayList<>();
-
-
     }
 
     public void adicionaraoCarrinho(Jogo jogo) {
@@ -24,6 +22,13 @@ public class CarrinhoCompras {
                 System.out.println("- " + jogo.getNomeJogo() + " - R$" + jogo.getPrecoJogo());
             }
         }
+    }
 
+    public double calcularTotal() {
+        double total = 0;
+        for (Jogo jogo : jogos) {
+            total += jogo.getPrecoJogo();
+        }
+        return total;
     }
 }
