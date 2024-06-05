@@ -113,11 +113,38 @@ public class VisualizarJogosGUI extends JFrame {
     }
 
     private void abrirCarrinhoCompras() {
-        SwingUtilities.invokeLater(() -> new CarrinhoComprasGUI(carrinhoCompras).setVisible(true));
+        SwingUtilities.invokeLater(() -> new CarrinhoComprasGUI(carrinhoCompras, jogosAnunciados, this).setVisible(true));
     }
 
     public void atualizarJogosAnunciados() {
         carregarJogosAnunciadosDoArquivo();
         exibirJogosAnunciados();
     }
+
+    public void removerJogoAnunciado(Jogo jogo) {
+        jogosAnunciados.remove(jogo);
+        atualizarArquivoJogosAnunciados(); // Atualiza o arquivo após a remoção do jogo
+        exibirJogosAnunciados(); // Atualiza a exibição após a remoção do jogo
+    }
+
+    private void atualizarArquivoJogosAnunciados() {
+        File arquivo = new File("jogos_anunciados.txt");
+        if (!arquivo.exists()) {
+            return;
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(arquivo))) {
+            for (Jogo jogo : jogosAnunciados) {
+                writer.write(jogo.toTexto());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Erro ao atualizar o arquivo de jogos anunciados: " + e.getMessage());
+        }
+    }
+
+    public List<Jogo> getJogosAnunciados() {
+        return this.jogosAnunciados;
+    }
+
 }

@@ -1,12 +1,21 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 public class CarrinhoComprasGUI extends JFrame {
     private CarrinhoCompras carrinhoCompras;
+    private List<Jogo> jogosAnunciados;
+    private VisualizarJogosGUI visualizarJogosGUI;
 
-    public CarrinhoComprasGUI(CarrinhoCompras carrinhoCompras) {
+    public CarrinhoComprasGUI(CarrinhoCompras carrinhoCompras, List<Jogo> jogosAnunciados, VisualizarJogosGUI visualizarJogosGUI) {
         this.carrinhoCompras = carrinhoCompras;
+        this.jogosAnunciados = jogosAnunciados;
+        this.visualizarJogosGUI = visualizarJogosGUI;
 
         setTitle("Carrinho de Compras");
         setSize(400, 300);
@@ -24,6 +33,10 @@ public class CarrinhoComprasGUI extends JFrame {
         JPanel centerPanel = new JPanel(new GridLayout(0, 1, 10, 10));
         JScrollPane scrollPane = new JScrollPane(centerPanel);
         panel.add(scrollPane, BorderLayout.CENTER);
+
+        JButton comprarTodosButton = new JButton("Comprar Todos");
+        comprarTodosButton.addActionListener(e -> comprarTodosDoCarrinho());
+        panel.add(comprarTodosButton, BorderLayout.SOUTH);
 
         exibirJogosNoCarrinho(centerPanel);
     }
@@ -78,5 +91,59 @@ public class CarrinhoComprasGUI extends JFrame {
         carrinhoCompras.removerDoCarrinho(jogo);
         exibirJogosNoCarrinho((JPanel) ((JScrollPane) getContentPane().getComponent(1)).getViewport().getView());
         JOptionPane.showMessageDialog(this, "Jogo removido do carrinho!");
+    }
+
+    private void comprarTodosDoCarrinho() {
+        Cliente cliente = ClienteLogado.getClienteLogado();
+        if (cliente != null) {
+            double total = carrinhoCompras.calcularTotal();
+            int confirmacao = JOptionPane.showConfirmDialog(this, "Deseja comprar todos os jogos do carrinho por R$" + total + "?", "Confirmar Compra", JOptionPane.YES_NO_OPTION);
+            if (confirmacao == JOptionPane.YES_OPTION) {
+                selecionarMetodoPagamento(cliente);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Nenhum cliente logado.");
+        }
+    }
+
+    private void selecionarMetodoPagamento(Cliente cliente) {
+        String[] opcoes = {"Cartão de Crédito", "Boleto", "Pix"};
+        String metodoSelecionado = (String) JOptionPane.showInputDialog(
+                this,
+                "Selecione o método de pagamento:",
+                "Método de Pagamento",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                opcoes,
+                opcoes[0]);
+
+        if (metodoSelecionado != null) {
+            switch (metodoSelecionado) {
+                case "Cartão de Crédito":
+                    processarCompraCartaoCredito(cliente);
+                    break;
+                case "Boleto":
+                    processarCompraBoleto(cliente);
+                    break;
+                case "Pix":
+                    processarCompraPix(cliente);
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(this, "Método de pagamento inválido.");
+            }
+        }
+    }
+
+    private void processarCompraCartaoCredito(Cliente cliente) {
+        new CadastroCartaoGUI(null, cliente, null, null).setVisible(true);
+    }
+
+
+    private void processarCompraBoleto(Cliente cliente) {
+        new PagamentoBoletoGUI(null, cliente, null, null).setVisible(true);
+    }
+
+    private void processarCompraPix(Cliente cliente) {
+        new PagamentoPixGUI(null, cliente, null, null).setVisible(true);
     }
 }

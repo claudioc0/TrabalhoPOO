@@ -21,7 +21,7 @@ public class Cliente extends Pessoa {
         salvarHistoricoCompras();
     }
 
-    private void salvarHistoricoCompras() {
+    public void salvarHistoricoCompras() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(getCpf() + "_compras.txt"))) {
             for (Jogo jogo : historicoCompras) {
                 writer.write(jogo.toTexto());
@@ -37,6 +37,7 @@ public class Cliente extends Pessoa {
         if (!arquivoCompras.exists()) {
             return;
         }
+
 
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivoCompras))) {
             String linha;
