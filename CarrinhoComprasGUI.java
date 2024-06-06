@@ -1,10 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 
 public class CarrinhoComprasGUI extends JFrame {
@@ -99,14 +94,17 @@ public class CarrinhoComprasGUI extends JFrame {
             double total = carrinhoCompras.calcularTotal();
             int confirmacao = JOptionPane.showConfirmDialog(this, "Deseja comprar todos os jogos do carrinho por R$" + total + "?", "Confirmar Compra", JOptionPane.YES_NO_OPTION);
             if (confirmacao == JOptionPane.YES_OPTION) {
-                selecionarMetodoPagamento(cliente);
+                List<Jogo> jogos = carrinhoCompras.getJogosNoCarrinho();
+                for (Jogo jogo : jogos) {
+                    selecionarMetodoPagamento(cliente, jogo);
+                }
             }
         } else {
             JOptionPane.showMessageDialog(this, "Nenhum cliente logado.");
         }
     }
 
-    private void selecionarMetodoPagamento(Cliente cliente) {
+    private void selecionarMetodoPagamento(Cliente cliente, Jogo jogo) {
         String[] opcoes = {"Cartão de Crédito", "Boleto", "Pix"};
         String metodoSelecionado = (String) JOptionPane.showInputDialog(
                 this,
@@ -120,13 +118,13 @@ public class CarrinhoComprasGUI extends JFrame {
         if (metodoSelecionado != null) {
             switch (metodoSelecionado) {
                 case "Cartão de Crédito":
-                    processarCompraCartaoCredito(cliente);
+                    processarCompraCartaoCredito(cliente, jogo);
                     break;
                 case "Boleto":
-                    processarCompraBoleto(cliente);
+                    processarCompraBoleto(cliente, jogo);
                     break;
                 case "Pix":
-                    processarCompraPix(cliente);
+                    processarCompraPix(cliente, jogo);
                     break;
                 default:
                     JOptionPane.showMessageDialog(this, "Método de pagamento inválido.");
@@ -134,16 +132,15 @@ public class CarrinhoComprasGUI extends JFrame {
         }
     }
 
-    private void processarCompraCartaoCredito(Cliente cliente) {
-        new CadastroCartaoGUI(null, cliente, null, null).setVisible(true);
+    private void processarCompraCartaoCredito(Cliente cliente, Jogo jogo) {
+        new CadastroCartaoGUI(jogo, cliente, jogosAnunciados, visualizarJogosGUI).setVisible(true);
     }
 
-
-    private void processarCompraBoleto(Cliente cliente) {
-        new PagamentoBoletoGUI(null, cliente, null, null).setVisible(true);
+    private void processarCompraBoleto(Cliente cliente, Jogo jogo) {
+        new PagamentoBoletoGUI(jogo, cliente, jogosAnunciados, visualizarJogosGUI).setVisible(true);
     }
 
-    private void processarCompraPix(Cliente cliente) {
-        new PagamentoPixGUI(null, cliente, null, null).setVisible(true);
+    private void processarCompraPix(Cliente cliente, Jogo jogo) {
+        new PagamentoPixGUI(jogo, cliente, jogosAnunciados, visualizarJogosGUI).setVisible(true);
     }
 }

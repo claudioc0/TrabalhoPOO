@@ -4,6 +4,7 @@ import java.util.List;
 public class CarrinhoCompras {
     private List<Jogo> jogos;
 
+
     public CarrinhoCompras() {
         this.jogos = new ArrayList<>();
     }
