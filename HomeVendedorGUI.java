@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Color;
 
 public class HomeVendedorGUI extends JFrame {
     private JButton anunciarJogosButton;
@@ -23,21 +24,27 @@ public class HomeVendedorGUI extends JFrame {
         setContentPane(panel);
 
         JLabel welcomeLabel = new JLabel("Bem-vindo, " + vendedor.getNome() + "!", JLabel.CENTER);
+        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 20));
         panel.add(welcomeLabel, BorderLayout.NORTH);
 
         // Painel central para os botões
         JPanel centerPanel = new JPanel(new GridLayout(4, 1, 10, 10)); // Adicionei uma linha para o botão de avaliações
+        centerPanel.setBackground(Color.WHITE);
 
         anunciarJogosButton = new JButton("Anunciar Jogos");
+        estilizarBotao(anunciarJogosButton);
         centerPanel.add(anunciarJogosButton);
 
         visualizarPerfilButton = new JButton("Visualizar Perfil");
+        estilizarBotao(visualizarPerfilButton);
         centerPanel.add(visualizarPerfilButton);
 
         visualizarVendasButton = new JButton("Visualizar Vendas");
+        estilizarBotao(visualizarVendasButton);
         centerPanel.add(visualizarVendasButton);
 
         visualizarAvaliacoesButton = new JButton("Visualizar Avaliações"); // Botão para visualizar avaliações
+        estilizarBotao(visualizarAvaliacoesButton);
         centerPanel.add(visualizarAvaliacoesButton); // Adicionando o botão de visualizar avaliações
 
         // Adiciona o painel central
@@ -73,6 +80,16 @@ public class HomeVendedorGUI extends JFrame {
                 new VisualizarAvaliacoesGUI(vendedor).setVisible(true);
             }
         });
+    }
+
+    public void estilizarBotao(JButton button) {
+        button.setFont(new Font("Arial", Font.BOLD, 16));
+        button.setForeground(Color.WHITE);
+        button.setBackground(new Color(51, 153, 255));
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+
+
     }
 
     public static void main(String[] args) {
