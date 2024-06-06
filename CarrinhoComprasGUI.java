@@ -1,6 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
+import java.util.Collections;
 
 public class CarrinhoComprasGUI extends JFrame {
     private CarrinhoCompras carrinhoCompras;
@@ -94,17 +98,14 @@ public class CarrinhoComprasGUI extends JFrame {
             double total = carrinhoCompras.calcularTotal();
             int confirmacao = JOptionPane.showConfirmDialog(this, "Deseja comprar todos os jogos do carrinho por R$" + total + "?", "Confirmar Compra", JOptionPane.YES_NO_OPTION);
             if (confirmacao == JOptionPane.YES_OPTION) {
-                List<Jogo> jogos = carrinhoCompras.getJogosNoCarrinho();
-                for (Jogo jogo : jogos) {
-                    selecionarMetodoPagamento(cliente, jogo);
-                }
+                selecionarMetodoPagamento(cliente, carrinhoCompras.getJogosNoCarrinho());
             }
         } else {
             JOptionPane.showMessageDialog(this, "Nenhum cliente logado.");
         }
     }
 
-    private void selecionarMetodoPagamento(Cliente cliente, Jogo jogo) {
+    private void selecionarMetodoPagamento(Cliente cliente, List<Jogo> jogos) {
         String[] opcoes = {"Cartão de Crédito", "Boleto", "Pix"};
         String metodoSelecionado = (String) JOptionPane.showInputDialog(
                 this,
@@ -116,31 +117,54 @@ public class CarrinhoComprasGUI extends JFrame {
                 opcoes[0]);
 
         if (metodoSelecionado != null) {
-            switch (metodoSelecionado) {
-                case "Cartão de Crédito":
-                    processarCompraCartaoCredito(cliente, jogo);
-                    break;
-                case "Boleto":
-                    processarCompraBoleto(cliente, jogo);
-                    break;
-                case "Pix":
-                    processarCompraPix(cliente, jogo);
-                    break;
-                default:
-                    JOptionPane.showMessageDialog(this, "Método de pagamento inválido.");
+            if (metodoSelecionado.equals("Cartão de Crédito")) {
+                new CadastroCartaoGUI(jogos, cliente, jogosAnunciados, visualizarJogosGUI).setVisible(true);
+            } else if (metodoSelecionado.equals("Boleto")) {
+                new PagamentoBoletoGUI(jogos, cliente, jogosAnunciados, visualizarJogosGUI).setVisible(true);
+            } else if (metodoSelecionado.equals("PIX")) {
+                new PagamentoPixGUI(jogos, cliente, jogosAnunciados, visualizarJogosGUI).setVisible(true);
+            } else {
+                processarCompra(cliente, metodoSelecionado, jogos);
             }
         }
     }
 
-    private void processarCompraCartaoCredito(Cliente cliente, Jogo jogo) {
-        new CadastroCartaoGUI(jogo, cliente, jogosAnunciados, visualizarJogosGUI).setVisible(true);
+    private void processarCompra(Cliente cliente, String metodoPagamento, List<Jogo> jogos) {
+        for (Jogo jogo : jogos) {
+            cliente.adicionarJogoAoHistorico(jogo);
+            jogosAnunciados.remove(jogo);
+            registrarVenda(cliente, metodoPagamento, jogo);
+        }
+        salvarJogosAnunciados();
+        visualizarJogosGUI.atualizarJogosAnunciados();
+        carrinhoCompras.limparCarrinho();
+        JOptionPane.showMessageDialog(this, "Compra efetuada com sucesso usando " + metodoPagamento + "!");
+        dispose();
     }
 
-    private void processarCompraBoleto(Cliente cliente, Jogo jogo) {
-        new PagamentoBoletoGUI(jogo, cliente, jogosAnunciados, visualizarJogosGUI).setVisible(true);
+    private void salvarJogosAnunciados() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("jogos_anunciados.txt"))) {
+            for (Jogo jogo : jogosAnunciados) {
+                writer.write(jogo.toTexto());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void processarCompraPix(Cliente cliente, Jogo jogo) {
-        new PagamentoPixGUI(jogo, cliente, jogosAnunciados, visualizarJogosGUI).setVisible(true);
+    private void registrarVenda(Cliente cliente, String metodoPagamento, Jogo jogo) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("historico_vendas.txt", true))) { // Append mode
+            String registro = "Cliente: " + cliente.getNome() +
+                    ", Jogo: " + jogo.getNomeJogo() +
+                    ", Data: " + java.time.LocalDate.now() +
+                    ", Preço: R$" + jogo.getPrecoJogo() +
+                    ", Vendedor: " + jogo.getVendedorNome() +
+                    ", Método de Pagamento: " + metodoPagamento;
+            writer.write(registro);
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -6,14 +6,14 @@ import java.io.*;
 import java.util.List;
 
 public class PagamentoPixGUI extends JFrame {
-    private Jogo jogo;
+    private List<Jogo> jogos;
     private Cliente cliente;
     private List<Jogo> jogosAnunciados;
     private VisualizarJogosGUI visualizarJogosGUI;
     private JTextField chavePixField;
 
-    public PagamentoPixGUI(Jogo jogo, Cliente cliente, List<Jogo> jogosAnunciados, VisualizarJogosGUI visualizarJogosGUI) {
-        this.jogo = jogo;
+    public PagamentoPixGUI(List<Jogo> jogos, Cliente cliente, List<Jogo> jogosAnunciados, VisualizarJogosGUI visualizarJogosGUI) {
+        this.jogos = jogos;
         this.cliente = cliente;
         this.jogosAnunciados = jogosAnunciados;
         this.visualizarJogosGUI = visualizarJogosGUI;
@@ -51,10 +51,13 @@ public class PagamentoPixGUI extends JFrame {
             return;
         }
 
-        cliente.adicionarJogoAoHistorico(jogo);
-        jogosAnunciados.remove(jogo);
+        for (Jogo jogo : jogos) {
+            cliente.adicionarJogoAoHistorico(jogo);
+            jogosAnunciados.remove(jogo);
+            registrarVenda(cliente, "PIX", jogo);
+        }
+
         salvarJogosAnunciados();
-        registrarVenda(cliente, "PIX");
         visualizarJogosGUI.atualizarJogosAnunciados();
         JOptionPane.showMessageDialog(this, "Compra efetuada com sucesso usando PIX!");
         dispose();
@@ -71,7 +74,7 @@ public class PagamentoPixGUI extends JFrame {
         }
     }
 
-    private void registrarVenda(Cliente cliente, String metodoPagamento) {
+    private void registrarVenda(Cliente cliente, String metodoPagamento, Jogo jogo) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("historico_vendas.txt", true))) { // Append mode
             String registro = "Cliente: " + cliente.getNome() +
                     ", Jogo: " + jogo.getNomeJogo() +

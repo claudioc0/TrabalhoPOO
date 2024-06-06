@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class CadastroCartaoGUI extends JFrame {
-    private Jogo jogo;
+    private List<Jogo> jogos;
     private Cliente cliente;
     private List<Jogo> jogosAnunciados;
     private VisualizarJogosGUI visualizarJogosGUI;
@@ -17,8 +17,8 @@ public class CadastroCartaoGUI extends JFrame {
     private JTextField validadeField;
     private JTextField cvvField;
 
-    public CadastroCartaoGUI(Jogo jogo, Cliente cliente, List<Jogo> jogosAnunciados, VisualizarJogosGUI visualizarJogosGUI) {
-        this.jogo = jogo;
+    public CadastroCartaoGUI(List<Jogo> jogos, Cliente cliente, List<Jogo> jogosAnunciados, VisualizarJogosGUI visualizarJogosGUI) {
+        this.jogos = jogos;
         this.cliente = cliente;
         this.jogosAnunciados = jogosAnunciados;
         this.visualizarJogosGUI = visualizarJogosGUI;
@@ -84,28 +84,27 @@ public class CadastroCartaoGUI extends JFrame {
             return;
         }
 
-        // Se a validação do cartão for bem-sucedida
-        cliente.adicionarJogoAoHistorico(jogo);
-        jogosAnunciados.remove(jogo);
+        for (Jogo jogo : jogos) {
+            cliente.adicionarJogoAoHistorico(jogo);
+            jogosAnunciados.remove(jogo);
+            registrarVenda(cliente, "Cartão de Crédito", jogo);
+        }
+
         salvarJogosAnunciados();
-        registrarVenda(cliente, "Cartão de Crédito");
         visualizarJogosGUI.atualizarJogosAnunciados();
         JOptionPane.showMessageDialog(this, "Compra efetuada com sucesso!");
         dispose();
     }
 
     private boolean validarNumeroCartao(String numeroCartao) {
-        // Verifica se o número do cartão contém 16 dígitos numéricos
         return numeroCartao.matches("\\d{16}");
     }
 
     private boolean validarNomeTitular(String nomeTitular) {
-        // Verifica se o nome do titular não está vazio e contém apenas letras e espaços
         return nomeTitular.matches("[A-Za-z ]+");
     }
 
     private boolean validarValidade(String validade) {
-        // Verifica se a validade está no formato MM/AA e é uma data válida no futuro
         if (!validade.matches("(0[1-9]|1[0-2])/\\d{2}")) {
             return false;
         }
@@ -117,7 +116,6 @@ public class CadastroCartaoGUI extends JFrame {
     }
 
     private boolean validarCVV(String cvv) {
-        // Verifica se o CVV contém 3 ou 4 dígitos numéricos
         return cvv.matches("\\d{3,4}");
     }
 
@@ -132,8 +130,8 @@ public class CadastroCartaoGUI extends JFrame {
         }
     }
 
-    private void registrarVenda(Cliente cliente, String metodoPagamento) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("historico_vendas.txt", true))) { // Append mode
+    private void registrarVenda(Cliente cliente, String metodoPagamento, Jogo jogo) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("historico_vendas.txt", true))) {
             String registro = "Cliente: " + cliente.getNome() +
                     ", Jogo: " + jogo.getNomeJogo() +
                     ", Data: " + java.time.LocalDate.now() +
@@ -145,5 +143,19 @@ public class CadastroCartaoGUI extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(cliente.getNome() + "_historico_compras.txt", true))) {
+            String registro = "Jogo: " + jogo.getNomeJogo() +
+                    ", Data: " + java.time.LocalDate.now() +
+                    ", Preço: R$" + jogo.getPrecoJogo() +
+                    ", Método de Pagamento: " + metodoPagamento;
+            writer.write(registro);
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 }

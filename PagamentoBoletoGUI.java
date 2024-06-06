@@ -8,14 +8,14 @@ import java.io.IOException;
 import java.util.List;
 
 public class PagamentoBoletoGUI extends JFrame {
-    private Jogo jogo;
+    private List<Jogo> jogos;
     private Cliente cliente;
     private List<Jogo> jogosAnunciados;
     private VisualizarJogosGUI visualizarJogosGUI;
     private JTextField cpfField;
 
-    public PagamentoBoletoGUI(Jogo jogo, Cliente cliente, List<Jogo> jogosAnunciados, VisualizarJogosGUI visualizarJogosGUI) {
-        this.jogo = jogo;
+    public PagamentoBoletoGUI(List<Jogo> jogos, Cliente cliente, List<Jogo> jogosAnunciados, VisualizarJogosGUI visualizarJogosGUI) {
+        this.jogos = jogos;
         this.cliente = cliente;
         this.jogosAnunciados = jogosAnunciados;
         this.visualizarJogosGUI = visualizarJogosGUI;
@@ -25,7 +25,7 @@ public class PagamentoBoletoGUI extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        JPanel panel = new JPanel(new GridLayout(2, 2, 10, 10));
+        JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setContentPane(panel);
 
@@ -41,6 +41,8 @@ public class PagamentoBoletoGUI extends JFrame {
             }
         });
         panel.add(finalizarCompraButton);
+
+        setVisible(true); // Mostrar a janela após a criação
     }
 
     private void finalizarCompra() {
@@ -51,10 +53,13 @@ public class PagamentoBoletoGUI extends JFrame {
             return;
         }
 
-        cliente.adicionarJogoAoHistorico(jogo);
-        jogosAnunciados.remove(jogo);
+        for (Jogo jogo : jogos) {
+            cliente.adicionarJogoAoHistorico(jogo);
+            jogosAnunciados.remove(jogo);
+            registrarVenda(cliente, "Boleto Bancário", jogo);
+        }
+
         salvarJogosAnunciados();
-        registrarVenda(cliente, "Boleto Bancário");
         visualizarJogosGUI.atualizarJogosAnunciados();
         JOptionPane.showMessageDialog(this, "Compra efetuada com sucesso usando Boleto Bancário!");
         dispose();
@@ -76,14 +81,15 @@ public class PagamentoBoletoGUI extends JFrame {
         }
     }
 
-    private void registrarVenda(Cliente cliente, String metodoPagamento) {
+    private void registrarVenda(Cliente cliente, String metodoPagamento, Jogo jogo) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("historico_vendas.txt", true))) { // Append mode
             String registro = "Cliente: " + cliente.getNome() +
                     ", Jogo: " + jogo.getNomeJogo() +
                     ", Data: " + java.time.LocalDate.now() +
                     ", Preço: R$" + jogo.getPrecoJogo() +
                     ", Vendedor: " + jogo.getVendedorNome() +
-                    ", Método de Pagamento: " + metodoPagamento;
+                    ", Método de Pagamento: " + metodoPagamento +
+                    ", CPF: " + cpfField.getText();
             writer.write(registro);
             writer.newLine();
         } catch (IOException e) {

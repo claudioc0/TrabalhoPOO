@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.List;
+import java.util.Collections;
 
 public class DetalhesJogoGUI extends JFrame {
     private Jogo jogo;
@@ -93,12 +94,13 @@ public class DetalhesJogoGUI extends JFrame {
                 opcoes[0]);
 
         if (metodoSelecionado != null) {
+            List<Jogo> jogos = Collections.singletonList(jogo);
             if (metodoSelecionado.equals("Cartão de Crédito")) {
-                new CadastroCartaoGUI(jogo, cliente, jogosAnunciados, visualizarJogosGUI).setVisible(true);
+                new CadastroCartaoGUI(jogos, cliente, jogosAnunciados, visualizarJogosGUI).setVisible(true);
             } else if (metodoSelecionado.equals("Boleto")) {
-                new PagamentoBoletoGUI(jogo, cliente, jogosAnunciados, visualizarJogosGUI).setVisible(true);
+                new PagamentoBoletoGUI(jogos, cliente, jogosAnunciados, visualizarJogosGUI).setVisible(true);
             } else if (metodoSelecionado.equals("PIX")) {
-                new PagamentoPixGUI(jogo, cliente, jogosAnunciados, visualizarJogosGUI).setVisible(true);
+                new PagamentoPixGUI(jogos, cliente, jogosAnunciados, visualizarJogosGUI).setVisible(true);
             } else {
                 processarCompra(cliente, metodoSelecionado);
             }
