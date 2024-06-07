@@ -2,7 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class VendedorCadastroGUI extends JFrame {
     private JTextField nomeField;
@@ -20,9 +22,12 @@ public class VendedorCadastroGUI extends JFrame {
 
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(new Color(240, 240, 240));
         setContentPane(panel);
 
         JPanel centerPanel = new JPanel(new GridLayout(4, 2, 10, 10));
+        centerPanel.setBackground(new Color(240, 240, 240));
+        panel.add(centerPanel, BorderLayout.CENTER);
 
         centerPanel.add(new JLabel("Nome:"));
         nomeField = new JTextField();
@@ -40,18 +45,22 @@ public class VendedorCadastroGUI extends JFrame {
         cpfField = new JTextField();
         centerPanel.add(cpfField);
 
-        panel.add(centerPanel, BorderLayout.CENTER);
-
         JPanel southPanel = new JPanel();
-        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.Y_AXIS)); // Altera o layout para BoxLayout vertical
-
-        cadastrarButton = new JButton("Cadastrar");
-        southPanel.add(cadastrarButton);
-
-        voltarButton = new JButton("Voltar");
-        southPanel.add(voltarButton);
-
+        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.Y_AXIS));
+        southPanel.setBackground(new Color(240, 240, 240));
         panel.add(southPanel, BorderLayout.SOUTH);
+
+        cadastrarButton = createButton("Cadastrar");
+        voltarButton = createButton("Voltar");
+
+        // Adiciona um espaçador antes do primeiro botão
+        southPanel.add(Box.createVerticalStrut(10));
+        southPanel.add(cadastrarButton);
+        // Adiciona um espaçador entre os botões
+        southPanel.add(Box.createVerticalStrut(10));
+        southPanel.add(voltarButton);
+        // Adiciona um espaçador após o segundo botão
+        southPanel.add(Box.createVerticalStrut(10));
 
         cadastrarButton.addActionListener(new ActionListener() {
             @Override
@@ -66,6 +75,32 @@ public class VendedorCadastroGUI extends JFrame {
                 voltar();
             }
         });
+    }
+
+    private JButton createButton(String text) {
+        JButton button = new JButton(text) {
+            protected void paintComponent(Graphics g) {
+                if (getModel().isArmed()) {
+                    g.setColor(new Color(100, 149, 237));
+                } else {
+                    g.setColor(new Color(70, 130, 180));
+                }
+                g.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+                super.paintComponent(g);
+            }
+
+            public void updateUI() {
+                super.updateUI();
+                setOpaque(false);
+                setContentAreaFilled(false);
+                setFocusPainted(false);
+                setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                setForeground(Color.WHITE);
+            }
+        };
+        button.setFont(new Font("Arial", Font.PLAIN, 16));
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        return button;
     }
 
     private void cadastrarVendedor() {
@@ -91,12 +126,6 @@ public class VendedorCadastroGUI extends JFrame {
             return;
         }
 
-        // Verifica se o vendedor já está cadastrado
-        if (vendedorJaCadastrado(nome, email, cpf)) {
-            JOptionPane.showMessageDialog(this, "Vendedor já cadastrado com o mesmo nome, email ou CPF.");
-            return;
-        }
-
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("vendedores.txt", true))) {
             writer.write("Nome: " + nome + ", Email: " + email + ", Senha: " + senha + ", CPF: " + cpf);
             writer.newLine();
@@ -106,26 +135,9 @@ public class VendedorCadastroGUI extends JFrame {
         }
     }
 
-    private boolean vendedorJaCadastrado(String nome, String email, String cpf) {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("vendedores.txt"));
-            String linha;
-            while ((linha = reader.readLine()) != null) {
-                if (linha.contains("Nome: " + nome) || linha.contains("Email: " + email) || linha.contains("CPF: " + cpf)) {
-                    reader.close();
-                    return true;
-                }
-            }
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
     private void voltar() {
-        dispose(); // Fecha a tela de cadastro
-        new VendedorMainGUI().setVisible(true); // Abre a tela principal do cliente
+        dispose();
+        new VendedorMainGUI().setVisible(true);
     }
 
     public static void main(String[] args) {
