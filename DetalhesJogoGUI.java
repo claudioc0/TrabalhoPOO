@@ -83,7 +83,7 @@ public class DetalhesJogoGUI extends JFrame {
     }
 
     private void selecionarMetodoPagamento(Cliente cliente) {
-        String[] opcoes = {"Cartão de Crédito", "Boleto", "Pix"};
+        String[] opcoes = {"Cartão de Crédito", "Boleto", "PIX"};
         String metodoSelecionado = (String) JOptionPane.showInputDialog(
                 this,
                 "Selecione o método de pagamento:",

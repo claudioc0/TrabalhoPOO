@@ -10,6 +10,7 @@ public class CarrinhoComprasGUI extends JFrame {
     private CarrinhoCompras carrinhoCompras;
     private List<Jogo> jogosAnunciados;
     private VisualizarJogosGUI visualizarJogosGUI;
+    private JButton comprarTodosButton; // Declarando o botão como atributo para poder modificá-lo
 
     public CarrinhoComprasGUI(CarrinhoCompras carrinhoCompras, List<Jogo> jogosAnunciados, VisualizarJogosGUI visualizarJogosGUI) {
         this.carrinhoCompras = carrinhoCompras;
@@ -33,8 +34,9 @@ public class CarrinhoComprasGUI extends JFrame {
         JScrollPane scrollPane = new JScrollPane(centerPanel);
         panel.add(scrollPane, BorderLayout.CENTER);
 
-        JButton comprarTodosButton = new JButton("Comprar Todos");
+        comprarTodosButton = new JButton("Comprar Todos");
         comprarTodosButton.addActionListener(e -> comprarTodosDoCarrinho());
+        comprarTodosButton.setEnabled(!carrinhoCompras.getJogosNoCarrinho().isEmpty()); // Desabilita o botão se o carrinho estiver vazio
         panel.add(comprarTodosButton, BorderLayout.SOUTH);
 
         exibirJogosNoCarrinho(centerPanel);
@@ -42,7 +44,8 @@ public class CarrinhoComprasGUI extends JFrame {
 
     private void exibirJogosNoCarrinho(JPanel centerPanel) {
         List<Jogo> jogos = carrinhoCompras.getJogosNoCarrinho();
-        centerPanel.removeAll();  // Clear existing content
+        centerPanel.removeAll();
+
 
         for (Jogo jogo : jogos) {
             JPanel jogoPanel = new JPanel(new BorderLayout(5, 5));
@@ -106,7 +109,7 @@ public class CarrinhoComprasGUI extends JFrame {
     }
 
     private void selecionarMetodoPagamento(Cliente cliente, List<Jogo> jogos) {
-        String[] opcoes = {"Cartão de Crédito", "Boleto", "Pix"};
+        String[] opcoes = {"Cartão de Crédito", "Boleto", "PIX"};
         String metodoSelecionado = (String) JOptionPane.showInputDialog(
                 this,
                 "Selecione o método de pagamento:",

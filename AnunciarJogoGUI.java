@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -165,6 +166,19 @@ public class AnunciarJogoGUI extends JFrame {
                 (tipoJogo.equals("PC") && requisitosPcField.getText().isEmpty()) ||
                 (tipoJogo.equals("Console") && consoleField.getText().isEmpty())) {
             JOptionPane.showMessageDialog(this, "Todos os campos devem ser preenchidos.");
+            return;
+        }
+
+        int anoAtual = LocalDate.now().getYear();
+        int anoLancamento;
+        try {
+            anoLancamento = Integer.parseInt(dataLancamento.split("-")[0]);
+            if (anoLancamento > anoAtual) {
+                JOptionPane.showMessageDialog(this, "O ano de lançamento não pode ser maior que o ano atual.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Data de lançamento inválida.");
             return;
         }
 

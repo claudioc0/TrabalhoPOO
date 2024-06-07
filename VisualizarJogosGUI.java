@@ -33,9 +33,9 @@ public class VisualizarJogosGUI extends JFrame {
 
         JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-        JButton refreshButton = new JButton("Atualizar");
-        refreshButton.addActionListener(e -> atualizarJogosAnunciados());
-        southPanel.add(refreshButton);
+        JButton voltarButton = new JButton("Voltar");
+        voltarButton.addActionListener(e -> voltarParaHome());
+        southPanel.add(voltarButton);
 
         JButton carrinhoButton = new JButton("Ver Carrinho");
         carrinhoButton.addActionListener(e -> abrirCarrinhoCompras());
@@ -45,6 +45,8 @@ public class VisualizarJogosGUI extends JFrame {
 
         exibirJogosAnunciados();
     }
+
+
 
     private void carregarJogosAnunciadosDoArquivo() {
         File arquivo = new File("jogos_anunciados.txt");
@@ -62,6 +64,8 @@ public class VisualizarJogosGUI extends JFrame {
             JOptionPane.showMessageDialog(this, "Erro ao carregar os jogos anunciados: " + e.getMessage());
         }
     }
+
+
 
     private void exibirJogosAnunciados() {
         centerPanel.removeAll();
@@ -147,4 +151,11 @@ public class VisualizarJogosGUI extends JFrame {
         return this.jogosAnunciados;
     }
 
+    private void voltarParaHome() {
+
+        SwingUtilities.invokeLater(() -> {
+            new HomeClienteGUI().setVisible(true);
+            dispose();
+        });
+}
 }

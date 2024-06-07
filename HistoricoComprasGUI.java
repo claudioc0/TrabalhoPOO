@@ -41,6 +41,16 @@ public class HistoricoComprasGUI extends JFrame {
         JScrollPane scrollPane = new JScrollPane(comprasPanel);
         panel.add(scrollPane, BorderLayout.CENTER);
 
+        JButton voltarButton = new JButton("Voltar");
+        voltarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                voltarParaHomeCliente();
+            }
+        });
+
+        panel.add(voltarButton, BorderLayout.SOUTH);
+
         setContentPane(panel);
     }
 
@@ -131,5 +141,11 @@ public class HistoricoComprasGUI extends JFrame {
         jogoPanel.add(detailsPanel, BorderLayout.CENTER);
 
         return jogoPanel;
+    }
+
+    private void voltarParaHomeCliente() {
+        HomeClienteGUI homeClienteGUI = new HomeClienteGUI();
+        homeClienteGUI.setVisible(true);
+        dispose();
     }
 }

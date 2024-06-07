@@ -7,30 +7,33 @@ import java.io.IOException;
 
 public class VisualizarAvaliacoesGUI extends JFrame {
     private JTextArea avaliacoesTextArea;
+    private Vendedor vendedor;
 
     public VisualizarAvaliacoesGUI(Vendedor vendedor) {
+        this.vendedor = vendedor;
+
         setTitle("Visualizar Avaliações");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Painel principal
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setContentPane(panel);
 
-        // Rótulo de título
         JLabel titleLabel = new JLabel("Avaliações Recebidas", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         panel.add(titleLabel, BorderLayout.NORTH);
 
-        // Área de texto para exibir as avaliações
         avaliacoesTextArea = new JTextArea();
         avaliacoesTextArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(avaliacoesTextArea);
         panel.add(scrollPane, BorderLayout.CENTER);
 
-        // Carregar as avaliações do arquivo
+        JButton voltarButton = new JButton("Voltar");
+        voltarButton.addActionListener(e -> voltarParaMenuPrincipal());
+        panel.add(voltarButton, BorderLayout.SOUTH);
+
         carregarAvaliacoes(vendedor);
     }
 
@@ -52,9 +55,11 @@ public class VisualizarAvaliacoesGUI extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        // Teste da interface
-        Vendedor vendedor = new Vendedor("Vendedor Teste", "vendedor@teste.com", "senha123", "12345678901");
-        SwingUtilities.invokeLater(() -> new VisualizarAvaliacoesGUI(vendedor).setVisible(true));
+    private void voltarParaMenuPrincipal() {
+        HomeVendedorGUI homeVendedorGUI = new HomeVendedorGUI(vendedor);
+        homeVendedorGUI.setVisible(true);
+        dispose();
     }
+
+
 }

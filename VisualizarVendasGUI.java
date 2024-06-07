@@ -15,7 +15,6 @@ public class VisualizarVendasGUI extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Configura o layout do painel principal
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setContentPane(panel);
@@ -29,33 +28,38 @@ public class VisualizarVendasGUI extends JFrame {
         JScrollPane scrollPane = new JScrollPane(vendasTextArea);
         panel.add(scrollPane, BorderLayout.CENTER);
 
+        JButton voltarButton = new JButton("Voltar");
+        voltarButton.addActionListener(e -> voltarParaMenuPrincipal());
+        panel.add(voltarButton, BorderLayout.SOUTH);
+
         carregarHistoricoVendas(vendasTextArea);
     }
 
     private void carregarHistoricoVendas(JTextArea vendasTextArea) {
+        boolean vendasEncontradas = false;
+
         try (BufferedReader reader = new BufferedReader(new FileReader("historico_vendas.txt"))) {
             String linha;
             while ((linha = reader.readLine()) != null) {
                 // Verifica se a linha contém o nome do vendedor logado
                 if (linha.contains("Vendedor: " + vendedor.getNome())) {
                     vendasTextArea.append(linha + "\n");
+                    vendasEncontradas = true;
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Erro ao carregar o histórico de vendas.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
+
+        if (!vendasEncontradas) {
+            vendasTextArea.setText("Nenhuma venda encontrada para este vendedor.");
+        }
     }
 
-    public static void main(String[] args) {
-        // Crie uma instância de Vendedor para teste
-        Vendedor vendedor = new Vendedor("Vendedor Teste", "vendedor@teste.com", "senha123", "12345678901");
-
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new VisualizarVendasGUI(vendedor).setVisible(true);
-            }
-        });
+    private void voltarParaMenuPrincipal() {
+        HomeVendedorGUI homeVendedorGUI = new HomeVendedorGUI(vendedor);
+        homeVendedorGUI.setVisible(true);
+        dispose();
     }
 }
