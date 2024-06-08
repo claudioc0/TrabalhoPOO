@@ -15,12 +15,13 @@ public class VisualizarJogosGUI extends JFrame {
         carregarJogosAnunciadosDoArquivo();
 
         setTitle("Jogos Anunciados");
-        setSize(600, 400);
+        setSize(700, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(Color.WHITE);
         setContentPane(panel);
 
         JLabel titleLabel = new JLabel("Jogos Anunciados", JLabel.CENTER);
@@ -28,16 +29,22 @@ public class VisualizarJogosGUI extends JFrame {
         panel.add(titleLabel, BorderLayout.NORTH);
 
         centerPanel = new JPanel(new GridLayout(0, 1, 10, 10));
+        centerPanel.setBackground(Color.WHITE);
         JScrollPane scrollPane = new JScrollPane(centerPanel);
         panel.add(scrollPane, BorderLayout.CENTER);
 
         JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        southPanel.setBackground(Color.WHITE);
 
         JButton voltarButton = new JButton("Voltar");
+        voltarButton.setBackground(new Color(25, 120, 165));
+        voltarButton.setForeground(Color.WHITE);
         voltarButton.addActionListener(e -> voltarParaHome());
         southPanel.add(voltarButton);
 
         JButton carrinhoButton = new JButton("Ver Carrinho");
+        carrinhoButton.setBackground(new Color(25, 120, 165));
+        carrinhoButton.setForeground(Color.WHITE);
         carrinhoButton.addActionListener(e -> abrirCarrinhoCompras());
         southPanel.add(carrinhoButton);
 
@@ -45,7 +52,6 @@ public class VisualizarJogosGUI extends JFrame {
 
         exibirJogosAnunciados();
     }
-
 
 
     private void carregarJogosAnunciadosDoArquivo() {
@@ -72,6 +78,7 @@ public class VisualizarJogosGUI extends JFrame {
 
         for (Jogo jogo : jogosAnunciados) {
             JPanel jogoPanel = new JPanel(new BorderLayout(5, 5));
+            jogoPanel.setBackground(Color.WHITE);
             jogoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
             JLabel nomeLabel = new JLabel("Nome: " + jogo.getNomeJogo());
@@ -79,6 +86,7 @@ public class VisualizarJogosGUI extends JFrame {
             JLabel precoLabel = new JLabel("Preço: R$" + jogo.getPrecoJogo());
 
             JPanel labelsPanel = new JPanel(new GridLayout(3, 1));
+            labelsPanel.setBackground(Color.WHITE);
             labelsPanel.add(nomeLabel);
             labelsPanel.add(generoLabel);
             labelsPanel.add(precoLabel);
@@ -102,6 +110,8 @@ public class VisualizarJogosGUI extends JFrame {
             }
 
             JButton comprarButton = new JButton("Comprar");
+            comprarButton.setBackground(new Color(25, 120, 165));
+            comprarButton.setForeground(Color.WHITE);
             comprarButton.addActionListener(e -> abrirTelaDetalhesJogo(jogo));
             jogoPanel.add(comprarButton, BorderLayout.EAST);
 
@@ -111,6 +121,7 @@ public class VisualizarJogosGUI extends JFrame {
         revalidate();
         repaint();
     }
+
 
     private void abrirTelaDetalhesJogo(Jogo jogo) {
         SwingUtilities.invokeLater(() -> new DetalhesJogoGUI(jogo, jogosAnunciados, this, carrinhoCompras).setVisible(true));
@@ -127,8 +138,8 @@ public class VisualizarJogosGUI extends JFrame {
 
     public void removerJogoAnunciado(Jogo jogo) {
         jogosAnunciados.remove(jogo);
-        atualizarArquivoJogosAnunciados(); // Atualiza o arquivo após a remoção do jogo
-        exibirJogosAnunciados(); // Atualiza a exibição após a remoção do jogo
+        atualizarArquivoJogosAnunciados();
+        exibirJogosAnunciados();
     }
 
     private void atualizarArquivoJogosAnunciados() {
@@ -152,7 +163,6 @@ public class VisualizarJogosGUI extends JFrame {
     }
 
     private void voltarParaHome() {
-
         SwingUtilities.invokeLater(() -> {
             new HomeClienteGUI().setVisible(true);
             dispose();

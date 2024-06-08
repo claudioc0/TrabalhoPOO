@@ -12,10 +12,18 @@ public class SelecaoUsuarioGUI extends JFrame {
 
         JPanel panel = new JPanel(new GridLayout(2, 1, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(Color.WHITE);
         setContentPane(panel);
 
         JButton clienteButton = new JButton("Cliente");
         JButton vendedorButton = new JButton("Vendedor");
+
+        // Definindo a cor dos botões
+        Color lightBlue = new Color(25, 120, 165);
+        clienteButton.setBackground(lightBlue);
+        clienteButton.setForeground(Color.WHITE);
+        vendedorButton.setBackground(lightBlue);
+        vendedorButton.setForeground(Color.WHITE);
 
         panel.add(clienteButton);
         panel.add(vendedorButton);

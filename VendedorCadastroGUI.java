@@ -20,9 +20,11 @@ public class VendedorCadastroGUI extends JFrame {
 
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(Color.WHITE);
         setContentPane(panel);
 
         JPanel centerPanel = new JPanel(new GridLayout(4, 2, 10, 10));
+        centerPanel.setBackground(Color.WHITE);
 
         centerPanel.add(new JLabel("Nome:"));
         nomeField = new JTextField();
@@ -42,13 +44,18 @@ public class VendedorCadastroGUI extends JFrame {
 
         panel.add(centerPanel, BorderLayout.CENTER);
 
-        JPanel southPanel = new JPanel();
-        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.Y_AXIS)); // Altera o layout para BoxLayout vertical
+        JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        southPanel.setBackground(Color.WHITE);
 
         cadastrarButton = new JButton("Cadastrar");
+        cadastrarButton.setBackground(new Color(25, 120, 165));
+        cadastrarButton.setForeground(Color.WHITE);
         southPanel.add(cadastrarButton);
 
         voltarButton = new JButton("Voltar");
+        voltarButton.setPreferredSize(new Dimension(100, 25));
+        voltarButton.setBackground(new Color(25, 120, 165));
+        voltarButton.setForeground(Color.WHITE);
         southPanel.add(voltarButton);
 
         panel.add(southPanel, BorderLayout.SOUTH);
@@ -124,8 +131,8 @@ public class VendedorCadastroGUI extends JFrame {
     }
 
     private void voltar() {
-        dispose(); // Fecha a tela de cadastro
-        new VendedorMainGUI().setVisible(true); // Abre a tela principal do cliente
+        dispose();
+        new VendedorMainGUI().setVisible(true);
     }
 
     public static void main(String[] args) {

@@ -53,35 +53,35 @@ public class Cartao extends MetodoPagamento {
 
     // Validando a data de vencimento
     private boolean validaDataVencimento(String dataVencimento) {
-        // Verifica se a data está no formato correto MM/AAAA
+
         if (!dataVencimento.matches("\\d{2}/\\d{4}"))
             return false;
 
-        // Tenta criar um objeto LocalDate com a data fornecida
+
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yyyy");
             LocalDate data = LocalDate.parse(dataVencimento, formatter);
 
-            // Verifica se a data é futura
+
             if (data.isBefore(LocalDate.now()))
-                return false; // A data está no passado, o cartão expirou
+                return false;
 
             return true;
         } catch (Exception e) {
-            return false; // Se ocorrer alguma exceção ao tentar criar o LocalDate, a data é inválida
+            return false;
         }
     }
 
     // Validando o número do cartão
     private boolean validaNumeroCartao(int numeroCartao) {
         String cartaoString = Integer.toString(numeroCartao);
-        return cartaoString.length() == 16; // Verifica se o número do cartão tem 16 dígitos
+        return cartaoString.length() == 16;
     }
 
     // Validando a senha
     private boolean validaSenha(int senha) {
         String senhaString = Integer.toString(senha);
-        return senhaString.length() == 4; // Verifica se a senha tem 4 dígitos
+        return senhaString.length() == 4;
     }
 
     //MÉTODOS

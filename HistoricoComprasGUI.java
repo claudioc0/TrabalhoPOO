@@ -3,13 +3,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.util.*;
 import java.util.List;
 
 public class HistoricoComprasGUI extends JFrame {
     public HistoricoComprasGUI() {
         setTitle("Histórico de Compras");
-        setSize(600, 400);
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -24,14 +23,20 @@ public class HistoricoComprasGUI extends JFrame {
         List<Jogo> historicoCompras = clienteLogado.getHistoricoCompras();
 
         JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(Color.WHITE);
+
         JLabel titleLabel = new JLabel("Histórico de Compras", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         panel.add(titleLabel, BorderLayout.NORTH);
 
         JPanel comprasPanel = new JPanel();
         comprasPanel.setLayout(new BoxLayout(comprasPanel, BoxLayout.Y_AXIS));
+        comprasPanel.setBackground(Color.WHITE);
 
         if (historicoCompras.isEmpty()) {
-            comprasPanel.add(new JLabel("Nenhuma compra realizada."));
+            JLabel noComprasLabel = new JLabel("Nenhuma compra realizada.");
+            noComprasLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+            comprasPanel.add(noComprasLabel);
         } else {
             for (Jogo jogo : historicoCompras) {
                 comprasPanel.add(criarPainelJogo(jogo));
@@ -48,8 +53,14 @@ public class HistoricoComprasGUI extends JFrame {
                 voltarParaHomeCliente();
             }
         });
+        voltarButton.setBackground(new Color(25, 120, 165));
+        voltarButton.setForeground(Color.WHITE);
+        voltarButton.setFont(new Font("Arial", Font.BOLD, 16));
 
-        panel.add(voltarButton, BorderLayout.SOUTH);
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.add(voltarButton);
+        panel.add(buttonPanel, BorderLayout.SOUTH);
 
         setContentPane(panel);
     }
@@ -76,12 +87,14 @@ public class HistoricoComprasGUI extends JFrame {
     private JPanel criarPainelJogo(Jogo jogo) {
         JPanel jogoPanel = new JPanel(new BorderLayout(10, 10));
         jogoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jogoPanel.setBackground(Color.WHITE);
 
         JLabel titleLabel = new JLabel(jogo.getNomeJogo(), JLabel.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
         jogoPanel.add(titleLabel, BorderLayout.NORTH);
 
         JPanel detailsPanel = new JPanel(new GridLayout(0, 1, 10, 10));
+        detailsPanel.setBackground(Color.WHITE);
         detailsPanel.add(new JLabel("Vendedor: " + jogo.getVendedorNome()));
         detailsPanel.add(new JLabel("Descrição: " + jogo.getDescricao()));
         detailsPanel.add(new JLabel("Gênero: " + jogo.getGeneroJogo()));
@@ -103,15 +116,19 @@ public class HistoricoComprasGUI extends JFrame {
         }
 
         JPanel avaliacaoPanel = new JPanel();
+        avaliacaoPanel.setBackground(Color.WHITE);
         ButtonGroup grupoEstrelas = new ButtonGroup();
         for (int i = 1; i <= 5; i++) {
             JRadioButton radioButton = new JRadioButton(i + " estrela" + (i == 1 ? "" : "s"));
             radioButton.setActionCommand(String.valueOf(i));
             grupoEstrelas.add(radioButton);
+            radioButton.setBackground(Color.WHITE);
             avaliacaoPanel.add(radioButton);
         }
 
         JButton avaliarButton = new JButton("Avaliar Vendedor");
+        avaliarButton.setBackground(new Color(25, 120, 165));
+        avaliarButton.setForeground(Color.WHITE);
         avaliarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

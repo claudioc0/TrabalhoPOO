@@ -2,7 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 public class PagamentoPixGUI extends JFrame {
@@ -25,6 +27,7 @@ public class PagamentoPixGUI extends JFrame {
 
         JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(Color.WHITE);
         setContentPane(panel);
 
         panel.add(new JLabel("Chave PIX:"));
@@ -38,9 +41,11 @@ public class PagamentoPixGUI extends JFrame {
                 finalizarCompra();
             }
         });
+        finalizarCompraButton.setBackground(new Color(25, 120, 165)); // Defina a cor de fundo do botão
+        finalizarCompraButton.setForeground(Color.WHITE); // Defina a cor do texto do botão
         panel.add(finalizarCompraButton);
 
-        setVisible(true); // Mostrar a janela após a criação
+        setVisible(true);
     }
 
     private void finalizarCompra() {

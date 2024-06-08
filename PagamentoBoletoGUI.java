@@ -27,6 +27,7 @@ public class PagamentoBoletoGUI extends JFrame {
 
         JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(Color.WHITE);
         setContentPane(panel);
 
         panel.add(new JLabel("CPF:"));
@@ -40,9 +41,11 @@ public class PagamentoBoletoGUI extends JFrame {
                 finalizarCompra();
             }
         });
+        finalizarCompraButton.setBackground(new Color(25, 120, 165));
+        finalizarCompraButton.setForeground(Color.WHITE);
         panel.add(finalizarCompraButton);
 
-        setVisible(true); // Mostrar a janela após a criação
+        setVisible(true);
     }
 
     private void finalizarCompra() {

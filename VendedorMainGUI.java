@@ -14,48 +14,55 @@ public class VendedorMainGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Configura o layout do painel principal
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(Color.WHITE);
         setContentPane(panel);
 
         JLabel welcomeLabel = new JLabel("Escolha uma opção:", JLabel.CENTER);
         panel.add(welcomeLabel, BorderLayout.NORTH);
 
-        // Painel central para os botões
-        JPanel centerPanel = new JPanel(new GridLayout(2, 1, 10, 10));
 
-        // Botão de Login
+        JPanel centerPanel = new JPanel(new GridLayout(2, 1, 10, 10));
+        centerPanel.setBackground(Color.WHITE);
+
         loginButton = new JButton("Login");
+        loginButton.setBackground(new Color(25, 120, 165));
+        loginButton.setForeground(Color.WHITE);
         centerPanel.add(loginButton);
 
-        // Botão de Cadastro
+
         cadastroButton = new JButton("Cadastro");
+        cadastroButton.setBackground(new Color(25, 120, 165));
+        cadastroButton.setForeground(Color.WHITE);
         centerPanel.add(cadastroButton);
 
-        // Adiciona o painel central
+
         panel.add(centerPanel, BorderLayout.CENTER);
 
-        JPanel southPanel = new JPanel();
+        JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        southPanel.setBackground(Color.WHITE);
         voltarButton = new JButton("Voltar");
+        voltarButton.setPreferredSize(new Dimension(100, 25));
+        voltarButton.setBackground(new Color(25, 120, 165));
+        voltarButton.setForeground(Color.WHITE);
         southPanel.add(voltarButton);
+
         panel.add(southPanel, BorderLayout.SOUTH);
 
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Abrir a tela de login
                 new VendedorLoginGUI().setVisible(true);
-                dispose(); // Fecha a tela atual
+                dispose();
             }
         });
 
         cadastroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Abrir a tela de cadastro
                 new VendedorCadastroGUI().setVisible(true);
-                dispose(); // Fecha a tela atual
+                dispose();
             }
         });
 
@@ -63,7 +70,7 @@ public class VendedorMainGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new SelecaoUsuarioGUI().setVisible(true);
-                dispose(); // Fecha a tela atual
+                dispose();
             }
         });
     }

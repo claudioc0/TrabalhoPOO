@@ -1,15 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 
 public class PerfilClienteGUI extends JFrame {
     private JTextArea infoTextArea;
-    private Cliente clienteLogado; // Variável para armazenar o cliente logado
+    private Cliente clienteLogado;
 
-    public PerfilClienteGUI(Cliente cliente) { // Passa o cliente logado como parâmetro
-        clienteLogado = cliente; // Armazena o cliente logado
+    public PerfilClienteGUI(Cliente cliente) {
+        clienteLogado = cliente;
         setTitle("Perfil do Cliente");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,26 +22,28 @@ public class PerfilClienteGUI extends JFrame {
         panel.add(scrollPane, BorderLayout.CENTER);
 
         JButton voltarButton = new JButton("Voltar");
-        voltarButton.addActionListener(e -> {
-            new HomeClienteGUI().setVisible(true);
-            dispose();
-        });
+        voltarButton.addActionListener(e -> voltarParaHome());
+        voltarButton.setBackground(new Color(25, 120, 165)); // Definindo cor de fundo
+        voltarButton.setForeground(Color.WHITE); // Definindo cor de texto
         panel.add(voltarButton, BorderLayout.SOUTH);
 
         carregarInformacoesCliente();
     }
 
     private void carregarInformacoesCliente() {
-        // Carregar as informações apenas do cliente logado
         String infoCliente = "Nome: " + clienteLogado.getNome() + "\n" +
                 "Email: " + clienteLogado.getEmail() + "\n" +
-                "CPF: " + clienteLogado.getCPF(); // Adicione outros campos conforme necessário
+                "CPF: " + clienteLogado.getCPF();
 
         infoTextArea.setText(infoCliente);
     }
 
+    private void voltarParaHome() {
+        new HomeClienteGUI().setVisible(true);
+        dispose();
+    }
+
     public static void main(String[] args) {
-        // Exemplo de uso
         Cliente clienteLogado = new Cliente("Nome do Cliente", "cliente@example.com", "senha", "12345678901");
         SwingUtilities.invokeLater(() -> new PerfilClienteGUI(clienteLogado).setVisible(true));
     }

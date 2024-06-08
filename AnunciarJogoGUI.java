@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnunciarJogoGUI extends JFrame {
-    private List<Jogo> jogosAnunciados; // Lista de jogos anunciados
-    private File arquivoJogosAnunciados; // Arquivo para armazenar os jogos anunciados
+    private List<Jogo> jogosAnunciados;
+    private File arquivoJogosAnunciados;
 
     private JTextField nomeField;
     private JTextField descricaoField;
@@ -38,10 +38,12 @@ public class AnunciarJogoGUI extends JFrame {
         jogosAnunciados = carregarJogosAnunciados();
 
         JPanel panel = new JPanel(new BorderLayout(10, 10));
+        panel.setBackground(Color.WHITE);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setContentPane(panel);
 
         JPanel centerPanel = new JPanel(new GridLayout(9, 2, 10, 10));
+        centerPanel.setBackground(Color.WHITE);
 
         centerPanel.add(new JLabel("Tipo de Jogo:"));
         tipoJogoComboBox = new JComboBox<>(new String[]{"PC", "Console"});
@@ -77,23 +79,34 @@ public class AnunciarJogoGUI extends JFrame {
 
         centerPanel.add(new JLabel("Imagem:"));
         JPanel imagemPanel = new JPanel(new BorderLayout());
+        imagemPanel.setBackground(Color.WHITE);
         imagemLabel = new JLabel();
         imagemLabel.setHorizontalAlignment(JLabel.CENTER);
         imagemLabel.setVerticalAlignment(JLabel.CENTER);
         imagemLabel.setPreferredSize(new Dimension(150, 150));
         imagemPanel.add(imagemLabel, BorderLayout.CENTER);
         escolherImagemButton = new JButton("Escolher Imagem");
+
+        escolherImagemButton.setForeground(Color.WHITE);
+        escolherImagemButton.setBackground(new Color(25, 120, 165));
         imagemPanel.add(escolherImagemButton, BorderLayout.SOUTH);
         centerPanel.add(imagemPanel);
+
 
         panel.add(centerPanel, BorderLayout.CENTER);
 
         JPanel southPanel = new JPanel();
         anunciarButton = new JButton("Anunciar");
+        anunciarButton.setBackground(new Color(25, 120, 165));
+        anunciarButton.setForeground(Color.WHITE);
         southPanel.add(anunciarButton);
 
         voltarButton = new JButton("Voltar");
+        voltarButton.setBackground(new Color(25, 120, 165));
+        voltarButton.setForeground(Color.WHITE);
         southPanel.add(voltarButton);
+
+        southPanel.setBackground(Color.WHITE);
 
         panel.add(southPanel, BorderLayout.SOUTH);
 
@@ -127,6 +140,7 @@ public class AnunciarJogoGUI extends JFrame {
 
         updateFieldsVisibility();
     }
+
 
     private void updateFieldsVisibility() {
         boolean isPc = tipoJogoComboBox.getSelectedItem().equals("PC");

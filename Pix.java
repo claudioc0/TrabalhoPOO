@@ -22,8 +22,7 @@ public class Pix extends MetodoPagamento{
         System.out.println("Banco: " + banco);
         System.out.println("Nome do Titular: " + nomeTitular);
         System.out.println("Processando pagamento via Pix...");
-        // Aqui você pode adicionar mais lógica para simular o processamento do pagamento,
-        // como integração com APIs de pagamento via Pix, atualização de status, etc.
+
         System.out.println("Pagamento via Pix realizado com sucesso!");
     }
 }

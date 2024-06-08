@@ -19,8 +19,8 @@ public class Vendedor extends Pessoa {
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(","); // Supondo que cada linha do arquivo tenha os dados do vendedor separados por vírgula
-                if (parts.length == 4) { // Supondo que cada linha tenha nome, email, senha e CPF do vendedor
+                String[] parts = line.split(",");
+                if (parts.length == 4) {
                     String nome = parts[0].trim();
                     String email = parts[1].trim();
                     String senha = parts[2].trim();
@@ -41,7 +41,7 @@ public class Vendedor extends Pessoa {
         System.out.println("Jogo anunciado com sucesso!");
     }
 
-    // Método para adicionar jogo ao histórico de vendas
+
     public void adicionarJogoAoHistoricoVendas(Jogo jogo) {
         historicoVendas.add(jogo);
     }

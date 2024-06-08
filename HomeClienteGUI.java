@@ -17,39 +17,36 @@ public class HomeClienteGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Configura o layout do painel principal
+
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(Color.WHITE);
         setContentPane(panel);
 
         JLabel welcomeLabel = new JLabel("Bem-vindo, Cliente!", JLabel.CENTER);
         panel.add(welcomeLabel, BorderLayout.NORTH);
 
-        // Painel central para os botões
-        JPanel centerPanel = new JPanel(new GridLayout(3, 1, 10, 10));
 
-        // Botão para visualizar jogos anunciados
+        JPanel centerPanel = new JPanel(new GridLayout(3, 1, 10, 10));
+        centerPanel.setBackground(Color.WHITE);
+
         visualizarJogosButton = new JButton("Visualizar Jogos Anunciados");
-        visualizarJogosButton.setBackground(new Color(70, 130, 180));
-        visualizarJogosButton.setForeground(Color.WHITE);
+        visualizarJogosButton.setBackground(new Color(25, 120, 165)); // Azul
+        visualizarJogosButton.setForeground(Color.WHITE); // Texto branco
         centerPanel.add(visualizarJogosButton);
 
-        // Botão para visualizar perfil
         visualizarPerfilButton = new JButton("Visualizar Perfil");
-        visualizarPerfilButton.setBackground(new Color(70, 130, 180));
-        visualizarPerfilButton.setForeground(Color.WHITE);
+        visualizarPerfilButton.setBackground(new Color(25, 120, 165)); // Azul
+        visualizarPerfilButton.setForeground(Color.WHITE); // Texto branco
         centerPanel.add(visualizarPerfilButton);
 
-        // Botão para visualizar histórico de compras
         historicoComprasButton = new JButton("Visualizar Histórico de Compras");
-        historicoComprasButton.setBackground(new Color(70, 130, 180));
-        historicoComprasButton.setForeground(Color.WHITE);
+        historicoComprasButton.setBackground(new Color(25, 120, 165)); // Azul
+        historicoComprasButton.setForeground(Color.WHITE); // Texto branco
         centerPanel.add(historicoComprasButton);
 
-        // Adiciona o painel central
         panel.add(centerPanel, BorderLayout.CENTER);
 
-        // Adiciona ações aos botões
         visualizarJogosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -65,11 +62,8 @@ public class HomeClienteGUI extends JFrame {
                 if (clienteLogado != null) {
                     new PerfilClienteGUI(clienteLogado).setVisible(true);
                 } else {
-                    // Se nenhum cliente estiver logado, talvez você queira redirecionar para a tela de login
                     JOptionPane.showMessageDialog(HomeClienteGUI.this, "Nenhum cliente logado.");
-                    // Redirecionar para a tela de login, por exemplo:
                     new ClienteLoginGUI().setVisible(true);
-                    // Fechar a tela atual
                     dispose();
                 }
             }
@@ -83,7 +77,6 @@ public class HomeClienteGUI extends JFrame {
                     new HistoricoComprasGUI().setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(HomeClienteGUI.this, "Nenhum cliente logado.");
-                    // Redirecionar para a tela de login, por exemplo:
                     new ClienteLoginGUI().setVisible(true);
                     dispose();
                 }

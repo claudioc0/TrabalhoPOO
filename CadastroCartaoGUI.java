@@ -30,6 +30,7 @@ public class CadastroCartaoGUI extends JFrame {
 
         JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(Color.WHITE);
         setContentPane(panel);
 
         panel.add(new JLabel("Número do Cartão:"));
@@ -55,6 +56,10 @@ public class CadastroCartaoGUI extends JFrame {
                 finalizarCompra();
             }
         });
+        finalizarCompraButton.setBackground(new Color(25, 120, 165));
+        finalizarCompraButton.setForeground(Color.WHITE);;
+
+
         panel.add(finalizarCompraButton);
     }
 

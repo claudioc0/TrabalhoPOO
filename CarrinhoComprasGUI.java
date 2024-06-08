@@ -10,7 +10,7 @@ public class CarrinhoComprasGUI extends JFrame {
     private CarrinhoCompras carrinhoCompras;
     private List<Jogo> jogosAnunciados;
     private VisualizarJogosGUI visualizarJogosGUI;
-    private JButton comprarTodosButton; // Declarando o botão como atributo para poder modificá-lo
+    private JButton comprarTodosButton;
 
     public CarrinhoComprasGUI(CarrinhoCompras carrinhoCompras, List<Jogo> jogosAnunciados, VisualizarJogosGUI visualizarJogosGUI) {
         this.carrinhoCompras = carrinhoCompras;
@@ -18,12 +18,13 @@ public class CarrinhoComprasGUI extends JFrame {
         this.visualizarJogosGUI = visualizarJogosGUI;
 
         setTitle("Carrinho de Compras");
-        setSize(400, 300);
+        setSize(600, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(Color.WHITE);
         setContentPane(panel);
 
         JLabel titleLabel = new JLabel("Jogos no Carrinho", JLabel.CENTER);
@@ -36,7 +37,9 @@ public class CarrinhoComprasGUI extends JFrame {
 
         comprarTodosButton = new JButton("Comprar Todos");
         comprarTodosButton.addActionListener(e -> comprarTodosDoCarrinho());
-        comprarTodosButton.setEnabled(!carrinhoCompras.getJogosNoCarrinho().isEmpty()); // Desabilita o botão se o carrinho estiver vazio
+        comprarTodosButton.setEnabled(!carrinhoCompras.getJogosNoCarrinho().isEmpty());
+        comprarTodosButton.setBackground(new Color(25, 120, 165));
+        comprarTodosButton.setForeground(Color.WHITE);
         panel.add(comprarTodosButton, BorderLayout.SOUTH);
 
         exibirJogosNoCarrinho(centerPanel);
@@ -46,25 +49,31 @@ public class CarrinhoComprasGUI extends JFrame {
         List<Jogo> jogos = carrinhoCompras.getJogosNoCarrinho();
         centerPanel.removeAll();
 
-
         for (Jogo jogo : jogos) {
             JPanel jogoPanel = new JPanel(new BorderLayout(5, 5));
             jogoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            jogoPanel.setBackground(Color.WHITE);
 
             JLabel nomeLabel = new JLabel("Nome: " + jogo.getNomeJogo());
             JLabel generoLabel = new JLabel("Gênero: " + jogo.getGeneroJogo());
             JLabel precoLabel = new JLabel("Preço: R$" + jogo.getPrecoJogo());
+            nomeLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+            generoLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+            precoLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 
             JPanel labelsPanel = new JPanel(new GridLayout(3, 1));
+            labelsPanel.setBackground(Color.WHITE);
             labelsPanel.add(nomeLabel);
             labelsPanel.add(generoLabel);
             labelsPanel.add(precoLabel);
 
             if (jogo instanceof JogoPC) {
                 JLabel requisitosPcLabel = new JLabel("Requisitos PC: " + ((JogoPC) jogo).getRequisitosPc());
+                requisitosPcLabel.setFont(new Font("Arial", Font.PLAIN, 14));
                 labelsPanel.add(requisitosPcLabel);
             } else if (jogo instanceof JogoConsole) {
                 JLabel consoleLabel = new JLabel("Console: " + ((JogoConsole) jogo).getConsole());
+                consoleLabel.setFont(new Font("Arial", Font.PLAIN, 14));
                 labelsPanel.add(consoleLabel);
             }
 
@@ -80,6 +89,8 @@ public class CarrinhoComprasGUI extends JFrame {
 
             JButton removerButton = new JButton("Remover");
             removerButton.addActionListener(e -> removerJogoDoCarrinho(jogo));
+            removerButton.setBackground(new Color(25, 120, 165));
+            removerButton.setForeground(Color.WHITE);
             jogoPanel.add(removerButton, BorderLayout.EAST);
 
             centerPanel.add(jogoPanel);

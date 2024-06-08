@@ -18,59 +18,50 @@ public class CadastroClienteGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Configura o layout do painel principal
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(Color.WHITE);
         setContentPane(panel);
 
-        Font font = new Font("Arial", Font.PLAIN, 16);
 
-        // Painel central para os campos de entrada
-        JPanel fieldsPanel = new JPanel();
-        fieldsPanel.setLayout(new GridLayout(4, 2, 10, 10));
+        JPanel centerPanel = new JPanel(new GridLayout(4, 2, 10, 10));
+        centerPanel.setBackground(Color.WHITE);
 
-        // Adiciona campos
-        fieldsPanel.add(new JLabel("Nome:"));
+        centerPanel.add(new JLabel("Nome:"));
         nomeField = new JTextField();
-        nomeField.setFont(font);
-        fieldsPanel.add(nomeField);
+        centerPanel.add(nomeField);
 
-        fieldsPanel.add(new JLabel("Email:"));
+        centerPanel.add(new JLabel("Email:"));
         emailField = new JTextField();
-        emailField.setFont(font);
-        fieldsPanel.add(emailField);
+        centerPanel.add(emailField);
 
-        fieldsPanel.add(new JLabel("Senha:"));
+        centerPanel.add(new JLabel("Senha:"));
         senhaField = new JPasswordField();
-        senhaField.setFont(font);
-        fieldsPanel.add(senhaField);
+        centerPanel.add(senhaField);
 
-        fieldsPanel.add(new JLabel("CPF:"));
+        centerPanel.add(new JLabel("CPF:"));
         cpfField = new JTextField();
-        cpfField.setFont(font);
-        fieldsPanel.add(cpfField);
+        centerPanel.add(cpfField);
 
-        panel.add(fieldsPanel);
-        panel.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        JPanel buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        panel.add(centerPanel, BorderLayout.CENTER);
 
-        // Adiciona botões ao buttonsPanel
+        JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        southPanel.setBackground(Color.WHITE);
+
         cadastrarButton = new JButton("Cadastrar");
-        cadastrarButton.setFont(font);
-        cadastrarButton.setBackground(new Color(70, 130, 180));
+        cadastrarButton.setBackground(new Color(25, 120, 165)); // Azul
         cadastrarButton.setForeground(Color.WHITE);
-        buttonsPanel.add(cadastrarButton);
+        southPanel.add(cadastrarButton);
 
         voltarButton = new JButton("Voltar");
-        voltarButton.setFont(font);
-        voltarButton.setBackground(new Color(70, 130, 180));
+        voltarButton.setPreferredSize(new Dimension(100, 25)); // Define um tamanho menor para o botão de voltar
+        voltarButton.setBackground(new Color(25, 120, 165)); // Azul
         voltarButton.setForeground(Color.WHITE);
-        buttonsPanel.add(voltarButton);
+        southPanel.add(voltarButton);
 
-        panel.add(buttonsPanel);
+        panel.add(southPanel, BorderLayout.SOUTH);
 
         cadastrarButton.addActionListener(new ActionListener() {
             @Override
@@ -82,10 +73,8 @@ public class CadastroClienteGUI extends JFrame {
         voltarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Voltar para a tela anterior
-                // Por exemplo, para a tela de escolha entre cliente e vendedor
                 new ClienteMainGUI().setVisible(true);
-                dispose(); // Fecha a tela atual
+                dispose();
             }
         });
     }
@@ -123,7 +112,6 @@ public class CadastroClienteGUI extends JFrame {
         }
 
         try {
-            // Salvar o cliente no arquivo de texto
             BufferedWriter writer = new BufferedWriter(new FileWriter("clientes.txt", true));
             writer.write("Nome: " + nome + ", Email: " + email + ", Senha: " + senha + ", CPF: " + cpf);
             writer.newLine();

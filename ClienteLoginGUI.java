@@ -14,32 +14,20 @@ public class ClienteLoginGUI extends JFrame {
 
     public ClienteLoginGUI() {
         setTitle("Login Cliente");
-        setSize(400, 300);
+        setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Configura o layout do painel principal
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(Color.WHITE);
         setContentPane(panel);
 
-        Font font = new Font("Arial", Font.PLAIN, 16);
 
-        // Título
-        JLabel titleLabel = new JLabel("Login Cliente", JLabel.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(Box.createVerticalStrut(20));
-        panel.add(titleLabel);
-        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        JPanel centerPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        centerPanel.setBackground(Color.WHITE);
 
-        // Painel central para os campos de entrada
-        JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new GridLayout(2, 2, 10, 10));
-        //centerPanel.setBorder(BorderFactory.createEmptyBorder(0,50, 0, 50));
 
-        // Adiciona campos ao painel central
         centerPanel.add(new JLabel("Email:"));
         emailField = new JTextField();
         centerPanel.add(emailField);
@@ -48,27 +36,25 @@ public class ClienteLoginGUI extends JFrame {
         senhaField = new JPasswordField();
         centerPanel.add(senhaField);
 
-        // Adicionar o painel central
-        panel.add(centerPanel);
-        panel.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // Botões
-        JPanel buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        panel.add(centerPanel, BorderLayout.CENTER);
+
+
+        JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        southPanel.setBackground(Color.WHITE);
 
         loginButton = new JButton("Login");
-        loginButton.setFont(font);
-        loginButton.setBackground(new Color(70, 130, 180));
+        loginButton.setBackground(new Color(25, 120, 165));
         loginButton.setForeground(Color.WHITE);
-        buttonsPanel.add(loginButton);
+        southPanel.add(loginButton);
 
         voltarButton = new JButton("Voltar");
-        voltarButton.setFont(font);
-        voltarButton.setBackground(new Color(70, 130, 180));
+        voltarButton.setPreferredSize(new Dimension(100, 25));
+        voltarButton.setBackground(new Color(25, 120, 165));
         voltarButton.setForeground(Color.WHITE);
-        buttonsPanel.add(voltarButton);
+        southPanel.add(voltarButton);
 
-        panel.add(buttonsPanel);
+        panel.add(southPanel, BorderLayout.SOUTH);
 
         loginButton.addActionListener(new ActionListener() {
             @Override
@@ -81,7 +67,7 @@ public class ClienteLoginGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ClienteMainGUI().setVisible(true);
-                dispose(); // Fecha a tela atual
+                dispose();
             }
         });
     }
@@ -116,19 +102,17 @@ public class ClienteLoginGUI extends JFrame {
             return;
         }
         if (loginValido) {
-            JOptionPane.showMessageDialog(this, "Login realizado com sucesso!");
+            JOptionPane.showMessageDialog(this, "Login realizado com sucesso!", "Login", JOptionPane.INFORMATION_MESSAGE);
 
             // Carregar as informações do cliente logado
             Cliente cliente = carregarInformacoesCliente(email);
 
-            // Definir o cliente logado
             ClienteLogado.setClienteLogado(cliente);
 
-            // Redirecionar para a tela principal do sistema
             new HomeClienteGUI().setVisible(true);
-            dispose(); // Fecha a tela de login
+            dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "Email ou senha inválidos.");
+            JOptionPane.showMessageDialog(this, "Email ou senha inválidos.", "Login", JOptionPane.ERROR_MESSAGE);
         }
     }
 

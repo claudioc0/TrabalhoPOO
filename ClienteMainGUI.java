@@ -10,77 +10,56 @@ public class ClienteMainGUI extends JFrame {
 
     public ClienteMainGUI() {
         setTitle("Bem-vindo Cliente");
-        setSize(400, 300);
+        setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Configura o layout do painel principal
-        JPanel panel = new JPanel(new BorderLayout());
-        //panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(Color.WHITE);
         setContentPane(panel);
 
-        Font font = new Font("Arial", Font.PLAIN, 16);
-
         JLabel welcomeLabel = new JLabel("Escolha uma opção:", JLabel.CENTER);
-        welcomeLabel.setFont(font);
         panel.add(welcomeLabel, BorderLayout.NORTH);
-        //panel.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // Painel central para os botões
-        JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new GridLayout(3, 1, 10, 10));
+        JPanel centerPanel = new JPanel(new GridLayout(2, 1, 10, 10));
+        centerPanel.setBackground(Color.WHITE);
 
-        // Botão de Login
         loginButton = new JButton("Login");
-        loginButton.setFont(font);
-        loginButton.setBackground(new Color(70, 130, 180));
+        loginButton.setBackground(new Color(25, 120, 165));
         loginButton.setForeground(Color.WHITE);
         centerPanel.add(loginButton);
 
-
-
-        // Botão de Cadastro
         cadastroButton = new JButton("Cadastro");
-        cadastroButton.setFont(font);
-        cadastroButton.setBackground(new Color(70, 130, 180));
+        cadastroButton.setBackground(new Color(25, 120, 165));
         cadastroButton.setForeground(Color.WHITE);
         centerPanel.add(cadastroButton);
 
-
         panel.add(centerPanel, BorderLayout.CENTER);
-       // panel.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // Botão de Voltar
+        JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        southPanel.setBackground(Color.WHITE);
         voltarButton = new JButton("Voltar");
-        voltarButton.setFont(font);
-        voltarButton.setBackground(new Color(70, 130, 180));
+        voltarButton.setPreferredSize(new Dimension(100, 25));
+        voltarButton.setBackground(new Color(25, 120, 165));
         voltarButton.setForeground(Color.WHITE);
-        JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         southPanel.add(voltarButton);
-        //voltarButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         panel.add(southPanel, BorderLayout.SOUTH);
-
-
-
-
-
 
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Abrir a tela de login
                 new ClienteLoginGUI().setVisible(true);
-                dispose(); // Fecha a tela atual
+                dispose();
             }
         });
 
         cadastroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Abrir a tela de cadastro
                 new CadastroClienteGUI().setVisible(true);
-                dispose(); // Fecha a tela atual
+                dispose();
             }
         });
 
@@ -88,7 +67,7 @@ public class ClienteMainGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new SelecaoUsuarioGUI().setVisible(true);
-                dispose(); // Fecha a tela atual
+                dispose();
             }
         });
     }

@@ -17,18 +17,24 @@ public class VisualizarVendasGUI extends JFrame {
 
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(Color.WHITE);
         setContentPane(panel);
 
         JLabel titleLabel = new JLabel("Histórico de Vendas", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+
         panel.add(titleLabel, BorderLayout.NORTH);
 
         JTextArea vendasTextArea = new JTextArea();
         vendasTextArea.setEditable(false);
+        vendasTextArea.setBackground(Color.WHITE); // Fundo branco
+        vendasTextArea.setForeground(Color.BLACK); // Texto preto
         JScrollPane scrollPane = new JScrollPane(vendasTextArea);
         panel.add(scrollPane, BorderLayout.CENTER);
 
         JButton voltarButton = new JButton("Voltar");
+        voltarButton.setBackground(new Color(25, 120, 165)); // Cor azul
+        voltarButton.setForeground(Color.WHITE); // Texto branco
         voltarButton.addActionListener(e -> voltarParaMenuPrincipal());
         panel.add(voltarButton, BorderLayout.SOUTH);
 

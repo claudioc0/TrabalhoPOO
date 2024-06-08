@@ -19,6 +19,7 @@ public class VisualizarAvaliacoesGUI extends JFrame {
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.setBackground(Color.WHITE);
         setContentPane(panel);
 
         JLabel titleLabel = new JLabel("Avaliações Recebidas", JLabel.CENTER);
@@ -27,10 +28,14 @@ public class VisualizarAvaliacoesGUI extends JFrame {
 
         avaliacoesTextArea = new JTextArea();
         avaliacoesTextArea.setEditable(false);
+        avaliacoesTextArea.setBackground(Color.WHITE);
+        avaliacoesTextArea.setForeground(Color.BLACK);
         JScrollPane scrollPane = new JScrollPane(avaliacoesTextArea);
         panel.add(scrollPane, BorderLayout.CENTER);
 
         JButton voltarButton = new JButton("Voltar");
+        voltarButton.setBackground(new Color(25, 120, 165));
+        voltarButton.setForeground(Color.WHITE);
         voltarButton.addActionListener(e -> voltarParaMenuPrincipal());
         panel.add(voltarButton, BorderLayout.SOUTH);
 
@@ -60,6 +65,4 @@ public class VisualizarAvaliacoesGUI extends JFrame {
         homeVendedorGUI.setVisible(true);
         dispose();
     }
-
-
 }
