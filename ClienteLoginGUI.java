@@ -14,17 +14,30 @@ public class ClienteLoginGUI extends JFrame {
 
     public ClienteLoginGUI() {
         setTitle("Login Cliente");
-        setSize(300, 200);
+        setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         // Configura o layout do painel principal
-        JPanel panel = new JPanel(new BorderLayout(10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         setContentPane(panel);
 
-        // Painel central
-        JPanel centerPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        Font font = new Font("Arial", Font.PLAIN, 16);
+
+        // Título
+        JLabel titleLabel = new JLabel("Login Cliente", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(Box.createVerticalStrut(20));
+        panel.add(titleLabel);
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+
+        // Painel central para os campos de entrada
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new GridLayout(2, 2, 10, 10));
+        //centerPanel.setBorder(BorderFactory.createEmptyBorder(0,50, 0, 50));
 
         // Adiciona campos ao painel central
         centerPanel.add(new JLabel("Email:"));
@@ -36,17 +49,26 @@ public class ClienteLoginGUI extends JFrame {
         centerPanel.add(senhaField);
 
         // Adicionar o painel central
-        panel.add(centerPanel, BorderLayout.CENTER);
+        panel.add(centerPanel);
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // Painel sul para os botões
-        JPanel southPanel = new JPanel();
+        // Botões
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
+
         loginButton = new JButton("Login");
-        southPanel.add(loginButton);
+        loginButton.setFont(font);
+        loginButton.setBackground(new Color(70, 130, 180));
+        loginButton.setForeground(Color.WHITE);
+        buttonsPanel.add(loginButton);
 
         voltarButton = new JButton("Voltar");
-        southPanel.add(voltarButton);
+        voltarButton.setFont(font);
+        voltarButton.setBackground(new Color(70, 130, 180));
+        voltarButton.setForeground(Color.WHITE);
+        buttonsPanel.add(voltarButton);
 
-        panel.add(southPanel, BorderLayout.SOUTH);
+        panel.add(buttonsPanel);
 
         loginButton.addActionListener(new ActionListener() {
             @Override
@@ -58,8 +80,6 @@ public class ClienteLoginGUI extends JFrame {
         voltarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Voltar para a tela anterior
-                // Por exemplo, para a tela de escolha entre cliente e vendedor
                 new ClienteMainGUI().setVisible(true);
                 dispose(); // Fecha a tela atual
             }
@@ -131,7 +151,6 @@ public class ClienteLoginGUI extends JFrame {
         }
         return null;
     }
-
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {

@@ -3,8 +3,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.util.HashSet;
-import java.util.Set;
 
 public class CadastroClienteGUI extends JFrame {
     private JTextField nomeField;
@@ -21,42 +19,58 @@ public class CadastroClienteGUI extends JFrame {
         setLocationRelativeTo(null);
 
         // Configura o layout do painel principal
-        JPanel panel = new JPanel(new BorderLayout(10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         setContentPane(panel);
 
+        Font font = new Font("Arial", Font.PLAIN, 16);
+
         // Painel central para os campos de entrada
-        JPanel centerPanel = new JPanel(new GridLayout(4, 2, 10, 10));
+        JPanel fieldsPanel = new JPanel();
+        fieldsPanel.setLayout(new GridLayout(4, 2, 10, 10));
 
         // Adiciona campos
-        centerPanel.add(new JLabel("Nome:"));
+        fieldsPanel.add(new JLabel("Nome:"));
         nomeField = new JTextField();
-        centerPanel.add(nomeField);
+        nomeField.setFont(font);
+        fieldsPanel.add(nomeField);
 
-        centerPanel.add(new JLabel("Email:"));
+        fieldsPanel.add(new JLabel("Email:"));
         emailField = new JTextField();
-        centerPanel.add(emailField);
+        emailField.setFont(font);
+        fieldsPanel.add(emailField);
 
-        centerPanel.add(new JLabel("Senha:"));
+        fieldsPanel.add(new JLabel("Senha:"));
         senhaField = new JPasswordField();
-        centerPanel.add(senhaField);
+        senhaField.setFont(font);
+        fieldsPanel.add(senhaField);
 
-        centerPanel.add(new JLabel("CPF:"));
+        fieldsPanel.add(new JLabel("CPF:"));
         cpfField = new JTextField();
-        centerPanel.add(cpfField);
+        cpfField.setFont(font);
+        fieldsPanel.add(cpfField);
 
-        // Adiciona o painel central
-        panel.add(centerPanel, BorderLayout.CENTER);
+        panel.add(fieldsPanel);
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        // Painel sul para os botões
-        JPanel southPanel = new JPanel();
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
+
+        // Adiciona botões ao buttonsPanel
         cadastrarButton = new JButton("Cadastrar");
-        southPanel.add(cadastrarButton);
+        cadastrarButton.setFont(font);
+        cadastrarButton.setBackground(new Color(70, 130, 180));
+        cadastrarButton.setForeground(Color.WHITE);
+        buttonsPanel.add(cadastrarButton);
 
         voltarButton = new JButton("Voltar");
-        southPanel.add(voltarButton);
+        voltarButton.setFont(font);
+        voltarButton.setBackground(new Color(70, 130, 180));
+        voltarButton.setForeground(Color.WHITE);
+        buttonsPanel.add(voltarButton);
 
-        panel.add(southPanel, BorderLayout.SOUTH);
+        panel.add(buttonsPanel);
 
         cadastrarButton.addActionListener(new ActionListener() {
             @Override

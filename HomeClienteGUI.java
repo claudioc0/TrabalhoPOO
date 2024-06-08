@@ -30,14 +30,20 @@ public class HomeClienteGUI extends JFrame {
 
         // Botão para visualizar jogos anunciados
         visualizarJogosButton = new JButton("Visualizar Jogos Anunciados");
+        visualizarJogosButton.setBackground(new Color(70, 130, 180));
+        visualizarJogosButton.setForeground(Color.WHITE);
         centerPanel.add(visualizarJogosButton);
 
         // Botão para visualizar perfil
         visualizarPerfilButton = new JButton("Visualizar Perfil");
+        visualizarPerfilButton.setBackground(new Color(70, 130, 180));
+        visualizarPerfilButton.setForeground(Color.WHITE);
         centerPanel.add(visualizarPerfilButton);
 
         // Botão para visualizar histórico de compras
         historicoComprasButton = new JButton("Visualizar Histórico de Compras");
+        historicoComprasButton.setBackground(new Color(70, 130, 180));
+        historicoComprasButton.setForeground(Color.WHITE);
         centerPanel.add(historicoComprasButton);
 
         // Adiciona o painel central
