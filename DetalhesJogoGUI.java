@@ -19,54 +19,44 @@ public class DetalhesJogoGUI extends JFrame {
         this.carrinhoCompras = carrinhoCompras;
 
         setTitle("Detalhes do Jogo");
-        setSize(400, 400);
+        setSize(400, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        panel.setBackground(Color.WHITE); // Define o fundo branco
         setContentPane(panel);
 
         JLabel titleLabel = new JLabel(jogo.getNomeJogo(), JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         panel.add(titleLabel, BorderLayout.NORTH);
 
-        JPanel centerPanel = new JPanel(new BorderLayout(10, 10));
-        centerPanel.setBackground(Color.WHITE); // Define o fundo branco
+        JPanel centerPanel = new JPanel(new GridLayout(0, 1, 10, 10));
 
-        JPanel infoPanel = new JPanel(new GridLayout(0, 1));
-        infoPanel.setBackground(Color.WHITE); // Define o fundo branco
-        infoPanel.add(new JLabel("Vendedor: " + jogo.getVendedorNome()));
-        infoPanel.add(new JLabel("Descrição: " + jogo.getDescricao()));
-        infoPanel.add(new JLabel("Gênero: " + jogo.getGeneroJogo()));
-        infoPanel.add(new JLabel("Data de Lançamento: " + jogo.getDataLancamento()));
-        infoPanel.add(new JLabel("Preço: R$" + jogo.getPrecoJogo()));
+        centerPanel.add(new JLabel("Vendedor: " + jogo.getVendedorNome()));
+        centerPanel.add(new JLabel("Descrição: " + jogo.getDescricao()));
+        centerPanel.add(new JLabel("Gênero: " + jogo.getGeneroJogo()));
+        centerPanel.add(new JLabel("Data de Lançamento: " + jogo.getDataLancamento()));
+        centerPanel.add(new JLabel("Preço: R$" + jogo.getPrecoJogo()));
 
         if (jogo instanceof JogoPC) {
-            infoPanel.add(new JLabel("Requisitos PC: " + ((JogoPC) jogo).getRequisitosPc()));
+            centerPanel.add(new JLabel("Requisitos PC: " + ((JogoPC) jogo).getRequisitosPc()));
         } else if (jogo instanceof JogoConsole) {
-            infoPanel.add(new JLabel("Console: " + ((JogoConsole) jogo).getConsole()));
+            centerPanel.add(new JLabel("Console: " + ((JogoConsole) jogo).getConsole()));
         }
-
-        centerPanel.add(infoPanel, BorderLayout.CENTER);
 
         if (jogo.getImagem() != null && !jogo.getImagem().isEmpty()) {
             JLabel imagemLabel = new JLabel();
             ImageIcon imagemIcon = new ImageIcon(jogo.getImagem());
             Image imagemRedimensionada = imagemIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
             imagemLabel.setIcon(new ImageIcon(imagemRedimensionada));
-            centerPanel.add(imagemLabel, BorderLayout.EAST); // Posiciona a imagem à direita
+            centerPanel.add(imagemLabel);
         }
 
         panel.add(centerPanel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 10));
-        buttonPanel.setBackground(Color.WHITE); // Define o fundo branco
-
         JButton comprarButton = new JButton("Comprar");
-        comprarButton.setBackground(new Color(25, 120, 165)); // Azul
-        comprarButton.setForeground(Color.WHITE); // Letras brancas
         comprarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,8 +71,6 @@ public class DetalhesJogoGUI extends JFrame {
         buttonPanel.add(comprarButton);
 
         JButton adicionarCarrinhoButton = new JButton("Adicionar ao Carrinho");
-        adicionarCarrinhoButton.setBackground(new Color(25, 120, 165)); // Azul
-        adicionarCarrinhoButton.setForeground(Color.WHITE); // Letras brancas
         adicionarCarrinhoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
