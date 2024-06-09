@@ -18,7 +18,7 @@ public class SelecaoUsuarioGUI extends JFrame {
         JButton clienteButton = new JButton("Cliente");
         JButton vendedorButton = new JButton("Vendedor");
 
-        // Definindo a cor dos botões
+
         Color lightBlue = new Color(25, 120, 165);
         clienteButton.setBackground(lightBlue);
         clienteButton.setForeground(Color.WHITE);

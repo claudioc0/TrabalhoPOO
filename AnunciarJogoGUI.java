@@ -61,7 +61,7 @@ public class AnunciarJogoGUI extends JFrame {
         generoField = new JTextField();
         centerPanel.add(generoField);
 
-        centerPanel.add(new JLabel("Data de Lançamento:"));
+        centerPanel.add(new JLabel("Ano de Lançamento:"));
         dataLancamentoField = new JTextField();
         centerPanel.add(dataLancamentoField);
 
