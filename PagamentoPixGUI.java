@@ -56,6 +56,11 @@ public class PagamentoPixGUI extends JFrame {
             return;
         }
 
+        if (!validarChavePix(chavePix)) {
+            JOptionPane.showMessageDialog(this, "Chave PIX inválida. Deve conter exatamente 10 dígitos.");
+            return;
+        }
+
         for (Jogo jogo : jogos) {
             cliente.adicionarJogoAoHistorico(jogo);
             jogosAnunciados.remove(jogo);
@@ -66,6 +71,10 @@ public class PagamentoPixGUI extends JFrame {
         visualizarJogosGUI.atualizarJogosAnunciados();
         JOptionPane.showMessageDialog(this, "Compra efetuada com sucesso usando PIX!");
         dispose();
+    }
+
+    private boolean validarChavePix(String chavePix) {
+        return chavePix.matches("\\d{10}");
     }
 
     private void salvarJogosAnunciados() {
