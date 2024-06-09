@@ -11,7 +11,7 @@ public class VisualizarVendasGUI extends JFrame {
         this.vendedor = vendedor;
 
         setTitle("Histórico de Vendas");
-        setSize(500, 400);
+        setSize(600, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
