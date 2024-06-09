@@ -187,8 +187,8 @@ public class AnunciarJogoGUI extends JFrame {
         int anoLancamento;
         try {
             anoLancamento = Integer.parseInt(dataLancamento.split("-")[0]);
-            if (anoLancamento > anoAtual) {
-                JOptionPane.showMessageDialog(this, "O ano de lançamento não pode ser maior que o ano atual.");
+            if (anoLancamento > anoAtual || anoLancamento < 1971) {
+                JOptionPane.showMessageDialog(this, "O ano de lançamento deve ser entre 1971 e o ano atual.");
                 return;
             }
         } catch (NumberFormatException e) {
@@ -199,6 +199,10 @@ public class AnunciarJogoGUI extends JFrame {
         double preco;
         try {
             preco = Double.parseDouble(precoText);
+            if (preco <= 0) {
+                JOptionPane.showMessageDialog(this, "O preço deve ser maior que zero.");
+                return;
+            }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Preço inválido. Por favor, insira um número válido.");
             return;
@@ -219,6 +223,7 @@ public class AnunciarJogoGUI extends JFrame {
         JOptionPane.showMessageDialog(this, "Jogo anunciado com sucesso!");
         clearFields();
     }
+
 
     private void clearFields() {
         nomeField.setText("");

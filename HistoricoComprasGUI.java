@@ -107,36 +107,28 @@ public class HistoricoComprasGUI extends JFrame {
             detailsPanel.add(new JLabel("Console: " + ((JogoConsole) jogo).getConsole()));
         }
 
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.setBackground(Color.WHITE);
-
         if (jogo.getImagem() != null && !jogo.getImagem().isEmpty()) {
             JLabel imagemLabel = new JLabel();
             ImageIcon imagemIcon = new ImageIcon(jogo.getImagem());
             Image imagemRedimensionada = imagemIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
             imagemLabel.setIcon(new ImageIcon(imagemRedimensionada));
-            rightPanel.add(imagemLabel, BorderLayout.NORTH);
+            detailsPanel.add(imagemLabel);
         }
 
         JPanel avaliacaoPanel = new JPanel();
-        avaliacaoPanel.setLayout(new BoxLayout(avaliacaoPanel, BoxLayout.Y_AXIS));
         avaliacaoPanel.setBackground(Color.WHITE);
-
-        JPanel estrelasPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        estrelasPanel.setBackground(Color.WHITE);
         ButtonGroup grupoEstrelas = new ButtonGroup();
         for (int i = 1; i <= 5; i++) {
             JRadioButton radioButton = new JRadioButton(i + " estrela" + (i == 1 ? "" : "s"));
             radioButton.setActionCommand(String.valueOf(i));
             grupoEstrelas.add(radioButton);
             radioButton.setBackground(Color.WHITE);
-            estrelasPanel.add(radioButton);
+            avaliacaoPanel.add(radioButton);
         }
 
         JButton avaliarButton = new JButton("Avaliar Vendedor");
         avaliarButton.setBackground(new Color(25, 120, 165));
         avaliarButton.setForeground(Color.WHITE);
-        avaliarButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         avaliarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -160,23 +152,13 @@ public class HistoricoComprasGUI extends JFrame {
             }
         });
 
-        avaliacaoPanel.add(estrelasPanel);
-        avaliacaoPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-        avaliacaoPanel.add(avaliarButton);
-
         detailsPanel.add(avaliacaoPanel);
+        detailsPanel.add(avaliarButton);
 
-        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBackground(Color.WHITE);
-        mainPanel.add(detailsPanel, BorderLayout.CENTER);
-        mainPanel.add(rightPanel, BorderLayout.EAST);
-
-        jogoPanel.add(mainPanel, BorderLayout.CENTER);
+        jogoPanel.add(detailsPanel, BorderLayout.CENTER);
 
         return jogoPanel;
     }
-
-
 
     private void voltarParaHomeCliente() {
         HomeClienteGUI homeClienteGUI = new HomeClienteGUI();
