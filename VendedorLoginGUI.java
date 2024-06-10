@@ -86,8 +86,8 @@ public class VendedorLoginGUI extends JFrame {
                 String[] dados = linha.split(", ");
                 String emailCadastrado = dados[1].split(": ")[1];
                 String senhaCadastrada = dados[2].split(": ")[1];
-                nomeVendedor = dados[0].split(": ")[1]; // Obtém o nome do vendedor
-                cpfVendedor = dados[3].split(": ")[1]; // Obtém o CPF do vendedor
+                nomeVendedor = dados[0].split(": ")[1];
+                cpfVendedor = dados[3].split(": ")[1];
 
                 if (email.equals(emailCadastrado) && senha.equals(senhaCadastrada)) {
                     loginValido = true;

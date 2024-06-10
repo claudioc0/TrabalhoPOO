@@ -11,8 +11,18 @@ public class ClienteLoginGUI extends JFrame {
     private JPasswordField senhaField;
     private JButton loginButton;
     private JButton voltarButton;
+    private JFrame homeFrame;
+
+    public ClienteLoginGUI(JFrame homeFrame) {
+        this.homeFrame = homeFrame;
+        initialize();
+    }
 
     public ClienteLoginGUI() {
+        initialize();
+    }
+
+    private void initialize() {
         setTitle("Login Cliente");
         setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,10 +33,8 @@ public class ClienteLoginGUI extends JFrame {
         panel.setBackground(Color.WHITE);
         setContentPane(panel);
 
-
         JPanel centerPanel = new JPanel(new GridLayout(2, 2, 10, 10));
         centerPanel.setBackground(Color.WHITE);
-
 
         centerPanel.add(new JLabel("Email:"));
         emailField = new JTextField();
@@ -36,9 +44,7 @@ public class ClienteLoginGUI extends JFrame {
         senhaField = new JPasswordField();
         centerPanel.add(senhaField);
 
-
         panel.add(centerPanel, BorderLayout.CENTER);
-
 
         JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         southPanel.setBackground(Color.WHITE);
@@ -66,6 +72,9 @@ public class ClienteLoginGUI extends JFrame {
         voltarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (homeFrame != null) {
+                    homeFrame.dispose();
+                }
                 new ClienteMainGUI().setVisible(true);
                 dispose();
             }
@@ -109,7 +118,7 @@ public class ClienteLoginGUI extends JFrame {
 
             ClienteLogado.setClienteLogado(cliente);
 
-            new HomeClienteGUI().setVisible(true);
+            new HomeClienteGUI(cliente).setVisible(true);
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Email ou senha inválidos.", "Login", JOptionPane.ERROR_MESSAGE);

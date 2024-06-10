@@ -4,6 +4,7 @@ import java.awt.*;
 public class PerfilClienteGUI extends JFrame {
     private JTextArea infoTextArea;
     private Cliente clienteLogado;
+    private Cliente cliente;
 
     public PerfilClienteGUI(Cliente cliente) {
         clienteLogado = cliente;
@@ -23,8 +24,8 @@ public class PerfilClienteGUI extends JFrame {
 
         JButton voltarButton = new JButton("Voltar");
         voltarButton.addActionListener(e -> voltarParaHome());
-        voltarButton.setBackground(new Color(25, 120, 165)); // Definindo cor de fundo
-        voltarButton.setForeground(Color.WHITE); // Definindo cor de texto
+        voltarButton.setBackground(new Color(25, 120, 165));
+        voltarButton.setForeground(Color.WHITE);
         panel.add(voltarButton, BorderLayout.SOUTH);
 
         carregarInformacoesCliente();
@@ -39,7 +40,7 @@ public class PerfilClienteGUI extends JFrame {
     }
 
     private void voltarParaHome() {
-        new HomeClienteGUI().setVisible(true);
+        new HomeClienteGUI(clienteLogado).setVisible(true);
         dispose();
     }
 

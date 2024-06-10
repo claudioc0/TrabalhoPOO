@@ -7,13 +7,14 @@ public class HomeVendedorGUI extends JFrame {
     private JButton anunciarJogosButton;
     private JButton visualizarPerfilButton;
     private JButton visualizarVendasButton;
-    private JButton visualizarAvaliacoesButton; // Botão para visualizar avaliações
+    private JButton visualizarAvaliacoesButton;
+    private JButton voltarButton;
     private Vendedor vendedor;
 
     public HomeVendedorGUI(Vendedor vendedor) {
         this.vendedor = vendedor;
         setTitle("Home Vendedor");
-        setSize(400, 300);
+        setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -25,7 +26,7 @@ public class HomeVendedorGUI extends JFrame {
         JLabel welcomeLabel = new JLabel("Bem-vindo, " + vendedor.getNome() + "!", JLabel.CENTER);
         panel.add(welcomeLabel, BorderLayout.NORTH);
 
-        JPanel centerPanel = new JPanel(new GridLayout(4, 1, 10, 10)); // Adicionei uma linha para o botão de avaliações
+        JPanel centerPanel = new JPanel(new GridLayout(4, 1, 10, 10));
 
         anunciarJogosButton = new JButton("Anunciar Jogos");
         anunciarJogosButton.setBackground(new Color(25, 120, 165));
@@ -46,6 +47,15 @@ public class HomeVendedorGUI extends JFrame {
         visualizarAvaliacoesButton.setBackground(new Color(25, 120, 165));
         visualizarAvaliacoesButton.setForeground(Color.WHITE);
         centerPanel.add(visualizarAvaliacoesButton);
+
+        JPanel southPanel = new JPanel();
+        southPanel.setBackground(Color.WHITE);
+        voltarButton = new JButton("Sair");
+        voltarButton.setPreferredSize(new Dimension(100, 25));
+        voltarButton.setBackground(new Color(25, 120, 165));
+        voltarButton.setForeground(Color.WHITE);
+        southPanel.add(voltarButton);
+        panel.add(southPanel, BorderLayout.SOUTH);
 
         panel.add(centerPanel, BorderLayout.CENTER);
 
@@ -74,6 +84,14 @@ public class HomeVendedorGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new VisualizarAvaliacoesGUI(vendedor).setVisible(true);
+            }
+        });
+
+        voltarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new SelecaoUsuarioGUI().setVisible(true);
             }
         });
     }

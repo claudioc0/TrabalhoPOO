@@ -13,7 +13,7 @@ public class VisualizarAvaliacoesGUI extends JFrame {
         this.vendedor = vendedor;
 
         setTitle("Visualizar Avaliações");
-        setSize(400, 300);
+        setSize(400, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 

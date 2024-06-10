@@ -25,7 +25,7 @@ public class DetalhesJogoGUI extends JFrame {
 
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        panel.setBackground(Color.WHITE); // Define o fundo branco
+        panel.setBackground(Color.WHITE);
         setContentPane(panel);
 
         JLabel titleLabel = new JLabel(jogo.getNomeJogo(), JLabel.CENTER);
@@ -33,10 +33,10 @@ public class DetalhesJogoGUI extends JFrame {
         panel.add(titleLabel, BorderLayout.NORTH);
 
         JPanel centerPanel = new JPanel(new BorderLayout(10, 10));
-        centerPanel.setBackground(Color.WHITE); // Define o fundo branco
+        centerPanel.setBackground(Color.WHITE);
 
         JPanel infoPanel = new JPanel(new GridLayout(0, 1));
-        infoPanel.setBackground(Color.WHITE); // Define o fundo branco
+        infoPanel.setBackground(Color.WHITE);
         infoPanel.add(new JLabel("Vendedor: " + jogo.getVendedorNome()));
         infoPanel.add(new JLabel("Descrição: " + jogo.getDescricao()));
         infoPanel.add(new JLabel("Gênero: " + jogo.getGeneroJogo()));
@@ -62,11 +62,11 @@ public class DetalhesJogoGUI extends JFrame {
         panel.add(centerPanel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 10));
-        buttonPanel.setBackground(Color.WHITE); // Define o fundo branco
+        buttonPanel.setBackground(Color.WHITE);
 
         JButton comprarButton = new JButton("Comprar");
-        comprarButton.setBackground(new Color(25, 120, 165)); // Azul
-        comprarButton.setForeground(Color.WHITE); // Letras brancas
+        comprarButton.setBackground(new Color(25, 120, 165));
+        comprarButton.setForeground(Color.WHITE);
         comprarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,8 +81,8 @@ public class DetalhesJogoGUI extends JFrame {
         buttonPanel.add(comprarButton);
 
         JButton adicionarCarrinhoButton = new JButton("Adicionar ao Carrinho");
-        adicionarCarrinhoButton.setBackground(new Color(25, 120, 165)); // Azul
-        adicionarCarrinhoButton.setForeground(Color.WHITE); // Letras brancas
+        adicionarCarrinhoButton.setBackground(new Color(25, 120, 165));
+        adicionarCarrinhoButton.setForeground(Color.WHITE);
         adicionarCarrinhoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

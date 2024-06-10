@@ -41,8 +41,8 @@ public class PagamentoPixGUI extends JFrame {
                 finalizarCompra();
             }
         });
-        finalizarCompraButton.setBackground(new Color(25, 120, 165)); // Defina a cor de fundo do botão
-        finalizarCompraButton.setForeground(Color.WHITE); // Defina a cor do texto do botão
+        finalizarCompraButton.setBackground(new Color(25, 120, 165));
+        finalizarCompraButton.setForeground(Color.WHITE);
         panel.add(finalizarCompraButton);
 
         setVisible(true);

@@ -6,21 +6,22 @@ import java.io.*;
 import java.util.List;
 
 public class HistoricoComprasGUI extends JFrame {
-    public HistoricoComprasGUI() {
+    private Cliente cliente;
+
+    public HistoricoComprasGUI(Cliente cliente) {
+        this.cliente = cliente;
         setTitle("Histórico de Compras");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        Cliente clienteLogado = ClienteLogado.getClienteLogado();
-
-        if (clienteLogado == null) {
+        if (cliente == null) {
             JOptionPane.showMessageDialog(this, "Nenhum cliente está logado.");
             dispose();
             return;
         }
 
-        List<Jogo> historicoCompras = clienteLogado.getHistoricoCompras();
+        List<Jogo> historicoCompras = cliente.getHistoricoCompras();
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Color.WHITE);
@@ -93,7 +94,7 @@ public class HistoricoComprasGUI extends JFrame {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
         jogoPanel.add(titleLabel, BorderLayout.NORTH);
 
-        JPanel detailsPanel = new JPanel(new GridLayout(0, 1, 10, 10));
+        JPanel detailsPanel = new JPanel(new GridLayout(0, 1, 5, 5)); // Reduzindo o espaçamento aqui
         detailsPanel.setBackground(Color.WHITE);
         detailsPanel.add(new JLabel("Vendedor: " + jogo.getVendedorNome()));
         detailsPanel.add(new JLabel("Descrição: " + jogo.getDescricao()));
@@ -107,28 +108,36 @@ public class HistoricoComprasGUI extends JFrame {
             detailsPanel.add(new JLabel("Console: " + ((JogoConsole) jogo).getConsole()));
         }
 
+        JPanel rightPanel = new JPanel(new BorderLayout());
+        rightPanel.setBackground(Color.WHITE);
+
         if (jogo.getImagem() != null && !jogo.getImagem().isEmpty()) {
             JLabel imagemLabel = new JLabel();
             ImageIcon imagemIcon = new ImageIcon(jogo.getImagem());
             Image imagemRedimensionada = imagemIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
             imagemLabel.setIcon(new ImageIcon(imagemRedimensionada));
-            detailsPanel.add(imagemLabel);
+            rightPanel.add(imagemLabel, BorderLayout.NORTH);
         }
 
         JPanel avaliacaoPanel = new JPanel();
+        avaliacaoPanel.setLayout(new BoxLayout(avaliacaoPanel, BoxLayout.Y_AXIS));
         avaliacaoPanel.setBackground(Color.WHITE);
+
+        JPanel estrelasPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        estrelasPanel.setBackground(Color.WHITE);
         ButtonGroup grupoEstrelas = new ButtonGroup();
         for (int i = 1; i <= 5; i++) {
             JRadioButton radioButton = new JRadioButton(i + " estrela" + (i == 1 ? "" : "s"));
             radioButton.setActionCommand(String.valueOf(i));
             grupoEstrelas.add(radioButton);
             radioButton.setBackground(Color.WHITE);
-            avaliacaoPanel.add(radioButton);
+            estrelasPanel.add(radioButton);
         }
 
         JButton avaliarButton = new JButton("Avaliar Vendedor");
         avaliarButton.setBackground(new Color(25, 120, 165));
         avaliarButton.setForeground(Color.WHITE);
+        avaliarButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         avaliarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -152,16 +161,25 @@ public class HistoricoComprasGUI extends JFrame {
             }
         });
 
-        detailsPanel.add(avaliacaoPanel);
-        detailsPanel.add(avaliarButton);
+        avaliacaoPanel.add(estrelasPanel);
+        avaliacaoPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        avaliacaoPanel.add(avaliarButton);
 
-        jogoPanel.add(detailsPanel, BorderLayout.CENTER);
+        detailsPanel.add(avaliacaoPanel);
+
+        JPanel mainPanel = new JPanel(new BorderLayout(10, 10)); // Reduzindo o espaçamento aqui
+        mainPanel.setBackground(Color.WHITE);
+        mainPanel.add(detailsPanel, BorderLayout.CENTER);
+        mainPanel.add(rightPanel, BorderLayout.EAST);
+
+        jogoPanel.add(mainPanel, BorderLayout.CENTER);
 
         return jogoPanel;
     }
 
+
     private void voltarParaHomeCliente() {
-        HomeClienteGUI homeClienteGUI = new HomeClienteGUI();
+        HomeClienteGUI homeClienteGUI = new HomeClienteGUI(cliente);
         homeClienteGUI.setVisible(true);
         dispose();
     }

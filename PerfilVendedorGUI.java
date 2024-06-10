@@ -8,7 +8,7 @@ public class PerfilVendedorGUI extends JFrame {
     public PerfilVendedorGUI(Vendedor vendedor) {
         vendedorLogado = vendedor;
         setTitle("Perfil do Vendedor");
-        setSize(400, 300);
+        setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
