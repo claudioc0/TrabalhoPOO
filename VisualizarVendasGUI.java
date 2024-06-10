@@ -49,6 +49,10 @@ public class VisualizarVendasGUI extends JFrame {
             while ((linha = reader.readLine()) != null) {
                 // Verifica se a linha contém o nome do vendedor logado
                 if (linha.contains("Vendedor: " + vendedor.getNome())) {
+
+                    if (vendasEncontradas) {
+                        vendasTextArea.append("\n");
+                    }
                     vendasTextArea.append(linha + "\n");
                     vendasEncontradas = true;
                 }

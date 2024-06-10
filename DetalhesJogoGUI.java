@@ -40,7 +40,7 @@ public class DetalhesJogoGUI extends JFrame {
         infoPanel.add(new JLabel("Vendedor: " + jogo.getVendedorNome()));
         infoPanel.add(new JLabel("Descrição: " + jogo.getDescricao()));
         infoPanel.add(new JLabel("Gênero: " + jogo.getGeneroJogo()));
-        infoPanel.add(new JLabel("Data de Lançamento: " + jogo.getDataLancamento()));
+        infoPanel.add(new JLabel("Ano de Lançamento: " + jogo.getDataLancamento()));
         infoPanel.add(new JLabel("Preço: R$" + jogo.getPrecoJogo()));
 
         if (jogo instanceof JogoPC) {

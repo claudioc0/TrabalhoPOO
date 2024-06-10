@@ -99,7 +99,7 @@ public class HistoricoComprasGUI extends JFrame {
         detailsPanel.add(new JLabel("Vendedor: " + jogo.getVendedorNome()));
         detailsPanel.add(new JLabel("Descrição: " + jogo.getDescricao()));
         detailsPanel.add(new JLabel("Gênero: " + jogo.getGeneroJogo()));
-        detailsPanel.add(new JLabel("Data de Lançamento: " + jogo.getDataLancamento()));
+        detailsPanel.add(new JLabel("Ano de Lançamento: " + jogo.getDataLancamento()));
         detailsPanel.add(new JLabel("Preço: R$" + jogo.getPrecoJogo()));
 
         if (jogo instanceof JogoPC) {
