@@ -1,4 +1,4 @@
-public class JogoConsole extends Jogo {
+public class JogoConsole extends Jogo implements Serializable {
     private String console;
 
     public JogoConsole(String nome, String descricao, String genero, String dataLancamento, double preco, String imagem, String console, String vendedorNome) {
