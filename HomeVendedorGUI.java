@@ -15,7 +15,7 @@ public class HomeVendedorGUI extends JFrame {
         this.vendedor = vendedor;
         setTitle("Home Vendedor");
         setSize(400, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JPanel panel = new JPanel(new BorderLayout(10, 10));
@@ -90,8 +90,14 @@ public class HomeVendedorGUI extends JFrame {
         voltarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                new SelecaoUsuarioGUI().setVisible(true);
+                int confirmacao = JOptionPane.showConfirmDialog(HomeVendedorGUI.this,
+                        "Tem certeza de que deseja sair?", "Confirmação",
+                        JOptionPane.YES_NO_OPTION);
+                if (confirmacao == JOptionPane.YES_OPTION) {
+
+                    new SelecaoUsuarioGUI().setVisible(true);
+                    dispose();
+                }
             }
         });
     }
