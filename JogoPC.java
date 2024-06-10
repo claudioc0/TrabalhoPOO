@@ -1,4 +1,4 @@
-public class JogoPC extends Jogo {
+public class JogoPC extends Jogo implements Serializable {
     private String requisitosPc;
 
     public JogoPC(String nome, String descricao, String genero, String dataLancamento, double preco, String imagem, String requisitosPc, String vendedorNome) {
