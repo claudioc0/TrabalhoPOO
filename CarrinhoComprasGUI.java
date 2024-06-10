@@ -1,10 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Collections;
 
 public class CarrinhoComprasGUI extends JFrame {
     private CarrinhoCompras carrinhoCompras;
@@ -46,10 +44,21 @@ public class CarrinhoComprasGUI extends JFrame {
     }
 
     private void exibirJogosNoCarrinho(JPanel centerPanel) {
-        List<Jogo> jogos = carrinhoCompras.getJogosNoCarrinho();
+        List<Jogo> jogosNoCarrinho = carrinhoCompras.getJogosNoCarrinho();
         centerPanel.removeAll();
 
-        for (Jogo jogo : jogos) {
+        // Obter lista de nomes dos jogos anunciados
+        List<String> jogosAnunciadosNomes = new ArrayList<>();
+        for (Jogo jogo : jogosAnunciados) {
+            jogosAnunciadosNomes.add(jogo.getNomeJogo());
+        }
+
+        for (Jogo jogo : jogosNoCarrinho) {
+            // Verificar se o jogo está nos jogos anunciados
+            if (!jogosAnunciadosNomes.contains(jogo.getNomeJogo())) {
+                continue; // Se não estiver, não exibe no carrinho
+            }
+
             JPanel jogoPanel = new JPanel(new BorderLayout(5, 5));
             jogoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             jogoPanel.setBackground(Color.WHITE);
@@ -151,7 +160,6 @@ public class CarrinhoComprasGUI extends JFrame {
         }
         salvarJogosAnunciados();
         visualizarJogosGUI.atualizarJogosAnunciados();
-        carrinhoCompras.limparCarrinho();
         JOptionPane.showMessageDialog(this, "Compra efetuada com sucesso usando " + metodoPagamento + "!");
         dispose();
     }

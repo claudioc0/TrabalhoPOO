@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.List;
 
@@ -7,10 +8,12 @@ public class VisualizarJogosGUI extends JFrame {
     private List<Jogo> jogosAnunciados;
     private JPanel centerPanel;
     private CarrinhoCompras carrinhoCompras;
+    private Cliente clienteLogado;
 
-    public VisualizarJogosGUI(List<Jogo> jogosAnunciados) {
+    public VisualizarJogosGUI(List<Jogo> jogosAnunciados, Cliente cliente) {
         this.jogosAnunciados = jogosAnunciados;
-        this.carrinhoCompras = new CarrinhoCompras(); // Inicializa o carrinho de compras
+        this.carrinhoCompras = new CarrinhoCompras();
+        clienteLogado = cliente;
 
         carregarJogosAnunciadosDoArquivo();
 
@@ -164,7 +167,7 @@ public class VisualizarJogosGUI extends JFrame {
 
     private void voltarParaHome() {
         SwingUtilities.invokeLater(() -> {
-            new HomeClienteGUI().setVisible(true);
+            new HomeClienteGUI(clienteLogado).setVisible(true);
             dispose();
         });
 }
