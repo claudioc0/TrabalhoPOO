@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public class JogoConsole extends Jogo implements Serializable {
+public class JogoConsole extends Jogo{
     private String console;
 
     public JogoConsole(String nome, String descricao, String genero, String dataLancamento, double preco, String imagem, String console, String vendedorNome) {
