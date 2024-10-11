@@ -14,11 +14,17 @@ public class PagamentoPixGUI extends JFrame {
     private VisualizarJogosGUI visualizarJogosGUI;
     private JTextField chavePixField;
 
+    private JogoFacade jogoFacade; // Referência à Facade
+
+
     public PagamentoPixGUI(List<Jogo> jogos, Cliente cliente, List<Jogo> jogosAnunciados, VisualizarJogosGUI visualizarJogosGUI) {
         this.jogos = jogos;
         this.cliente = cliente;
         this.jogosAnunciados = jogosAnunciados;
         this.visualizarJogosGUI = visualizarJogosGUI;
+
+        this.jogoFacade = JogoFacade.getInstance(); // Inicializa a Facade
+
 
         setTitle("Pagamento PIX");
         setSize(300, 150);
@@ -64,10 +70,12 @@ public class PagamentoPixGUI extends JFrame {
         for (Jogo jogo : jogos) {
             cliente.adicionarJogoAoHistorico(jogo);
             jogosAnunciados.remove(jogo);
-            registrarVenda(cliente, "PIX", jogo);
+            jogoFacade.registrarVenda(cliente, "PIX", jogo, "Chave PIX: " + chavePix);
+            jogoFacade.registrarCompra(cliente, jogo, "PIX");
+
         }
 
-        salvarJogosAnunciados();
+        jogoFacade.salvarJogosAnunciados(jogosAnunciados);
         visualizarJogosGUI.atualizarJogosAnunciados();
         JOptionPane.showMessageDialog(this, "Compra efetuada com sucesso usando PIX!");
         dispose();

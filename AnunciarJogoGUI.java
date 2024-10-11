@@ -27,8 +27,14 @@ public class AnunciarJogoGUI extends JFrame {
 
     private Vendedor vendedor;
 
+    private JogoFacade jogoFacade; // Referência à Facade
+
+
     public AnunciarJogoGUI(Vendedor vendedor) {
         this.vendedor = vendedor;
+        this.jogoFacade = JogoFacade.getInstance(); // Inicializa a Facade
+
+
         setTitle("Anunciar Jogo");
         setSize(400, 500);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -218,7 +224,7 @@ public class AnunciarJogoGUI extends JFrame {
         }
 
         jogosAnunciados.add(jogo);
-        salvarJogosAnunciados(jogosAnunciados);
+        jogoFacade.salvarJogosAnunciados(jogosAnunciados);
 
         JOptionPane.showMessageDialog(this, "Jogo anunciado com sucesso!");
         clearFields();

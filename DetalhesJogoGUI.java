@@ -12,11 +12,17 @@ public class DetalhesJogoGUI extends JFrame {
     private VisualizarJogosGUI visualizarJogosGUI;
     private CarrinhoCompras carrinhoCompras;
 
+    private JogoFacade jogoFacade; // Referência à Facade
+
+
     public DetalhesJogoGUI(Jogo jogo, List<Jogo> jogosAnunciados, VisualizarJogosGUI visualizarJogosGUI, CarrinhoCompras carrinhoCompras) {
         this.jogo = jogo;
         this.jogosAnunciados = jogosAnunciados;
         this.visualizarJogosGUI = visualizarJogosGUI;
         this.carrinhoCompras = carrinhoCompras;
+
+        this.jogoFacade = JogoFacade.getInstance(); // Inicializa a Facade
+
 
         setTitle("Detalhes do Jogo");
         setSize(400, 400);

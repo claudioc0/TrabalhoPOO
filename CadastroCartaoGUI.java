@@ -17,11 +17,15 @@ public class CadastroCartaoGUI extends JFrame {
     private JTextField validadeField;
     private JTextField cvvField;
 
+    private JogoFacade jogoFacade;
+
     public CadastroCartaoGUI(List<Jogo> jogos, Cliente cliente, List<Jogo> jogosAnunciados, VisualizarJogosGUI visualizarJogosGUI) {
         this.jogos = jogos;
         this.cliente = cliente;
         this.jogosAnunciados = jogosAnunciados;
         this.visualizarJogosGUI = visualizarJogosGUI;
+
+        this.jogoFacade = JogoFacade.getInstance();
 
         setTitle("Cadastro de Cartão de Crédito");
         setSize(300, 250);
@@ -92,10 +96,14 @@ public class CadastroCartaoGUI extends JFrame {
         for (Jogo jogo : jogos) {
             cliente.adicionarJogoAoHistorico(jogo);
             jogosAnunciados.remove(jogo);
-            registrarVenda(cliente, "Cartão de Crédito", jogo);
+
+            jogoFacade.registrarVenda(cliente, "Cartão de Crédito", jogo, "Número do Cartão: " + numeroCartao);
+
+            jogoFacade.registrarCompra(cliente, jogo, "Cartão de Crédito");
         }
 
-        salvarJogosAnunciados();
+        jogoFacade.salvarJogosAnunciados(jogosAnunciados);
+
         visualizarJogosGUI.atualizarJogosAnunciados();
         JOptionPane.showMessageDialog(this, "Compra efetuada com sucesso!");
         dispose();
