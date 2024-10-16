@@ -5,13 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CarrinhoComprasGUI extends JFrame {
-    private CarrinhoCompras carrinhoCompras;
     private List<Jogo> jogosAnunciados;
     private VisualizarJogosGUI visualizarJogosGUI;
     private JButton comprarTodosButton;
 
-    public CarrinhoComprasGUI(CarrinhoCompras carrinhoCompras, List<Jogo> jogosAnunciados, VisualizarJogosGUI visualizarJogosGUI) {
-        this.carrinhoCompras = carrinhoCompras;
+    public CarrinhoComprasGUI(List<Jogo> jogosAnunciados, VisualizarJogosGUI visualizarJogosGUI) {
         this.jogosAnunciados = jogosAnunciados;
         this.visualizarJogosGUI = visualizarJogosGUI;
 
@@ -35,7 +33,7 @@ public class CarrinhoComprasGUI extends JFrame {
 
         comprarTodosButton = new JButton("Comprar Todos");
         comprarTodosButton.addActionListener(e -> comprarTodosDoCarrinho());
-        comprarTodosButton.setEnabled(!carrinhoCompras.getJogosNoCarrinho().isEmpty());
+        comprarTodosButton.setEnabled(!CarrinhoCompras.getInstance().getJogosNoCarrinho().isEmpty());
         comprarTodosButton.setBackground(new Color(25, 120, 165));
         comprarTodosButton.setForeground(Color.WHITE);
         panel.add(comprarTodosButton, BorderLayout.SOUTH);
@@ -44,7 +42,7 @@ public class CarrinhoComprasGUI extends JFrame {
     }
 
     private void exibirJogosNoCarrinho(JPanel centerPanel) {
-        List<Jogo> jogosNoCarrinho = carrinhoCompras.getJogosNoCarrinho();
+        List<Jogo> jogosNoCarrinho = CarrinhoCompras.getInstance().getJogosNoCarrinho();
         centerPanel.removeAll();
 
         // Obter lista de nomes dos jogos anunciados
@@ -110,7 +108,7 @@ public class CarrinhoComprasGUI extends JFrame {
     }
 
     private void removerJogoDoCarrinho(Jogo jogo) {
-        carrinhoCompras.removerDoCarrinho(jogo);
+        CarrinhoCompras.getInstance().removerDoCarrinho(jogo);
         exibirJogosNoCarrinho((JPanel) ((JScrollPane) getContentPane().getComponent(1)).getViewport().getView());
         JOptionPane.showMessageDialog(this, "Jogo removido do carrinho!");
     }
@@ -118,10 +116,10 @@ public class CarrinhoComprasGUI extends JFrame {
     private void comprarTodosDoCarrinho() {
         Cliente cliente = ClienteLogado.getClienteLogado();
         if (cliente != null) {
-            double total = carrinhoCompras.calcularTotal();
+            double total = CarrinhoCompras.getInstance().calcularTotal();
             int confirmacao = JOptionPane.showConfirmDialog(this, "Deseja comprar todos os jogos do carrinho por R$" + total + "?", "Confirmar Compra", JOptionPane.YES_NO_OPTION);
             if (confirmacao == JOptionPane.YES_OPTION) {
-                selecionarMetodoPagamento(cliente, carrinhoCompras.getJogosNoCarrinho());
+                selecionarMetodoPagamento(cliente, CarrinhoCompras.getInstance().getJogosNoCarrinho());
             }
         } else {
             JOptionPane.showMessageDialog(this, "Nenhum cliente logado.");

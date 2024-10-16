@@ -1,4 +1,4 @@
-public class Pix extends MetodoPagamento{
+public class Pix extends MetodoPagamento implements MetodoPagamentoStrategy{
     //ATRIBUTOS
     private String chavePix;
     private String banco;

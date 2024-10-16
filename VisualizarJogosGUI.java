@@ -11,9 +11,9 @@ public class VisualizarJogosGUI extends JFrame implements Observer {
     private Cliente clienteLogado;
     private JogoFacade jogoFacade; // Referência à Facade
 
-    public VisualizarJogosGUI(List<Jogo> jogosAnunciados, Cliente cliente) {
+    public VisualizarJogosGUI(List<Jogo> jogosAnunciados, Cliente cliente, CarrinhoCompras carrinhoCompras) {
         this.jogosAnunciados = jogosAnunciados;
-        this.carrinhoCompras = new CarrinhoCompras();
+        this.carrinhoCompras = CarrinhoCompras.getInstance();
         this.clienteLogado = cliente;
 
         this.jogoFacade = JogoFacade.getInstance();
@@ -126,8 +126,9 @@ public class VisualizarJogosGUI extends JFrame implements Observer {
         repaint();
     }
 
+    // ERRO QUANDO CHAMEI O SINGLETON AQUI.
     private void abrirTelaDetalhesJogo(Jogo jogo) {
-        SwingUtilities.invokeLater(() -> new DetalhesJogoGUI(jogo, jogosAnunciados, this, carrinhoCompras).setVisible(true));
+        SwingUtilities.invokeLater(() -> new DetalhesJogoGUI(jogo, jogosAnunciados, this, CarrinhoCompras.getInstance()).setVisible(true));
     }
 
     private void abrirCarrinhoCompras() {

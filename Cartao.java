@@ -2,7 +2,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-public class Cartao extends MetodoPagamento {
+public class Cartao extends MetodoPagamento implements MetodoPagamentoStrategy{
     //ATRIBUTOS
     private String nomeProprietario;
     private int numeroCartao;

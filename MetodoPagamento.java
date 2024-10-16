@@ -6,10 +6,7 @@ public abstract class MetodoPagamento {
         this.valor = valor;
     }
 
-
     //MÉTODO ABSTRATO
-    public abstract void pagar();
-
     public double getValor() {
         return valor;
     }
