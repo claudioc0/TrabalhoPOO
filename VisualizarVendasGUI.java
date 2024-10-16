@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -42,9 +43,17 @@ public class VisualizarVendasGUI extends JFrame {
     }
 
     private void carregarHistoricoVendas(JTextArea vendasTextArea) {
+        File arquivoHistorico = new File("historico_vendas.txt");
+
+        // Verifica se o arquivo existe
+        if (!arquivoHistorico.exists()) {
+            vendasTextArea.setText("Nenhuma venda registrada até o momento.");
+            return;
+        }
+
         boolean vendasEncontradas = false;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("historico_vendas.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(arquivoHistorico))) {
             String linha;
             while ((linha = reader.readLine()) != null) {
                 // Verifica se a linha contém o nome do vendedor logado
@@ -62,6 +71,7 @@ public class VisualizarVendasGUI extends JFrame {
             vendasTextArea.setText("Nenhuma venda encontrada para este vendedor.");
         }
     }
+
 
     private void voltarParaMenuPrincipal() {
         HomeVendedorGUI homeVendedorGUI = new HomeVendedorGUI(vendedor);
