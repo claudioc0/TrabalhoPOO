@@ -4,16 +4,20 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.List;
 
-public class VisualizarJogosGUI extends JFrame {
+public class VisualizarJogosGUI extends JFrame implements Observer {
     private List<Jogo> jogosAnunciados;
     private JPanel centerPanel;
     private CarrinhoCompras carrinhoCompras;
     private Cliente clienteLogado;
+    private JogoFacade jogoFacade; // Referência à Facade
 
     public VisualizarJogosGUI(List<Jogo> jogosAnunciados, Cliente cliente) {
         this.jogosAnunciados = jogosAnunciados;
         this.carrinhoCompras = new CarrinhoCompras();
-        clienteLogado = cliente;
+        this.clienteLogado = cliente;
+
+        this.jogoFacade = JogoFacade.getInstance();
+        this.jogoFacade.addObserver(this); // Registra-se como observador
 
         carregarJogosAnunciadosDoArquivo();
 
@@ -56,7 +60,6 @@ public class VisualizarJogosGUI extends JFrame {
         exibirJogosAnunciados();
     }
 
-
     private void carregarJogosAnunciadosDoArquivo() {
         File arquivo = new File("jogos_anunciados.txt");
         jogosAnunciados.clear();
@@ -73,8 +76,6 @@ public class VisualizarJogosGUI extends JFrame {
             JOptionPane.showMessageDialog(this, "Erro ao carregar os jogos anunciados: " + e.getMessage());
         }
     }
-
-
 
     private void exibirJogosAnunciados() {
         centerPanel.removeAll();
@@ -125,7 +126,6 @@ public class VisualizarJogosGUI extends JFrame {
         repaint();
     }
 
-
     private void abrirTelaDetalhesJogo(Jogo jogo) {
         SwingUtilities.invokeLater(() -> new DetalhesJogoGUI(jogo, jogosAnunciados, this, carrinhoCompras).setVisible(true));
     }
@@ -170,5 +170,57 @@ public class VisualizarJogosGUI extends JFrame {
             new HomeClienteGUI(clienteLogado).setVisible(true);
             dispose();
         });
-}
+    }
+
+    // Implementação do método update da interface Observer
+    @Override
+    public void update(Jogo novoJogo) {
+        jogosAnunciados.add(novoJogo);
+        adicionarJogoAoPainel(novoJogo);
+    }
+
+    // Método para adicionar um novo jogo ao painel
+    private void adicionarJogoAoPainel(Jogo jogo) {
+        JPanel jogoPanel = new JPanel(new BorderLayout(5, 5));
+        jogoPanel.setBackground(Color.WHITE);
+        jogoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        JLabel nomeLabel = new JLabel("Nome: " + jogo.getNomeJogo());
+        JLabel generoLabel = new JLabel("Gênero: " + jogo.getGeneroJogo());
+        JLabel precoLabel = new JLabel("Preço: R$" + jogo.getPrecoJogo());
+
+        JPanel labelsPanel = new JPanel(new GridLayout(3, 1));
+        labelsPanel.setBackground(Color.WHITE);
+        labelsPanel.add(nomeLabel);
+        labelsPanel.add(generoLabel);
+        labelsPanel.add(precoLabel);
+
+        if (jogo instanceof JogoPC) {
+            JLabel requisitosPcLabel = new JLabel("Requisitos PC: " + ((JogoPC) jogo).getRequisitosPc());
+            labelsPanel.add(requisitosPcLabel);
+        } else if (jogo instanceof JogoConsole) {
+            JLabel consoleLabel = new JLabel("Console: " + ((JogoConsole) jogo).getConsole());
+            labelsPanel.add(consoleLabel);
+        }
+
+        jogoPanel.add(labelsPanel, BorderLayout.CENTER);
+
+        if (jogo.getImagem() != null && !jogo.getImagem().isEmpty()) {
+            JLabel imagemLabel = new JLabel();
+            ImageIcon imagemIcon = new ImageIcon(jogo.getImagem());
+            Image imagemRedimensionada = imagemIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+            imagemLabel.setIcon(new ImageIcon(imagemRedimensionada));
+            jogoPanel.add(imagemLabel, BorderLayout.WEST);
+        }
+
+        JButton comprarButton = new JButton("Comprar");
+        comprarButton.setBackground(new Color(25, 120, 165));
+        comprarButton.setForeground(Color.WHITE);
+        comprarButton.addActionListener(e -> abrirTelaDetalhesJogo(jogo));
+        jogoPanel.add(comprarButton, BorderLayout.EAST);
+
+        centerPanel.add(jogoPanel);
+        centerPanel.revalidate();
+        centerPanel.repaint();
+    }
 }

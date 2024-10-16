@@ -1,8 +1,9 @@
+// JogoFacade.java
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JogoFacade {
+public class JogoFacade implements Subject {
     private static final String ARQUIVO_JOGOS_ANUNCIADOS = "jogos_anunciados.txt";
     private static final String ARQUIVO_HISTORICO_VENDAS = "historico_vendas.txt";
     private static final String ARQUIVO_HISTORICO_COMPRAS = "_historico_compras.txt";
@@ -10,8 +11,10 @@ public class JogoFacade {
     // Singleton Instance
     private static JogoFacade instance;
 
+    private List<Observer> observers; // Lista de observadores
+
     private JogoFacade() {
-        // Construtor privado para implementar Singleton
+        observers = new ArrayList<>();
     }
 
     public static JogoFacade getInstance() {
@@ -19,6 +22,26 @@ public class JogoFacade {
             instance = new JogoFacade();
         }
         return instance;
+    }
+
+    // Implementação dos métodos da interface Subject
+    @Override
+    public void addObserver(Observer o) {
+        if (o != null && !observers.contains(o)) {
+            observers.add(o);
+        }
+    }
+
+    @Override
+    public void removeObserver(Observer o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyObservers(Jogo novoJogo) {
+        for (Observer o : observers) {
+            o.update(novoJogo);
+        }
     }
 
     // Carregar Jogos Anunciados
@@ -50,6 +73,7 @@ public class JogoFacade {
             for (Jogo jogo : jogosAnunciados) {
                 writer.write(jogo.toTexto());
                 writer.newLine();
+                notifyObservers(jogo); // Notifica os observadores sobre o novo jogo
             }
         } catch (IOException e) {
             e.printStackTrace();
