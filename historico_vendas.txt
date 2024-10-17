@@ -1,0 +1,3 @@
+Cliente: Cliente teste, Jogo: Amigos da Firma 2, Data: 2024-10-17, Preço: R$601.0, Vendedor: Vendedor Teste, Método de Pagamento: PIX, Info Pagamento: Chave PIX: 0123456789
+Cliente: Cliente teste, Jogo: Futuro da Firma: Beyond, Data: 2024-10-17, Preço: R$13000.0, Vendedor: Vendedor Teste, Método de Pagamento: Boleto Bancário, Info Pagamento: CPF: 01234567897
+Cliente: Cliente teste, Jogo: Futuro da Firma: Beyond, Data: 2024-10-17, Preço: R$13000.0, Vendedor: Vendedor Teste, Método de Pagamento: PIX, Info Pagamento: Chave PIX: 0123456789

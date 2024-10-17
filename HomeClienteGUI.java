@@ -62,7 +62,7 @@ public class HomeClienteGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Cliente clienteLogado = ClienteLogado.getClienteLogado();
                 if (clienteLogado != null) {
-                    new VisualizarJogosGUI(jogosAnunciados, clienteLogado).setVisible(true);
+                    new VisualizarJogosGUI(jogosAnunciados, clienteLogado, null).setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(HomeClienteGUI.this, "Nenhum cliente logado.");
                     new ClienteLoginGUI().setVisible(true);
