@@ -1,12 +1,14 @@
 public abstract class MetodoPagamento {
-    //ATRIBUTOS
+    // ATRIBUTOS
     private double valor;
 
     public MetodoPagamento(double valor) {
         this.valor = valor;
     }
 
-    //MÉTODO ABSTRATO
+    // MÉTODO ABSTRATO
+    public abstract void pagar();
+
     public double getValor() {
         return valor;
     }

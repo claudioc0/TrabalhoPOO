@@ -1,4 +1,4 @@
-public class Boleto extends MetodoPagamento implements MetodoPagamentoStrategy {
+public class Boleto extends MetodoPagamento {
     private String beneficiario;
     private String dataVencimento;
 
@@ -14,7 +14,6 @@ public class Boleto extends MetodoPagamento implements MetodoPagamentoStrategy {
         System.out.println("Valor: R$ " + getValor());
         System.out.println("Beneficiário: " + beneficiario);
         System.out.println("Data de Vencimento: " + dataVencimento);
-        System.out.println("Gerando boleto...");
         System.out.println("Boleto gerado com sucesso!");
     }
 }
