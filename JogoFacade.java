@@ -73,12 +73,16 @@ public class JogoFacade implements Subject {
             for (Jogo jogo : jogosAnunciados) {
                 writer.write(jogo.toTexto());
                 writer.newLine();
-                notifyObservers(jogo); // Notifica os observadores sobre o novo jogo
+            }
+            // Notificar observadores após salvar todos os jogos
+            for (Jogo jogo : jogosAnunciados) {
+                notifyObservers(jogo);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     // Registrar Venda
     public void registrarVenda(Cliente cliente, String metodoPagamento, Jogo jogo, String infoPagamento) {
