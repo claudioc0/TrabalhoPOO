@@ -6,11 +6,21 @@ import java.util.stream.Collectors;
 
 public class CarrinhoCompras {
     private List<Jogo> jogos;
+    public static CarrinhoCompras instancia;
     private static final String ARQUIVO_JOGOS_ANUNCIADOS = "jogos_anunciados.txt";
 
-    public CarrinhoCompras() {
+    private CarrinhoCompras() {
         this.jogos = new ArrayList<>();
     }
+
+    // GET PARA INSTANCIA UNICA - SINGLETON
+    public static synchronized CarrinhoCompras getInstance() {
+        if (instancia == null) {
+            instancia = new CarrinhoCompras();
+        }
+        return instancia;
+    }
+    
 
     public void adicionaraoCarrinho(Jogo jogo) {
         jogos.add(jogo);

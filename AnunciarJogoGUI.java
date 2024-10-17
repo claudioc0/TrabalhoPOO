@@ -2,14 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AnunciarJogoGUI extends JFrame {
     private List<Jogo> jogosAnunciados;
-    private File arquivoJogosAnunciados;
 
     private JTextField nomeField;
     private JTextField descricaoField;
@@ -27,15 +26,19 @@ public class AnunciarJogoGUI extends JFrame {
 
     private Vendedor vendedor;
 
+    private JogoFacade jogoFacade; // Referência à Facade
+
     public AnunciarJogoGUI(Vendedor vendedor) {
         this.vendedor = vendedor;
+        this.jogoFacade = JogoFacade.getInstance(); // Inicializa a Facade
+
         setTitle("Anunciar Jogo");
         setSize(400, 500);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        arquivoJogosAnunciados = new File("jogos_anunciados.txt");
-        jogosAnunciados = carregarJogosAnunciados();
+        // Carregar jogos anunciados usando a Facade
+        jogosAnunciados = jogoFacade.carregarJogosAnunciados();
 
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBackground(Color.WHITE);
@@ -45,38 +48,47 @@ public class AnunciarJogoGUI extends JFrame {
         JPanel centerPanel = new JPanel(new GridLayout(9, 2, 10, 10));
         centerPanel.setBackground(Color.WHITE);
 
+        // Tipo de Jogo
         centerPanel.add(new JLabel("Tipo de Jogo:"));
         tipoJogoComboBox = new JComboBox<>(new String[]{"PC", "Console"});
         centerPanel.add(tipoJogoComboBox);
 
+        // Nome do Jogo
         centerPanel.add(new JLabel("Nome do Jogo:"));
         nomeField = new JTextField();
         centerPanel.add(nomeField);
 
+        // Descrição
         centerPanel.add(new JLabel("Descrição:"));
         descricaoField = new JTextField();
         centerPanel.add(descricaoField);
 
+        // Gênero
         centerPanel.add(new JLabel("Gênero:"));
         generoField = new JTextField();
         centerPanel.add(generoField);
 
+        // Ano de Lançamento
         centerPanel.add(new JLabel("Ano de Lançamento:"));
         dataLancamentoField = new JTextField();
         centerPanel.add(dataLancamentoField);
 
+        // Preço
         centerPanel.add(new JLabel("Preço:"));
         precoField = new JTextField();
         centerPanel.add(precoField);
 
+        // Requisitos do PC
         centerPanel.add(new JLabel("Requisitos do PC:"));
         requisitosPcField = new JTextField();
         centerPanel.add(requisitosPcField);
 
+        // Console
         centerPanel.add(new JLabel("Console:"));
         consoleField = new JTextField();
         centerPanel.add(consoleField);
 
+        // Imagem
         centerPanel.add(new JLabel("Imagem:"));
         JPanel imagemPanel = new JPanel(new BorderLayout());
         imagemPanel.setBackground(Color.WHITE);
@@ -92,9 +104,9 @@ public class AnunciarJogoGUI extends JFrame {
         imagemPanel.add(escolherImagemButton, BorderLayout.SOUTH);
         centerPanel.add(imagemPanel);
 
-
         panel.add(centerPanel, BorderLayout.CENTER);
 
+        // Botões de Anunciar e Voltar
         JPanel southPanel = new JPanel();
         anunciarButton = new JButton("Anunciar");
         anunciarButton.setBackground(new Color(25, 120, 165));
@@ -110,6 +122,7 @@ public class AnunciarJogoGUI extends JFrame {
 
         panel.add(southPanel, BorderLayout.SOUTH);
 
+        // Adicionar ActionListeners
         tipoJogoComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -141,13 +154,22 @@ public class AnunciarJogoGUI extends JFrame {
         updateFieldsVisibility();
     }
 
-
+    /**
+     * Atualiza a visibilidade dos campos com base no tipo de jogo selecionado.
+     * Exibe Requisitos PC se for PC, ou Console se for Console.
+     */
     private void updateFieldsVisibility() {
         boolean isPc = tipoJogoComboBox.getSelectedItem().equals("PC");
         requisitosPcField.setVisible(isPc);
         consoleField.setVisible(!isPc);
+        // Revalidar e repaint para atualizar a interface
+        requisitosPcField.getParent().revalidate();
+        requisitosPcField.getParent().repaint();
     }
 
+    /**
+     * Abre um JFileChooser para selecionar uma imagem e exibe a imagem selecionada.
+     */
     private void selecionarImagem() {
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showOpenDialog(this);
@@ -157,6 +179,9 @@ public class AnunciarJogoGUI extends JFrame {
         }
     }
 
+    /**
+     * Exibe a imagem selecionada no JLabel correspondente.
+     */
     private void exibirImagem() {
         if (imagemSelecionada != null) {
             ImageIcon imagemIcon = new ImageIcon(imagemSelecionada.getPath());
@@ -167,6 +192,10 @@ public class AnunciarJogoGUI extends JFrame {
         }
     }
 
+    /**
+     * Lida com a ação de anunciar um novo jogo.
+     * Valida os campos, cria o objeto Jogo correspondente e utiliza o JogoFacade para salvar.
+     */
     private void anunciarJogo() {
         String tipoJogo = (String) tipoJogoComboBox.getSelectedItem();
         String nome = nomeField.getText();
@@ -176,6 +205,7 @@ public class AnunciarJogoGUI extends JFrame {
         String precoText = precoField.getText();
         String imagem = imagemSelecionada != null ? imagemSelecionada.getPath() : null;
 
+        // Validação dos campos obrigatórios
         if (nome.isEmpty() || descricao.isEmpty() || genero.isEmpty() || dataLancamento.isEmpty() || precoText.isEmpty() ||
                 (tipoJogo.equals("PC") && requisitosPcField.getText().isEmpty()) ||
                 (tipoJogo.equals("Console") && consoleField.getText().isEmpty())) {
@@ -183,6 +213,7 @@ public class AnunciarJogoGUI extends JFrame {
             return;
         }
 
+        // Validação do ano de lançamento
         int anoAtual = LocalDate.now().getYear();
         int anoLancamento;
         try {
@@ -192,10 +223,11 @@ public class AnunciarJogoGUI extends JFrame {
                 return;
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Data de lançamento inválida.");
+            JOptionPane.showMessageDialog(this, "Data de lançamento inválida. Use o formato AAAA-MM-DD.");
             return;
         }
 
+        // Validação do preço
         double preco;
         try {
             preco = Double.parseDouble(precoText);
@@ -208,6 +240,7 @@ public class AnunciarJogoGUI extends JFrame {
             return;
         }
 
+        // Criação do objeto Jogo correspondente
         Jogo jogo;
         if (tipoJogo.equals("PC")) {
             String requisitosPc = requisitosPcField.getText();
@@ -217,8 +250,11 @@ public class AnunciarJogoGUI extends JFrame {
             jogo = new JogoConsole(nome, descricao, genero, dataLancamento, preco, imagem, console, vendedor.getNome());
         }
 
+        // Adicionar o novo jogo à lista de jogos anunciados
         jogosAnunciados.add(jogo);
-        salvarJogosAnunciados(jogosAnunciados);
+
+        // Utilizar o JogoFacade para salvar os jogos, o que notificará os observadores
+        jogoFacade.salvarJogosAnunciados(jogosAnunciados);
 
         JOptionPane.showMessageDialog(this, "Jogo anunciado com sucesso!");
         clearFields();
@@ -237,35 +273,7 @@ public class AnunciarJogoGUI extends JFrame {
         imagemSelecionada = null;
     }
 
-    private void salvarJogosAnunciados(List<Jogo> jogos) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(arquivoJogosAnunciados))) {
-            for (Jogo jogo : jogos) {
-                writer.write(jogo.toTexto());
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private List<Jogo> carregarJogosAnunciados() {
-        List<Jogo> jogos = new ArrayList<>();
-        if (!arquivoJogosAnunciados.exists()) {
-            return jogos;
-        }
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(arquivoJogosAnunciados))) {
-            String linha;
-            while ((linha = reader.readLine()) != null) {
-                Jogo jogo = Jogo.fromTexto(linha);
-                if (jogo != null) {
-                    jogos.add(jogo);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return jogos;
+        return jogoFacade.carregarJogosAnunciados();
     }
 }

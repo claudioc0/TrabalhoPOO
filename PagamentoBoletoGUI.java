@@ -14,11 +14,17 @@ public class PagamentoBoletoGUI extends JFrame {
     private VisualizarJogosGUI visualizarJogosGUI;
     private JTextField cpfField;
 
+    private JogoFacade jogoFacade; // Referência à Facade
+
+
     public PagamentoBoletoGUI(List<Jogo> jogos, Cliente cliente, List<Jogo> jogosAnunciados, VisualizarJogosGUI visualizarJogosGUI) {
         this.jogos = jogos;
         this.cliente = cliente;
         this.jogosAnunciados = jogosAnunciados;
         this.visualizarJogosGUI = visualizarJogosGUI;
+
+        this.jogoFacade = JogoFacade.getInstance(); // Inicializa a Facade
+
 
         setTitle("Cadastro de Boleto Bancário");
         setSize(300, 200);
@@ -59,10 +65,13 @@ public class PagamentoBoletoGUI extends JFrame {
         for (Jogo jogo : jogos) {
             cliente.adicionarJogoAoHistorico(jogo);
             jogosAnunciados.remove(jogo);
-            registrarVenda(cliente, "Boleto Bancário", jogo);
+            jogoFacade.registrarVenda(cliente, "Boleto Bancário", jogo, "CPF: " + cpf);
+            jogoFacade.registrarCompra(cliente, jogo, "Boleto Bancário");
+
         }
 
-        salvarJogosAnunciados();
+        jogoFacade.salvarJogosAnunciados(jogosAnunciados);
+
         visualizarJogosGUI.atualizarJogosAnunciados();
         JOptionPane.showMessageDialog(this, "Compra efetuada com sucesso usando Boleto Bancário!");
         dispose();
