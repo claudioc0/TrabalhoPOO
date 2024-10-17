@@ -132,7 +132,7 @@ public class VisualizarJogosGUI extends JFrame implements Observer {
     }
 
     private void abrirCarrinhoCompras() {
-        SwingUtilities.invokeLater(() -> new CarrinhoComprasGUI(carrinhoCompras, jogosAnunciados, this).setVisible(true));
+        SwingUtilities.invokeLater(() -> new CarrinhoComprasGUI(jogosAnunciados, this).setVisible(true));
     }
 
     public void atualizarJogosAnunciados() {
